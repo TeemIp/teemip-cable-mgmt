@@ -281,6 +281,20 @@
         $this->Set('name', $sPosition.$sDelimiter.$this->Get('code'));
 	}]]></code>
         </method>
+        <method id="DoCheckToWrite">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function DoCheckToWrite()
+    {
+        parent::DoCheckToWrite();
+
+		if (($this->Get('physicalinterface_id') > 0) && ($this->Get('networksocket_id') > 0)) {
+			$this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
+		}
+	}]]></code>
+        </method>
       </methods>
       <presentation>
         <details>
@@ -389,6 +403,39 @@
         </search>
       </presentation>
     </class>
+    <class id="PhysicalInterface" _delta="must_exist">
+      <fields>
+        <field id="networksocket_id" xsi:type="AttributeExternalKey" _delta="define">
+          <sql>networksocket_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket WHERE networksocket_id = 0]]></filter>
+          <dependencies/>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="networksocket_name" xsi:type="AttributeExternalField" _delta="define">
+          <extkey_attcode>networksocket_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+      </fields>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col1" _delta="must_exist">
+              <items>
+                <item id="fieldset:Class:NetworkInterface:baseinfo" _delta="must_exist">
+                  <items>
+                    <item id="networksocket_id" _delta="define">
+                      <rank>32</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
   </classes>
   <menus>
   </menus>
@@ -399,12 +446,12 @@
     </profiles>
   </user_rights>
   <snippets>
-    <snippet id="SynchroCableMgmtOneToOneRelations" _delta="define">
+    <snippet id="TeemIpCableMgmt" _delta="define">
       <placement>module</placement>
       <module>teemip-cable-mgmt</module>
       <rank>10</rank>
       <content><![CDATA[
-class SynchroCableMgmtOneToOneRelations implements iApplicationObjectExtension
+class TeemIpCableMgmt implements iApplicationObjectExtension
 {
 	/**
 	 * @inheritdoc
@@ -430,15 +477,28 @@ class SynchroCableMgmtOneToOneRelations implements iApplicationObjectExtension
 	public function OnDBInsert($oObject, $oChange = null) {
 		$sClass = get_class($oObject);
 		if ($sClass == 'NetworkSocket') {
-			if ($oObject->Get('networksocket_id') > 0) {
-				$oRemoteSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false, true);
-				if ($oRemoteSocket) {
-					$oRemoteSocket->Set('networksocket_id', $oObject->GetKey());
-					$oRemoteSocket->DBUpdate();
+			if ($oObject->Get('physicalinterface_id') > 0) {
+				$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
+				if ($oPhysicalInterface) {
+					$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
+					$oPhysicalInterface->DBUpdate();
+				}
+			} elseif ($oObject->Get('networksocket_id') > 0) {
+				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
+				if ($oRemoteNetworkSocket) {
+					$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
+					$oRemoteNetworkSocket->DBUpdate();
 				}
 			}
 		} elseif ($sClass == 'PhysicalInterface') {
-
+			if ($oObject->Get('networksocket_id') > 0) {
+				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
+				if ($oNetworkSocket) {
+					$oNetworkSocket->Set('connectableci_id', $oObject->Get('connectableci_id'));
+					$oNetworkSocket->Set('physicalinterface_id', $oObject->GetKey());
+					$oNetworkSocket->DBUpdate();
+				}
+			}
 		}
 	}
 
@@ -449,23 +509,58 @@ class SynchroCableMgmtOneToOneRelations implements iApplicationObjectExtension
 		$sClass = get_class($oObject);
 		if ($sClass == 'NetworkSocket') {
 			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
-			if (array_key_exists('networksocket_id', $aChanges)) {
-				if ($oObject->Get('networksocket_id') > 0) {
-					$oRemoteSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false, true);
-					if ($oRemoteSocket) {
-						$oRemoteSocket->Set('networksocket_id', $oObject->GetKey());
-						$oRemoteSocket->DBUpdate();
+			if (array_key_exists('physicalinterface_id', $aChanges)) {
+				if ($oObject->Get('physicalinterface_id') > 0) {
+					$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
+					if ($oPhysicalInterface) {
+						$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
+						$oPhysicalInterface->DBUpdate();
 					}
 				}
-			if ($aChanges['networksocket_id'] > 0) {
-				$oOldRemoteSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false, true);
-				if ($oOldRemoteSocket && ($oOldRemoteSocket->Get('networksocket_id') == $oObject->GetKey())) {
-					$oOldRemoteSocket->Set('networksocket_id', 0);
-					$oOldRemoteSocket->DBUpdate();
+				if ($aChanges['physicalinterface_id'] > 0) {
+					$oOldPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $aChanges['physicalinterface_id'], false);
+					if ($oOldPhysicalInterface && ($oOldPhysicalInterface->Get('networksocket_id') == $oObject->GetKey())) {
+						$oOldPhysicalInterface->Set('networksocket_id', 0);
+						$oOldPhysicalInterface->DBUpdate();
+					}
+				}
+			}
+			if (array_key_exists('networksocket_id', $aChanges)) {
+				if ($oObject->Get('networksocket_id') > 0) {
+					$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
+					if ($oRemoteNetworkSocket) {
+						$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
+						$oRemoteNetworkSocket->DBUpdate();
+					}
+				}
+				if ($aChanges['networksocket_id'] > 0) {
+					$oOldRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
+					if ($oOldRemoteNetworkSocket && ($oOldRemoteNetworkSocket->Get('networksocket_id') == $oObject->GetKey())) {
+						$oOldRemoteNetworkSocket->Set('networksocket_id', 0);
+						$oOldRemoteNetworkSocket->DBUpdate();
+					}
 				}
 			}
 		} elseif ($sClass == 'PhysicalInterface') {
-
+			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
+			if (array_key_exists('networksocket_id', $aChanges)) {
+				if ($oObject->Get('networksocket_id') > 0) {
+					$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
+					if ($oNetworkSocket) {
+						$oNetworkSocket->Set('connectableci_id', $oObject->Get('connectableci_id'));
+						$oNetworkSocket->Set('physicalinterface_id', $oObject->GetKey());
+						$oNetworkSocket->DBUpdate();
+					}
+				}
+				if ($aChanges['networksocket_id'] > 0) {
+					$oOldNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
+					if ($oOldNetworkSocket && ($oOldNetworkSocket->Get('physicalinterface_id') == $oObject->GetKey())) {
+						$oOldNetworkSocket->Set('connectableci_id', 0);
+						$oOldNetworkSocket->Set('physicalinterface_id', 0);
+						$oOldNetworkSocket->DBUpdate();
+					}
+				}
+			}
 		}
 	}
 
@@ -475,15 +570,28 @@ class SynchroCableMgmtOneToOneRelations implements iApplicationObjectExtension
 	public function OnDBDelete($oObject, $oChange = null) {
 		$sClass = get_class($oObject);
 		if ($sClass == 'NetworkSocket') {
-			if ($oObject->Get('networksocket_id') > 0) {
-				$oRemoteSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false, true);
-				if ($oRemoteSocket) {
-					$oRemoteSocket->Set('networksocket_id', 0);
-					$oRemoteSocket->DBUpdate();
+			if ($oObject->Get('physicalinterface_id') > 0) {
+				$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
+				if ($oPhysicalInterface) {
+					$oPhysicalInterface->Set('networksocket_id', 0);
+					$oPhysicalInterface->DBUpdate();
+				}
+			} elseif ($oObject->Get('networksocket_id') > 0) {
+				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
+				if ($oRemoteNetworkSocket) {
+					$oRemoteNetworkSocket->Set('networksocket_id', 0);
+					$oRemoteNetworkSocket->DBUpdate();
 				}
 			}
 		} elseif ($sClass == 'PhysicalInterface') {
-
+			if ($oObject->Get('networksocket_id') > 0) {
+				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
+				if ($oNetworkSocket) {
+					$oOldNetworkSocket->Set('connectableci_id', 0);
+					$oNetworkSocket->Set('physicalinterface_id', 0);
+					$oNetworkSocket->DBUpdate();
+				}
+			}
 		}
 	}
 }]]></content>
