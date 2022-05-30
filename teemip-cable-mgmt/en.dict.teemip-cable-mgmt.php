@@ -74,7 +74,23 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Connector type of the network socket',
 	'Class:NetworkSocket/Attribute:interfaceconnector_name' => 'Connector name',
 	'Class:NetworkSocket/Attribute:interfaceconnector_name+' => '',
+));
 
+//
+// Class: PhysicalInterface
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Network socket',
+	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Remote network socket connected to the interface',
+));
+
+//
+// Actions
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
 ));
 
 
