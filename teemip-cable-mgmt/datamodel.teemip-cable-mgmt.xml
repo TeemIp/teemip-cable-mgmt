@@ -17,7 +17,7 @@
             <attribute id="name"/>
           </attributes>
         </naming>
-        <icon></icon>
+        <icon>assets/img/icons8-toolbar.svg</icon>
         <reconciliation>
           <attributes>
             <attribute id="name"/>
@@ -42,7 +42,12 @@
           <extkey_attcode>rack_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
-        <field id="networksockets_list" xsi:type="AttributeLinkedSet" _delta="define">
+        <field id="capacity" xsi:type="AttributeInteger">
+          <sql>capacity</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="networksockets_list" xsi:type="AttributeLinkedSet">
           <linked_class>NetworkSocket</linked_class>
           <ext_key_to_me>patchpanel_id</ext_key_to_me>
           <edit_mode>add_only</edit_mode>
@@ -92,6 +97,9 @@
                 <item id="fieldset:Class:PatchPanel:moreinfo">
                   <rank>10</rank>
                   <items>
+                    <item id="capacity">
+                      <rank>10</rank>
+                    </item>
                   </items>
                 </item>
               </items>
@@ -106,6 +114,15 @@
             <item id="status">
               <rank>20</rank>
             </item>
+            <item id="location_id">
+              <rank>30</rank>
+            </item>
+            <item id="rack_id">
+              <rank>40</rank>
+            </item>
+            <item id="capacity">
+              <rank>50</rank>
+            </item>
           </items>
         </list>
         <default_search>
@@ -115,6 +132,15 @@
             </item>
             <item id="status">
               <rank>20</rank>
+            </item>
+            <item id="location_id">
+              <rank>30</rank>
+            </item>
+            <item id="rack_id">
+              <rank>40</rank>
+            </item>
+            <item id="capacity">
+              <rank>50</rank>
             </item>
           </items>
         </default_search>
@@ -438,12 +464,34 @@
     </class>
   </classes>
   <menus>
+    <menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode" _delta="must_exist">
+      <definition>
+        <cells>
+          <cell id="teemip-000" _delta="must_exist">
+            <dashlets>
+              <dashlet id="teemip-0117" xsi:type="DashletBadge" _delta="define">
+                <rank>1.7</rank>
+                <class>PatchPanel</class>
+              </dashlet>
+              <dashlet id="teemip-0118" xsi:type="DashletBadge" _delta="define">
+                <rank>1.8</rank>
+                <class>NetworkSocket</class>
+              </dashlet>
+            </dashlets>
+          </cell>
+        </cells>
+      </definition>
+    </menu>
   </menus>
   <user_rights>
     <groups>
+      <group id="Network" _delta="must_exist">
+        <classes>
+          <class id="PatchPanel" _delta="define"/>
+          <class id="NetworkSocket" _delta="define"/>
+        </classes>
+      </group>
     </groups>
-    <profiles>
-    </profiles>
   </user_rights>
   <snippets>
     <snippet id="TeemIpCableMgmt" _delta="define">
