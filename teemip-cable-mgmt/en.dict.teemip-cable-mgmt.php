@@ -17,10 +17,13 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel' => 'Patch Panel',
 	'Class:PatchPanel+' => '',
 	'Class:PatchPanel:baseinfo' => 'General Information',
+	'Class:PatchPanel:moreinfo' => 'More Information',
 	'Class:PatchPanel/Attribute:rack_id' => 'Rack',
 	'Class:PatchPanel/Attribute:rack_id+' => 'Rack hosting the patch panel',
 	'Class:PatchPanel/Attribute:rack_name' => 'Rack name',
 	'Class:PatchPanel/Attribute:rack_name+' => '',
+	'Class:PatchPanel/Attribute:capacity' => 'Capacity',
+	'Class:PatchPanel/Attribute:capacity+' => 'Number of network socket on the panel',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Network sockets',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'List of all network sockets of the patch panel',
 ));
