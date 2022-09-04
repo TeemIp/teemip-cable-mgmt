@@ -26,6 +26,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel/Attribute:capacity+' => 'Number of network socket on the panel',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Network sockets',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'List of all network sockets of the patch panel',
+	'Class:PatchPanel/Tab:frontendpanels_list' => 'Peer front end panels',
+	'Class:PatchPanel/Tab:frontendpanels_list+' => 'List of all patch panels connected to the current one through the network socket of its hosted sockets',
+	'Class:PatchPanel/Tab:backendpanels_list' => 'Peer back end panels',
+	'Class:PatchPanel/Tab:backendpanels_list+' => 'List of all patch panels connected to the current one through the back end network socket of its hosted sockets',
 ));
 
 //
@@ -36,8 +40,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket' => 'Network Socket',
 	'Class:NetworkSocket+' => '',
 	'Class:NetworkSocket:baseinfo' => 'General Information',
-	'Class:NetworkSocket:connectableciinfo' => 'Connected Device',
-	'Class:NetworkSocket:networksocketinfo' => 'Connected Network Socket',
+	'Class:NetworkSocket:frontendinfo' => 'Front End Information',
+	'Class:NetworkSocket:backendinfo' => 'Back End Information',
 	'Class:NetworkSocket:moreinfo' => 'More Information',
 	'Class:NetworkSocket/Attribute:code' => 'Code',
 	'Class:NetworkSocket/Attribute:code+' => 'Code used to identify the socket within its patch panel or its location',
@@ -62,7 +66,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:comment' => 'Comment',
 	'Class:NetworkSocket/Attribute:comment+' => '',
 	'Class:NetworkSocket/Attribute:connectableci_id' => 'Device',
-	'Class:NetworkSocket/Attribute:connectableci_id+' => 'Device connected to the network socket',
+	'Class:NetworkSocket/Attribute:connectableci_id+' => 'Device connected to the network socket. This attribute cannot be filled at the same time as the Network socket one',
 	'Class:NetworkSocket/Attribute:connectableci_name' => 'Device name',
 	'Class:NetworkSocket/Attribute:connectableci_name+' => '',
 	'Class:NetworkSocket/Attribute:physicalinterface_id' => 'Physical interface',
@@ -70,13 +74,11 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:physicalinterface_name' => 'Physical interface name',
 	'Class:NetworkSocket/Attribute:physicalinterface_name+' => '',
 	'Class:NetworkSocket/Attribute:networksocket_id' => 'Network socket',
-	'Class:NetworkSocket/Attribute:networksocket_id+' => 'Remote network socket connected to the network socket',
+	'Class:NetworkSocket/Attribute:networksocket_id+' => 'Remote network socket connected to the network socket. This attribute cannot be filled at the same time as the Device one',
 	'Class:NetworkSocket/Attribute:networksocket_name' => 'Network socket name',
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
-	'Class:NetworkSocket/Attribute:interfaceconnector_id' => 'Connector',
-	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Connector type of the network socket',
-	'Class:NetworkSocket/Attribute:interfaceconnector_name' => 'Connector name',
-	'Class:NetworkSocket/Attribute:interfaceconnector_name+' => '',
+	'Class:NetworkSocket/Attribute:backendsocket_id' => 'Back end network socket',
+	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Remote network socket connected through back end cables',
 ));
 
 //
@@ -94,6 +96,7 @@ Dict::Add('EN US', 'English', 'English', array(
 
 Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
 ));
 
 

@@ -20,10 +20,9 @@
           <items>
             <item id="col:col2" _delta="must_exist">
               <items>
-                <item id="fieldset:Class:NetworkSocket:moreinfo" _delta="define">
-                  <rank>30</rank>
+                <item id="fieldset:Class:NetworkSocket:frontendinfo" _delta="must_exist">
                   <items>
-                    <item id="interfaceconnector_id">
+                    <item id="interfaceconnector_id" _delta="define">
                       <rank>10</rank>
                     </item>
                   </items>

@@ -108,9 +108,6 @@
         </details>
         <list>
           <items>
-            <item id="name">
-              <rank>10</rank>
-            </item>
             <item id="status">
               <rank>20</rank>
             </item>
@@ -278,6 +275,18 @@
           <extkey_attcode>networksocket_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="backendsocket_id" xsi:type="AttributeExternalKey">
+          <sql>backendsocket_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket WHERE id != :this->id]]></filter>
+          <dependencies/>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="backendsocket_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>backendsocket_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
       </fields>
       <methods>
         <method id="ComputeValues">
@@ -316,9 +325,16 @@
     {
         parent::DoCheckToWrite();
 
-		if (($this->Get('physicalinterface_id') > 0) && ($this->Get('networksocket_id') > 0)) {
-			$this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
-		}
+        $iRemoteNetworkSocket = $this->Get('networksocket_id');
+        if ($iRemoteNetworkSocket > 0) {
+            // Network socket cannot be connected to both a remote network socket and a connectableCI
+            if ($this->Get('connectableci_id') > 0) {
+                $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
+            }
+            if (($this->Get('backendsocket_id') == $iRemoteNetworkSocket)) {
+                $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
+            }
+        }
 	}]]></code>
         </method>
       </methods>
@@ -356,47 +372,50 @@
             <item id="col:col2">
               <rank>10</rank>
               <items>
-                <item id="fieldset:Class:NetworkSocket:connectableciinfo">
+                <item id="fieldset:Class:NetworkSocket:frontendinfo">
                   <rank>10</rank>
                   <items>
                     <item id="connectableci_id">
-                      <rank>10</rank>
-                    </item>
-                    <item id="physicalinterface_id">
                       <rank>20</rank>
                     </item>
+                    <item id="physicalinterface_id">
+                      <rank>30</rank>
+                    </item>
+                    <item id="networksocket_id">
+                      <rank>40</rank>
+                    </item>
                   </items>
                 </item>
-                <item id="fieldset:Class:NetworkSocket:networksocketinfo">
+                <item id="fieldset:Class:NetworkSocket:backendinfo">
                   <rank>20</rank>
                   <items>
-                    <item id="networksocket_id">
+                    <item id="backendsocket_id">
                       <rank>10</rank>
                     </item>
                   </items>
                 </item>
-              </items>
+             </items>
             </item>
          </items>
         </details>
         <list>
           <items>
-            <item id="name">
+            <item id="status">
               <rank>10</rank>
             </item>
-            <item id="status">
+            <item id="connectableci_id">
               <rank>20</rank>
             </item>
-            <item id="connectableci_id">
+            <item id="physicalinterface_id">
               <rank>30</rank>
             </item>
-            <item id="physicalinterface_id">
+            <item id="networksocket_id">
               <rank>40</rank>
             </item>
-            <item id="networksocket_id">
+             <item id="backendsocket_id">
               <rank>50</rank>
             </item>
-          </items>
+         </items>
         </list>
         <default_search>
           <items>
@@ -415,7 +434,10 @@
             <item id="networksocket_id">
               <rank>50</rank>
             </item>
-          </items>
+            <item id="backendsocket_id">
+              <rank>60</rank>
+            </item>
+         </items>
         </default_search>
         <search>
           <items>
@@ -499,8 +521,113 @@
       <module>teemip-cable-mgmt</module>
       <rank>10</rank>
       <content><![CDATA[
-class TeemIpCableMgmt implements iApplicationObjectExtension
+use Combodo\iTop\Application\UI\Base\Component\MedallionIcon\MedallionIcon;
+use TeemIp\TeemIp\Extension\Framework\Helper\IPUtils;
+
+class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExtension
 {
+	/**
+	 * @inheritdoc
+	 */
+	public function OnDisplayProperties($oObject, WebPage $oPage, $bEditMode = false) {
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function OnDisplayRelations($oObject, WebPage $oPage, $bEditMode = false) {
+		if ($oObject instanceof PatchPanel) {
+		    if (!$bEditMode) {
+		        // Display patch panel connected through the frontend interface of network sockets
+		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.networksocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
+		        $oPanelRecordSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+		        $iNbPanels = $oPanelRecordSet->Count();
+		        $sName = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list');
+		        $sTitle = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+');
+		        if ($iNbPanels > 0) {
+				    $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
+		            if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.0', '<')) {
+		                $oPage->p($sTitle);
+		                $oPage->p(MetaModel::GetClassIcon('PatchPanel').'&nbsp;'.Dict::Format('Class:PatchPanel/Tab:frontendpanels_list', $iNbPanels));
+		            } else {
+		                $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
+		                $oClassIcon->SetDescription(Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+', MetaModel::GetName('PatchPanel')))->AddCSSClass('ibo-block-list--medallion');
+		                $oPage->AddUiBlock($oClassIcon);
+                }
+                $oBlock = new DisplayBlock($oPanelRecordSet->GetFilter(), 'list', false);
+                $oBlock->Display($oPage, 'frontend_panels', array('menu' => false));
+		        } else {
+		            $oSet = CMDBObjectSet::FromScratch('PatchPanel');
+		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'frontendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
+		        }
+
+
+		        // Display patch panel connected through the backend interface of network sockets
+		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.backendsocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
+		        $oPanelRecordSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+		        $iNbPanels = $oPanelRecordSet->Count();
+		        $sName = Dict::Format('Class:PatchPanel/Tab:backendpanels_list');
+		        $sTitle = Dict::Format('Class:PatchPanel/Tab:backendpanels_list+');
+		        if ($iNbPanels > 0) {
+				    $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
+		            if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.0', '<')) {
+		                $oPage->p($sTitle);
+		                $oPage->p(MetaModel::GetClassIcon('PatchPanel').'&nbsp;'.Dict::Format('Class:PatchPanel/Tab:backendpanels_list', $iNbPanels));
+		            } else {
+		                $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
+		                $oClassIcon->SetDescription($sTitle)->AddCSSClass('ibo-block-list--medallion');
+		                $oPage->AddUiBlock($oClassIcon);
+                }
+                $oBlock = new DisplayBlock($oPanelRecordSet->GetFilter(), 'list', false);
+                $oBlock->Display($oPage, 'backend_panels', array('menu' => false));
+		        } else {
+		            $oSet = CMDBObjectSet::FromScratch('PatchPanel');
+		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
+		        }
+		    }
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function OnFormSubmit($oObject, $sFormPrefix = '') {
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function OnFormCancel($sTempId) {
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function EnumUsedAttributes($oObject) {
+		return array();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function GetIcon($oObject) {
+		return '';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function GetHilightClass($oObject) {
+		return 0;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function EnumAllowedActions(DBObjectSet $oSet) {
+		return array();
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -531,11 +658,19 @@ class TeemIpCableMgmt implements iApplicationObjectExtension
 					$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
 					$oPhysicalInterface->DBUpdate();
 				}
-			} elseif ($oObject->Get('networksocket_id') > 0) {
+			}
+			if ($oObject->Get('networksocket_id') > 0) {
 				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 				if ($oRemoteNetworkSocket) {
 					$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
 					$oRemoteNetworkSocket->DBUpdate();
+				}
+			}
+			if ($oObject->Get('backendsocket_id') > 0) {
+				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
+				if ($oRemoteBackendSocket) {
+					$oRemoteBackendSocket->Set('backendsocket_id', $oObject->GetKey());
+					$oRemoteBackendSocket->DBUpdate();
 				}
 			}
 		} elseif ($sClass == 'PhysicalInterface') {
@@ -589,6 +724,22 @@ class TeemIpCableMgmt implements iApplicationObjectExtension
 					}
 				}
 			}
+			if (array_key_exists('backendsocket_id', $aChanges)) {
+				if ($oObject->Get('backendsocket_id') > 0) {
+					$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
+					if ($oRemoteBackendSocket) {
+						$oRemoteBackendSocket->Set('backendsocket_id', $oObject->GetKey());
+						$oRemoteBackendSocket->DBUpdate();
+					}
+				}
+				if ($aChanges['backendsocket_id'] > 0) {
+					$oOldRemoteeBackendSocket = MetaModel::GetObject('NetworkSocket', $aChanges['backendsocket_id'], false);
+					if ($oOldRemoteeBackendSocket && ($oOldRemoteeBackendSocket->Get('backendsocket_id') == $oObject->GetKey())) {
+						$oOldRemoteeBackendSocket->Set('backendsocket_id', 0);
+						$oOldRemoteeBackendSocket->DBUpdate();
+					}
+				}
+			}
 		} elseif ($sClass == 'PhysicalInterface') {
 			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
 			if (array_key_exists('networksocket_id', $aChanges)) {
@@ -624,11 +775,19 @@ class TeemIpCableMgmt implements iApplicationObjectExtension
 					$oPhysicalInterface->Set('networksocket_id', 0);
 					$oPhysicalInterface->DBUpdate();
 				}
-			} elseif ($oObject->Get('networksocket_id') > 0) {
+			}
+			if ($oObject->Get('networksocket_id') > 0) {
 				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 				if ($oRemoteNetworkSocket) {
 					$oRemoteNetworkSocket->Set('networksocket_id', 0);
 					$oRemoteNetworkSocket->DBUpdate();
+				}
+			}
+			if ($oObject->Get('backendsocket_id') > 0) {
+				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
+				if ($oRemoteBackendSocket) {
+					$oRemoteBackendSocket->Set('backendsocket_id', 0);
+					$oRemoteBackendSocket->DBUpdate();
 				}
 			}
 		} elseif ($sClass == 'PhysicalInterface') {

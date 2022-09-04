@@ -14,7 +14,6 @@
 //
 
 Dict::Add('EN US', 'English', 'English', array(
-	'Class:NetworkSocket:networksocketinfo' => 'Connected Network Socket',
 	'Class:NetworkSocket/Attribute:interfaceconnector_id' => 'Connector',
 	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Connector type of the network socket',
 	'Class:NetworkSocket/Attribute:interfaceconnector_name' => 'Connector name',
