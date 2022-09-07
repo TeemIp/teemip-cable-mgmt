@@ -15,7 +15,7 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'teemip-config-mgmt-adaptor/2.7.0',
+			'teemip-config-mgmt-adaptor/3.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,

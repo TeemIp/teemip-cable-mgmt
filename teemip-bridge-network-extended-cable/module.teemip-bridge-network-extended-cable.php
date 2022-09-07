@@ -16,7 +16,7 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'teemip-network-mgmt-extended/1.1.0',
+			'teemip-network-mgmt-extended/3.0.0',
 			'teemip-cable-mgmt/1.0.0',
 		),
 		'mandatory' => false,
