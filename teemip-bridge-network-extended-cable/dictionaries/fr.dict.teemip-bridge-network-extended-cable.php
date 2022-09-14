@@ -28,7 +28,3 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Prises réseau',
 	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Prises réseau utilisant ce connecteur',
 ));
-
-
-
-

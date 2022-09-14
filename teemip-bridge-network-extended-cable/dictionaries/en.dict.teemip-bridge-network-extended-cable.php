@@ -28,7 +28,3 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Network sockets',
 	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Network sockets with that connector',
 ));
-
-
-
-
