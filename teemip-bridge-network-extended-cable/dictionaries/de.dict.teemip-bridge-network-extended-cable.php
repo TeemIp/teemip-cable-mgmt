@@ -14,9 +14,9 @@
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:NetworkSocket/Attribute:interfaceconnector_id' => 'Connector',
-	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Connector type of the network socket',
-	'Class:NetworkSocket/Attribute:interfaceconnector_name' => 'Connector name',
+	'Class:NetworkSocket/Attribute:interfaceconnector_id' => 'Konnektor',
+	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Konnektor-Typ der Netzwerk-Dose',
+	'Class:NetworkSocket/Attribute:interfaceconnector_name' => 'Konnektor Name',
 	'Class:NetworkSocket/Attribute:interfaceconnector_name+' => '',
 ));
 
@@ -25,6 +25,6 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Network sockets',
-	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Network sockets with that connector',
+	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Netzwerk-Dose',
+	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Netzwerk-Dosen mit diesem Konnektor',
 ));
