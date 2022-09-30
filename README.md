@@ -1,10 +1,12 @@
 # ![](https://wiki.teemip.net/lib/exe/fetch.php?media=extensions:icons8-wired-network.png "") TeemIp Cable Management
 
-TeemIp extension that documents cable infrastructures and physical connections between devices.
+TeemIp extension that documents physical connections between devices.
 
 ## Description
 
-...
+This extension brings objects from the passive cabling world that will allow you to document the physical connections between CIs.
+Connect physical interfaces to network sockets that can be wall mounted or embedded into patch panels hosted in rack. Link
+network sockets together through back end cabling...
 
 ## Documentation
 
