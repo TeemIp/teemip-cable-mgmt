@@ -266,7 +266,7 @@
         </field>
         <field id="networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>networksocket2_id</sql>
-          <filter><![CDATA[SELECT NetworkSocket WHERE id != :this->networksocket1_id]]></filter>
+          <filter><![CDATA[SELECT NetworkSocket AS ns2 JOIN NetworkSocket AS ns1 ON ns1.networksocket_id = ns2.id WHERE ns1.id = :this->networksocket1_id]]></filter>
           <dependencies>
             <attribute id="networksocket1_id"/>
           </dependencies>
@@ -438,6 +438,10 @@
         <field id="location_name" xsi:type="AttributeExternalField">
           <extkey_attcode>location_id</extkey_attcode>
           <target_attcode>name</target_attcode>
+        </field>
+        <field id="location_org_id" xsi:type="AttributeExternalField">
+          <extkey_attcode>location_id</extkey_attcode>
+          <target_attcode>org_id</target_attcode>
         </field>
         <field id="rack_id" xsi:type="AttributeExternalKey">
           <sql>rack_id</sql>
@@ -697,6 +701,9 @@
             </item>
             <item id="backendsocket_id">
               <rank>60</rank>
+            </item>
+            <item id="location_org_id">
+              <rank>70</rank>
             </item>
          </items>
         </default_search>
