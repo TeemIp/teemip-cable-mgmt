@@ -10,26 +10,58 @@
 //
 
 //
-// Class: PatchPanel
+// Class: CableCategory
 //
 
 Dict::Add('EN US', 'English', 'English', array(
-	'Class:PatchPanel' => 'Patch Panel',
-	'Class:PatchPanel+' => '',
-	'Class:PatchPanel:baseinfo' => 'General Information',
-	'Class:PatchPanel:moreinfo' => 'More Information',
-	'Class:PatchPanel/Attribute:rack_id' => 'Rack',
-	'Class:PatchPanel/Attribute:rack_id+' => 'Rack hosting the patch panel',
-	'Class:PatchPanel/Attribute:rack_name' => 'Rack name',
-	'Class:PatchPanel/Attribute:rack_name+' => '',
-	'Class:PatchPanel/Attribute:capacity' => 'Capacity',
-	'Class:PatchPanel/Attribute:capacity+' => 'Number of network socket on the panel',
-	'Class:PatchPanel/Attribute:networksockets_list' => 'Network sockets',
-	'Class:PatchPanel/Attribute:networksockets_list+' => 'List of all network sockets of the patch panel',
-	'Class:PatchPanel/Tab:frontendpanels_list' => 'Peer front end panels',
-	'Class:PatchPanel/Tab:frontendpanels_list+' => 'List of all patch panels connected to the current one through the network socket of its hosted sockets',
-	'Class:PatchPanel/Tab:backendpanels_list' => 'Peer back end panels',
-	'Class:PatchPanel/Tab:backendpanels_list+' => 'List of all patch panels connected to the current one through the back end network socket of its hosted sockets',
+	'Class:CableCategory' => 'Cable Type',
+	'Class:CableCategory+' => '',
+	'Class:CableCategory/Attribute:cabletype_id' => 'Cable type',
+	'Class:CableCategory/Attribute:cabletype_id+' => '',
+	'Class:CableCategory/Attribute:description' => 'Description',
+	'Class:CableCategory/Attribute:description+' => '',
+));
+
+//
+// Class: CableType
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:CableType' => 'Cable Type',
+	'Class:CableType+' => '',
+	'Class:CableType/Attribute:description' => 'Description',
+	'Class:CableType/Attribute:description+' => '',
+	'Class:CableType/Attribute:cablecategories_list' => 'Cable categories',
+	'Class:CableType/Attribute:cablecategories_list+' => '',
+));
+
+//
+// Class: NetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:NetworkCable' => 'Network Cable',
+	'Class:NetworkCable+' => '',
+	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:NetworkCable:baseinfo' => 'General Information',
+	'Class:NetworkCable/Attribute:cabletype_id' => 'Cable type',
+	'Class:NetworkCable/Attribute:cabletype_id+' => '',
+	'Class:NetworkCable/Attribute:cabletype_name' => 'Cable type name',
+	'Class:NetworkCable/Attribute:cabletype_name+' => '',
+	'Class:NetworkCable/Attribute:cablecategory_id' => 'Cable category',
+	'Class:NetworkCable/Attribute:cablecategory_id+' => '',
+	'Class:NetworkCable/Attribute:cablecategory_name' => 'Cable category name',
+	'Class:NetworkCable/Attribute:cablecategory_name+' => '',
+	'Class:NetworkCable/Attribute:length' => 'Length (m)',
+	'Class:NetworkCable/Attribute:length+' => 'Length of the cable, in meter',
+	'Class:NetworkCable/Attribute:networksocket1_id' => 'Network socket #1',
+	'Class:NetworkCable/Attribute:networksocket1_id+' => 'First network socket that the cable is connected to',
+	'Class:NetworkCable/Attribute:networksocket1_name' => 'Network socket #1 name',
+	'Class:NetworkCable/Attribute:networksocket1_name+' => '',
+	'Class:NetworkCable/Attribute:networksocket2_id' => 'Network socket #2',
+	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Second network socket that the cable is connected to',
+	'Class:NetworkCable/Attribute:networksocket2_name' => 'Network socket #2 name',
+	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
 ));
 
 //
@@ -82,6 +114,29 @@ Dict::Add('EN US', 'English', 'English', array(
 ));
 
 //
+// Class: PatchPanel
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:PatchPanel' => 'Patch Panel',
+	'Class:PatchPanel+' => '',
+	'Class:PatchPanel:baseinfo' => 'General Information',
+	'Class:PatchPanel:moreinfo' => 'More Information',
+	'Class:PatchPanel/Attribute:rack_id' => 'Rack',
+	'Class:PatchPanel/Attribute:rack_id+' => 'Rack hosting the patch panel',
+	'Class:PatchPanel/Attribute:rack_name' => 'Rack name',
+	'Class:PatchPanel/Attribute:rack_name+' => '',
+	'Class:PatchPanel/Attribute:capacity' => 'Capacity',
+	'Class:PatchPanel/Attribute:capacity+' => 'Number of network socket on the panel',
+	'Class:PatchPanel/Attribute:networksockets_list' => 'Network sockets',
+	'Class:PatchPanel/Attribute:networksockets_list+' => 'List of all network sockets of the patch panel',
+	'Class:PatchPanel/Tab:frontendpanels_list' => 'Peer front end panels',
+	'Class:PatchPanel/Tab:frontendpanels_list+' => 'List of all patch panels connected to the current one through the network socket of its hosted sockets',
+	'Class:PatchPanel/Tab:backendpanels_list' => 'Peer back end panels',
+	'Class:PatchPanel/Tab:backendpanels_list+' => 'List of all patch panels connected to the current one through the back end network socket of its hosted sockets',
+));
+
+//
 // Class: PhysicalInterface
 //
 
@@ -95,6 +150,7 @@ Dict::Add('EN US', 'English', 'English', array(
 //
 
 Dict::Add('EN US', 'English', 'English', array(
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
 ));
