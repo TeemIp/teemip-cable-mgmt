@@ -1201,6 +1201,29 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					}
 				}
 			}
+		} elseif (($sClass == 'Location') || ($sClass == 'Rack') || ($sClass == 'PatchPanel')) {
+			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
+			if (array_key_exists('name', $aChanges)) {
+				switch ($sClass) {
+					case 'Location':
+						$sAttribute = 'location_id';
+						break;
+
+					case 'Rack':
+						$sAttribute = 'rack_id';
+						break;
+
+					case 'PatchPanel':
+						$sAttribute = 'patchpanel_id';
+						break;
+				}
+				$sOQL = "SELECT NetworkSocket WHERE $sAttribute = :id";
+				$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+				while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
+					$oNetworkSocket->ComputeValues();
+					$oNetworkSocket->DBUpdate();
+				}
+			}
 		}
 	}
 
