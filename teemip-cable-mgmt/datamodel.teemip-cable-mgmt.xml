@@ -405,6 +405,9 @@
             <attribute id="name"/>
           </attributes>
         </naming>
+        <fields_semantic>
+          <state_attribute>status</state_attribute>
+        </fields_semantic>
         <style>
           <icon>assets/img/icons8-wired-network.svg</icon>
         </style>
@@ -553,6 +556,24 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+			<relations>
+				<relation id="wiring">
+					<neighbours>
+						<neighbour id="networksocket">
+              <attribute>networksocket_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+						<neighbour id="backendsocket">
+              <attribute>backendsocket_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+						<neighbour id="physicalinterface">
+              <attribute>physicalinterface_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+					</neighbours>
+				</relation>
+			</relations>
       <methods>
         <method id="ComputeValues">
           <comment/>
@@ -888,6 +909,20 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+			<relations>
+				<relation id="wiring" _delta="define">
+					<neighbours>
+						<neighbour id="networksocket">
+              <attribute>networksocket_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+						<neighbour id="connectableci">
+              <attribute>connectableci_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+					</neighbours>
+				</relation>
+			</relations>
       <presentation>
         <details>
           <items>
@@ -906,6 +941,18 @@
         </details>
       </presentation>
     </class>
+		<class id="ConnectableCI" _delta="must_exist">
+			<relations>
+				<relation id="wiring" _delta="define">
+					<neighbours>
+						<neighbour id="physicalinterface">
+              <attribute>physicalinterface_list</attribute>
+              <direction>down</direction>
+            </neighbour>
+					</neighbours>
+				</relation>
+			</relations>
+    </class>
   </classes>
   <menus>
     <menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode" _delta="must_exist">
@@ -920,6 +967,10 @@
               <dashlet id="teemip-0118" xsi:type="DashletBadge" _delta="define">
                 <rank>1.8</rank>
                 <class>NetworkSocket</class>
+              </dashlet>
+              <dashlet id="teemip-0119" xsi:type="DashletBadge" _delta="define">
+                <rank>1.9</rank>
+                <class>NetworkCable</class>
               </dashlet>
             </dashlets>
           </cell>
@@ -1026,6 +1077,11 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
 		        }
 		    }
+		} elseif (($oObject instanceof ConnectableCI) || ($oObject instanceof PhysicalInterface) || ($oObject instanceof NetworkSocket)) {
+			if (!$bEditMode) {
+				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
+				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
+			}
 		}
 	}
 
@@ -1094,6 +1150,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 		$sClass = get_class($oObject);
 		if ($sClass == 'NetworkSocket') {
 			if ($oObject->Get('physicalinterface_id') > 0) {
+				// Set network socket at remote physical interface
 				$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
 				if ($oPhysicalInterface) {
 					$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
@@ -1101,6 +1158,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 				}
 			}
 			if ($oObject->Get('networksocket_id') > 0) {
+				// Set network socket at remote network socket
 				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 				if ($oRemoteNetworkSocket) {
 					$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
@@ -1108,6 +1166,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 				}
 			}
 			if ($oObject->Get('backendsocket_id') > 0) {
+				// Set network socket at remote backend socket
 				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
 				if ($oRemoteBackendSocket) {
 					$oRemoteBackendSocket->Set('backendsocket_id', $oObject->GetKey());
@@ -1116,6 +1175,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 			}
 		} elseif ($sClass == 'PhysicalInterface') {
 			if ($oObject->Get('networksocket_id') > 0) {
+				// Set physical interface at remote network socket
 				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 				if ($oNetworkSocket) {
 					$oNetworkSocket->Set('connectableci_id', $oObject->Get('connectableci_id'));
@@ -1135,6 +1195,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
 			if (array_key_exists('physicalinterface_id', $aChanges)) {
 				if ($oObject->Get('physicalinterface_id') > 0) {
+					// Set network socket at new remote physical interface
 					$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
 					if ($oPhysicalInterface) {
 						$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
@@ -1142,6 +1203,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					}
 				}
 				if ($aChanges['physicalinterface_id'] > 0) {
+					// Reset network socket at old remote physical interface
 					$oOldPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $aChanges['physicalinterface_id'], false);
 					if ($oOldPhysicalInterface && ($oOldPhysicalInterface->Get('networksocket_id') == $oObject->GetKey())) {
 						$oOldPhysicalInterface->Set('networksocket_id', 0);
@@ -1151,6 +1213,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 			}
 			if (array_key_exists('networksocket_id', $aChanges)) {
 				if ($oObject->Get('networksocket_id') > 0) {
+					// Set network socket at new remote network socket
 					$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 					if ($oRemoteNetworkSocket) {
 						$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
@@ -1158,15 +1221,28 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					}
 				}
 				if ($aChanges['networksocket_id'] > 0) {
+					// Reset network socket at old remote network socket
 					$oOldRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
 					if ($oOldRemoteNetworkSocket && ($oOldRemoteNetworkSocket->Get('networksocket_id') == $oObject->GetKey())) {
 						$oOldRemoteNetworkSocket->Set('networksocket_id', 0);
 						$oOldRemoteNetworkSocket->DBUpdate();
 					}
+					// Update the cable that include the network socket
+					$sOQL = "SELECT NetworkCable WHERE networksocket1_id = :id OR networksocket2_id = :id";
+					$iId = $oObject->GetKey();
+					$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+					while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+						if ($oNetworkCable->Get('networksocket1_id') == $iId) {
+							$oNetworkCable->Set('networksocket2_id', $oObject->Get('networksocket_id'));
+						} else {
+							$oNetworkCable->Set('networksocket1_id', $oObject->Get('networksocket_id'));
+						}
+					}
 				}
 			}
 			if (array_key_exists('backendsocket_id', $aChanges)) {
 				if ($oObject->Get('backendsocket_id') > 0) {
+					// Set network socket at new remote backend socket
 					$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
 					if ($oRemoteBackendSocket) {
 						$oRemoteBackendSocket->Set('backendsocket_id', $oObject->GetKey());
@@ -1174,6 +1250,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					}
 				}
 				if ($aChanges['backendsocket_id'] > 0) {
+					// Reset network socket at old remote backend socket
 					$oOldRemoteeBackendSocket = MetaModel::GetObject('NetworkSocket', $aChanges['backendsocket_id'], false);
 					if ($oOldRemoteeBackendSocket && ($oOldRemoteeBackendSocket->Get('backendsocket_id') == $oObject->GetKey())) {
 						$oOldRemoteeBackendSocket->Set('backendsocket_id', 0);
@@ -1185,6 +1262,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
 			if (array_key_exists('networksocket_id', $aChanges)) {
 				if ($oObject->Get('networksocket_id') > 0) {
+					// Set physical interface at new remote network socket
 					$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 					if ($oNetworkSocket) {
 						$oNetworkSocket->Set('connectableci_id', $oObject->Get('connectableci_id'));
@@ -1193,6 +1271,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					}
 				}
 				if ($aChanges['networksocket_id'] > 0) {
+					// Reset physical interface at old remote network socket
 					$oOldNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
 					if ($oOldNetworkSocket && ($oOldNetworkSocket->Get('physicalinterface_id') == $oObject->GetKey())) {
 						$oOldNetworkSocket->Set('connectableci_id', 0);
@@ -1204,6 +1283,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 		} elseif (($sClass == 'Location') || ($sClass == 'Rack') || ($sClass == 'PatchPanel')) {
 			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
 			if (array_key_exists('name', $aChanges)) {
+				// Propagate name change to impacted network socket
 				switch ($sClass) {
 					case 'Location':
 						$sAttribute = 'location_id';
@@ -1234,6 +1314,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 		$sClass = get_class($oObject);
 		if ($sClass == 'NetworkSocket') {
 			if ($oObject->Get('physicalinterface_id') > 0) {
+				// Reset network socket at remote physical interface
 				$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
 				if ($oPhysicalInterface) {
 					$oPhysicalInterface->Set('networksocket_id', 0);
@@ -1241,6 +1322,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 				}
 			}
 			if ($oObject->Get('networksocket_id') > 0) {
+				// Reset network socket at remote network socket
 				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 				if ($oRemoteNetworkSocket) {
 					$oRemoteNetworkSocket->Set('networksocket_id', 0);
@@ -1248,6 +1330,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 				}
 			}
 			if ($oObject->Get('backendsocket_id') > 0) {
+				// Reset network socket at remote backend socket
 				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
 				if ($oRemoteBackendSocket) {
 					$oRemoteBackendSocket->Set('backendsocket_id', 0);
@@ -1256,6 +1339,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 			}
 		} elseif ($sClass == 'PhysicalInterface') {
 			if ($oObject->Get('networksocket_id') > 0) {
+				// Reset physical interface at remote network socket
 				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
 				if ($oNetworkSocket) {
 					$oOldNetworkSocket->Set('connectableci_id', 0);
@@ -1268,5 +1352,4 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 }]]></content>
     </snippet>
   </snippets>
-
 </itop_design>
