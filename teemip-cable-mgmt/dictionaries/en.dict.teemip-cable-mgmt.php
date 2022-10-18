@@ -155,3 +155,15 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
 ));
 
+//////////////////////////////////////////////////////////////////////
+// Relations
+//////////////////////////////////////////////////////////////////////
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Relation:wiring/Description' => 'Wiring layout',
+	'Relation:wiring/DownStream' => 'Wiring...',
+	'Relation:wiring/DownStream+' => 'Wiring layout',
+	'Relation:wiring/UpStream' => 'Wiring...',
+	'Relation:wiring/UpStream+' => 'Wiring layout',
+));

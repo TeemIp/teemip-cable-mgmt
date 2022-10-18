@@ -155,3 +155,15 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Une prise réseau ne peut pas être connectée à la même prise distante à travers ses 2 connecteurs de prise réseau et de prise arrière !',
 ));
 
+//////////////////////////////////////////////////////////////////////
+// Relations
+//////////////////////////////////////////////////////////////////////
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Relation:wiring/Description' => 'Schéma de câblage',
+	'Relation:wiring/DownStream' => 'Câblage...',
+	'Relation:wiring/DownStream+' => 'Schéma de câblage',
+	'Relation:wiring/UpStream' => 'Câblage...',
+	'Relation:wiring/UpStream+' => 'Schéma de câblage',
+));

@@ -154,3 +154,16 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerk-Dose kann NICHT mit BEIDEM, einem Interface und einer anderen Netzwerk-Dose, verbunden sein!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerk-Dose kann nicht mit mit der selben entfernten Netzwerk-Dose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
 ));
+
+//////////////////////////////////////////////////////////////////////
+// Relations
+//////////////////////////////////////////////////////////////////////
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Relation:wiring/Description' => 'Wiring layout',
+	'Relation:wiring/DownStream' => 'Wiring...',
+	'Relation:wiring/DownStream+' => 'Wiring layout',
+	'Relation:wiring/UpStream' => 'Wiring...',
+	'Relation:wiring/UpStream+' => 'Wiring layout',
+));
