@@ -10,19 +10,6 @@
 //
 
 //
-// Class: CableCategory
-//
-
-Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:CableCategory' => 'Cable Type',
-	'Class:CableCategory+' => '',
-	'Class:CableCategory/Attribute:cabletype_id' => 'Cable type',
-	'Class:CableCategory/Attribute:cabletype_id+' => '',
-	'Class:CableCategory/Attribute:description' => 'Description',
-	'Class:CableCategory/Attribute:description+' => '',
-));
-
-//
 // Class: CableType
 //
 
@@ -33,6 +20,19 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:CableType/Attribute:description+' => '',
 	'Class:CableType/Attribute:cablecategories_list' => 'Cable categories',
 	'Class:CableType/Attribute:cablecategories_list+' => '',
+));
+
+//
+// Class: CableCategory
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:CableCategory' => 'Cable Category',
+	'Class:CableCategory+' => '',
+	'Class:CableCategory/Attribute:cabletype_id' => 'Cable type',
+	'Class:CableCategory/Attribute:cabletype_id+' => '',
+	'Class:CableCategory/Attribute:description' => 'Description',
+	'Class:CableCategory/Attribute:description+' => '',
 ));
 
 //
@@ -111,6 +111,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
 	'Class:NetworkSocket/Attribute:backendsocket_id' => 'Rückseitige Netzwerk-Dose',
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Entfernte Netzwerk-Dose, welche durch rückseitige Kabel verbunden ist',
+	'Class:NetworkSocket/Tab:cables_list' => 'Cables',
+	'Class:NetworkSocket/Tab:cables_list+' => 'List of all cables connected to the network socket',
 ));
 
 //
@@ -130,6 +132,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel/Attribute:capacity+' => 'Anzahl der Netzwerk-Dosen am Patch Panel',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Netzwerk-Dosen',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'Liste aller Netzwerk-Dosen des Patch Panel',
+	'Class:PatchPanel/Tab:cables_list' => 'Cables',
+	'Class:PatchPanel/Tab:cables_list+' => 'List of all cables connected to a network socket hosted by the patch panel',
 	'Class:PatchPanel/Tab:frontendpanels_list' => 'Nachbar-Anschlüsse der Vorderseite des Panels',
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste aller Patch Panels verbunden mit dem aktuellen Panel durch die Netzwerk-Dose der angeschlossenen Dosen',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Nachbar-Anschlüsse der Rückseite des Panels',
@@ -160,7 +164,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //////////////////////////////////////////////////////////////////////
 //
 
-Dict::Add('EN US', 'English', 'English', array(
+Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Relation:wiring/Description' => 'Wiring layout',
 	'Relation:wiring/DownStream' => 'Wiring...',
 	'Relation:wiring/DownStream+' => 'Wiring layout',

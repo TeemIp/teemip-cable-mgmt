@@ -1030,54 +1030,85 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 	public function OnDisplayRelations($oObject, WebPage $oPage, $bEditMode = false) {
 		if ($oObject instanceof PatchPanel) {
 		    if (!$bEditMode) {
+		        // Display network cable connected to a network socket that belong to the patch panel
+		        $sOQL = "SELECT NetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket1_id = ns.id WHERE ns.patchpanel_id = :id
+		           UNION SELECT NetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket2_id = ns.id WHERE ns.patchpanel_id = :id";
+		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+		        $iNbNetworkCables = $oNetworkCableSet->Count();
+		        $sName = Dict::Format('Class:PatchPanel/Tab:cables_list');
+		        $sTitle = Dict::Format('Class:PatchPanel/Tab:cables_list+');
+		        if ($iNbNetworkCables > 0) {
+		            $oPage->SetCurrentTab($sName.' ('.$iNbNetworkCables.')');
+		            $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('NetworkCable', false));
+		            $oClassIcon->SetDescription(Dict::Format('Class:PatchPanel/Tab:cables_list+', MetaModel::GetName('NetworkCable')))->AddCSSClass('ibo-block-list--medallion');
+		            $oPage->AddUiBlock($oClassIcon);
+		            $oBlock = new DisplayBlock($oNetworkCableSet->GetFilter(), 'list', false);
+		            $oBlock->Display($oPage, 'networkcables_list', array('menu' => false));
+		        } else {
+		            $oSet = CMDBObjectSet::FromScratch('NetworkCable');
+		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oSet);
+		        }
+
 		        // Display patch panel connected through the frontend interface of network sockets
 		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.networksocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
-		        $oPanelRecordSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-		        $iNbPanels = $oPanelRecordSet->Count();
+		        $oPatchPanelSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+		        $iNbPanels = $oPatchPanelSet->Count();
 		        $sName = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+');
 		        if ($iNbPanels > 0) {
 				    $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
-		            if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.0', '<')) {
-		                $oPage->p($sTitle);
-		                $oPage->p(MetaModel::GetClassIcon('PatchPanel').'&nbsp;'.Dict::Format('Class:PatchPanel/Tab:frontendpanels_list', $iNbPanels));
-		            } else {
-		                $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
-		                $oClassIcon->SetDescription(Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+', MetaModel::GetName('PatchPanel')))->AddCSSClass('ibo-block-list--medallion');
-		                $oPage->AddUiBlock($oClassIcon);
-                }
-                $oBlock = new DisplayBlock($oPanelRecordSet->GetFilter(), 'list', false);
-                $oBlock->Display($oPage, 'frontend_panels', array('menu' => false));
+				        $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
+				        $oClassIcon->SetDescription(Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+', MetaModel::GetName('PatchPanel')))->AddCSSClass('ibo-block-list--medallion');
+				        $oPage->AddUiBlock($oClassIcon);
+				        $oBlock = new DisplayBlock($oPatchPanelSet->GetFilter(), 'list', false);
+				        $oBlock->Display($oPage, 'frontend_panels', array('menu' => false));
 		        } else {
 		            $oSet = CMDBObjectSet::FromScratch('PatchPanel');
 		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'frontendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
 		        }
 
-
 		        // Display patch panel connected through the backend interface of network sockets
 		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.backendsocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
-		        $oPanelRecordSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-		        $iNbPanels = $oPanelRecordSet->Count();
+		        $oPatchPanelSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+		        $iNbPanels = $oPatchPanelSet->Count();
 		        $sName = Dict::Format('Class:PatchPanel/Tab:backendpanels_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:backendpanels_list+');
 		        if ($iNbPanels > 0) {
-				    $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
-		            if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.0', '<')) {
-		                $oPage->p($sTitle);
-		                $oPage->p(MetaModel::GetClassIcon('PatchPanel').'&nbsp;'.Dict::Format('Class:PatchPanel/Tab:backendpanels_list', $iNbPanels));
-		            } else {
-		                $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
-		                $oClassIcon->SetDescription($sTitle)->AddCSSClass('ibo-block-list--medallion');
-		                $oPage->AddUiBlock($oClassIcon);
-                }
-                $oBlock = new DisplayBlock($oPanelRecordSet->GetFilter(), 'list', false);
-                $oBlock->Display($oPage, 'backend_panels', array('menu' => false));
+		            $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
+		            $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
+		            $oClassIcon->SetDescription($sTitle)->AddCSSClass('ibo-block-list--medallion');
+		            $oPage->AddUiBlock($oClassIcon);
+		            $oBlock = new DisplayBlock($oPatchPanelSet->GetFilter(), 'list', false);
+		            $oBlock->Display($oPage, 'backend_panels', array('menu' => false));
 		        } else {
 		            $oSet = CMDBObjectSet::FromScratch('PatchPanel');
 		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
 		        }
 		    }
-		} elseif (($oObject instanceof ConnectableCI) || ($oObject instanceof PhysicalInterface) || ($oObject instanceof NetworkSocket)) {
+		} elseif ($oObject instanceof NetworkSocket) {
+			if (!$bEditMode) {
+		        // Display network cable connected to a network socket that belong to the patch panel
+		        $sOQL = "SELECT NetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id";
+		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
+		        $iNbNetworkCables = $oNetworkCableSet->Count();
+		        $sName = Dict::Format('Class:NetworkSocket/Tab:cables_list');
+		        $sTitle = Dict::Format('Class:NetworkSocket/Tab:cables_list+');
+		        if ($iNbNetworkCables > 0) {
+		            $oPage->SetCurrentTab($sName.' ('.$iNbNetworkCables.')');
+		            $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('NetworkCable', false));
+		            $oClassIcon->SetDescription(Dict::Format('Class:NetworkSocket/Tab:cables_list+', MetaModel::GetName('NetworkCable')))->AddCSSClass('ibo-block-list--medallion');
+		            $oPage->AddUiBlock($oClassIcon);
+		            $oBlock = new DisplayBlock($oNetworkCableSet->GetFilter(), 'list', false);
+		            $oBlock->Display($oPage, 'networkcables_list', array('menu' => false));
+		        } else {
+		            $oSet = CMDBObjectSet::FromScratch('NetworkCable');
+		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oSet);
+		        }
+
+				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
+				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
+			}
+		} elseif (($oObject instanceof ConnectableCI) || ($oObject instanceof PhysicalInterface)) {
 			if (!$bEditMode) {
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
 				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
@@ -1227,16 +1258,22 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 						$oOldRemoteNetworkSocket->Set('networksocket_id', 0);
 						$oOldRemoteNetworkSocket->DBUpdate();
 					}
-					// Update the cable that include the network socket
-					$sOQL = "SELECT NetworkCable WHERE networksocket1_id = :id OR networksocket2_id = :id";
-					$iId = $oObject->GetKey();
-					$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
-					while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+				}
+
+				// Update the cable that includes the network socket
+				$sOQL = "SELECT NetworkCable WHERE networksocket1_id = :id OR networksocket2_id = :id";
+				$iId = $oObject->GetKey();
+				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+					if ($oObject->Get('networksocket_id') == 0) {
+						$oNetworkCable->DBDelete();
+					} else {
 						if ($oNetworkCable->Get('networksocket1_id') == $iId) {
 							$oNetworkCable->Set('networksocket2_id', $oObject->Get('networksocket_id'));
 						} else {
 							$oNetworkCable->Set('networksocket1_id', $oObject->Get('networksocket_id'));
 						}
+						$oNetworkCable->DBUpdate();
 					}
 				}
 			}

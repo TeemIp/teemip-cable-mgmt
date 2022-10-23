@@ -10,19 +10,6 @@
 //
 
 //
-// Class: CableCategory
-//
-
-Dict::Add('EN US', 'English', 'English', array(
-	'Class:CableCategory' => 'Cable Type',
-	'Class:CableCategory+' => '',
-	'Class:CableCategory/Attribute:cabletype_id' => 'Cable type',
-	'Class:CableCategory/Attribute:cabletype_id+' => '',
-	'Class:CableCategory/Attribute:description' => 'Description',
-	'Class:CableCategory/Attribute:description+' => '',
-));
-
-//
 // Class: CableType
 //
 
@@ -33,6 +20,19 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:CableType/Attribute:description+' => '',
 	'Class:CableType/Attribute:cablecategories_list' => 'Cable categories',
 	'Class:CableType/Attribute:cablecategories_list+' => '',
+));
+
+//
+// Class: CableCategory
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:CableCategory' => 'Cable Category',
+	'Class:CableCategory+' => '',
+	'Class:CableCategory/Attribute:cabletype_id' => 'Cable type',
+	'Class:CableCategory/Attribute:cabletype_id+' => '',
+	'Class:CableCategory/Attribute:description' => 'Description',
+	'Class:CableCategory/Attribute:description+' => '',
 ));
 
 //
@@ -111,6 +111,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
 	'Class:NetworkSocket/Attribute:backendsocket_id' => 'Back end network socket',
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Remote network socket connected through back end cables',
+	'Class:NetworkSocket/Tab:cables_list' => 'Cables',
+	'Class:NetworkSocket/Tab:cables_list+' => 'List of all cables connected to the network socket',
 ));
 
 //
@@ -130,6 +132,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel/Attribute:capacity+' => 'Number of network socket on the panel',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Network sockets',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'List of all network sockets of the patch panel',
+	'Class:PatchPanel/Tab:cables_list' => 'Cables',
+	'Class:PatchPanel/Tab:cables_list+' => 'List of all cables connected to a network socket hosted by the patch panel',
 	'Class:PatchPanel/Tab:frontendpanels_list' => 'Peer front end panels',
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'List of all patch panels connected to the current one through the network socket of its hosted sockets',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Peer back end panels',

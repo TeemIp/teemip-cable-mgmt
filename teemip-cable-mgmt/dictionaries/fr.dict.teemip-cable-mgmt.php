@@ -10,19 +10,6 @@
 //
 
 //
-// Class: CableCategory
-//
-
-Dict::Add('FR FR', 'French', 'Français', array(
-	'Class:CableCategory' => 'Catégorie de Câble',
-	'Class:CableCategory+' => '',
-	'Class:CableCategory/Attribute:cabletype_id' => 'Type de câble',
-	'Class:CableCategory/Attribute:cabletype_id+' => '',
-	'Class:CableCategory/Attribute:description' => 'Description',
-	'Class:CableCategory/Attribute:description+' => '',
-));
-
-//
 // Class: CableType
 //
 
@@ -33,6 +20,19 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:CableType/Attribute:description+' => '',
 	'Class:CableType/Attribute:cablecategories_list' => 'Catégories de câbles',
 	'Class:CableType/Attribute:cablecategories_list+' => '',
+));
+
+//
+// Class: CableCategory
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:CableCategory' => 'Catégorie de Câble',
+	'Class:CableCategory+' => '',
+	'Class:CableCategory/Attribute:cabletype_id' => 'Type de câble',
+	'Class:CableCategory/Attribute:cabletype_id+' => '',
+	'Class:CableCategory/Attribute:description' => 'Description',
+	'Class:CableCategory/Attribute:description+' => '',
 ));
 
 //
@@ -111,6 +111,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
 	'Class:NetworkSocket/Attribute:backendsocket_id' => 'prise réseau de Back end',
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Prise réseau distante connectée à la prise réseau via le câblage de back end',
+	'Class:NetworkSocket/Tab:cables_list' => 'Câbles',
+	'Class:NetworkSocket/Tab:cables_list+' => 'Liste de tous les câbles connectés à une prise réseau hébergée par ce panneau de brassage',
 ));
 
 //
@@ -130,6 +132,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PatchPanel/Attribute:capacity+' => 'Nombre de prises réseau du panneau de brassage',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Prises réseau',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'Liste de toutes les prises réseau du panneau de brassage',
+	'Class:PatchPanel/Tab:cables_list' => 'Câbles',
+	'Class:PatchPanel/Tab:cables_list+' => 'Liste de tous les câbles connectés à une prise réseau hébergée par ce panneau de brassage',
 	'Class:PatchPanel/Tab:frontendpanels_list' => 'Frontaux homologues',
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste de tous les panneaux de brassage connectés à ce panneau par l\'intermédiaire d\'une prise réseau du panneau',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Back end homologues',
@@ -160,7 +164,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 //////////////////////////////////////////////////////////////////////
 //
 
-Dict::Add('EN US', 'English', 'English', array(
+Dict::Add('FR FR', 'French', 'Français', array(
 	'Relation:wiring/Description' => 'Schéma de câblage',
 	'Relation:wiring/DownStream' => 'Câblage...',
 	'Relation:wiring/DownStream+' => 'Schéma de câblage',
