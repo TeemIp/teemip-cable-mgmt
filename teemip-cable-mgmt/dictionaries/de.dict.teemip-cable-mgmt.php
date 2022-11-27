@@ -14,11 +14,11 @@
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:CableType' => 'Cable Type',
+	'Class:CableType' => 'Kabel-Typ',
 	'Class:CableType+' => '',
-	'Class:CableType/Attribute:description' => 'Description',
+	'Class:CableType/Attribute:description' => 'Beschreibung',
 	'Class:CableType/Attribute:description+' => '',
-	'Class:CableType/Attribute:cablecategories_list' => 'Cable categories',
+	'Class:CableType/Attribute:cablecategories_list' => 'Kabel-Kategorien',
 	'Class:CableType/Attribute:cablecategories_list+' => '',
 ));
 
@@ -27,11 +27,11 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:CableCategory' => 'Cable Category',
+	'Class:CableCategory' => 'Kabel-Kategorie',
 	'Class:CableCategory+' => '',
-	'Class:CableCategory/Attribute:cabletype_id' => 'Cable type',
+	'Class:CableCategory/Attribute:cabletype_id' => 'Kabel-Typ',
 	'Class:CableCategory/Attribute:cabletype_id+' => '',
-	'Class:CableCategory/Attribute:description' => 'Description',
+	'Class:CableCategory/Attribute:description' => 'Beschreibung',
 	'Class:CableCategory/Attribute:description+' => '',
 ));
 
@@ -40,27 +40,27 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:NetworkCable' => 'Network Cable',
+	'Class:NetworkCable' => 'Netzwerk-Kabel',
 	'Class:NetworkCable+' => '',
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
-	'Class:NetworkCable:baseinfo' => 'General Information',
-	'Class:NetworkCable/Attribute:cabletype_id' => 'Cable type',
+	'Class:NetworkCable:baseinfo' => 'Allgemeine Informationen',
+	'Class:NetworkCable/Attribute:cabletype_id' => 'Kabel-Typ',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
-	'Class:NetworkCable/Attribute:cabletype_name' => 'Cable type name',
+	'Class:NetworkCable/Attribute:cabletype_name' => 'Kabel-Typ Name',
 	'Class:NetworkCable/Attribute:cabletype_name+' => '',
-	'Class:NetworkCable/Attribute:cablecategory_id' => 'Cable category',
+	'Class:NetworkCable/Attribute:cablecategory_id' => 'Kabel-Kategorie',
 	'Class:NetworkCable/Attribute:cablecategory_id+' => '',
-	'Class:NetworkCable/Attribute:cablecategory_name' => 'Cable category name',
+	'Class:NetworkCable/Attribute:cablecategory_name' => 'Kabel-Kategorie Name',
 	'Class:NetworkCable/Attribute:cablecategory_name+' => '',
-	'Class:NetworkCable/Attribute:length' => 'Length (m)',
-	'Class:NetworkCable/Attribute:length+' => 'Length of the cable, in meter',
-	'Class:NetworkCable/Attribute:networksocket1_id' => 'Network socket #1',
-	'Class:NetworkCable/Attribute:networksocket1_id+' => 'First network socket that the cable is connected to',
-	'Class:NetworkCable/Attribute:networksocket1_name' => 'Network socket #1 name',
+	'Class:NetworkCable/Attribute:length' => 'Laenge (m)',
+	'Class:NetworkCable/Attribute:length+' => 'Laenge des Kabels, in Meter',
+	'Class:NetworkCable/Attribute:networksocket1_id' => 'Netzwerk-Dose #1',
+	'Class:NetworkCable/Attribute:networksocket1_id+' => 'Erste Netzwerk-Dose, mit welcher das Kabel verbunden ist',
+	'Class:NetworkCable/Attribute:networksocket1_name' => 'Netzwerk-Dose #1 Name',
 	'Class:NetworkCable/Attribute:networksocket1_name+' => '',
-	'Class:NetworkCable/Attribute:networksocket2_id' => 'Network socket #2',
-	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Second network socket that the cable is connected to',
-	'Class:NetworkCable/Attribute:networksocket2_name' => 'Network socket #2 name',
+	'Class:NetworkCable/Attribute:networksocket2_id' => 'Netzwerk-Dose #2',
+	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Zweite Netzwerk-Dose, mit welcher das Kabel verbunden ist',
+	'Class:NetworkCable/Attribute:networksocket2_name' => 'Netzwerk-Dose #2 Name',
 	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
 ));
 
@@ -111,8 +111,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
 	'Class:NetworkSocket/Attribute:backendsocket_id' => 'Rückseitige Netzwerk-Dose',
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Entfernte Netzwerk-Dose, welche durch rückseitige Kabel verbunden ist',
-	'Class:NetworkSocket/Tab:cables_list' => 'Cables',
-	'Class:NetworkSocket/Tab:cables_list+' => 'List of all cables connected to the network socket',
+	'Class:NetworkSocket/Tab:cables_list' => 'Kabel',
+	'Class:NetworkSocket/Tab:cables_list+' => 'Liste aller Kabel, welche mit der Netzwerk-Dose verbunden sind',
 ));
 
 //
@@ -132,8 +132,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel/Attribute:capacity+' => 'Anzahl der Netzwerk-Dosen am Patch Panel',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Netzwerk-Dosen',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'Liste aller Netzwerk-Dosen des Patch Panel',
-	'Class:PatchPanel/Tab:cables_list' => 'Cables',
-	'Class:PatchPanel/Tab:cables_list+' => 'List of all cables connected to a network socket hosted by the patch panel',
+	'Class:PatchPanel/Tab:cables_list' => 'Kabel',
+	'Class:PatchPanel/Tab:cables_list+' => 'Liste aller Kabel, welche mit einer Netzwerk-Dose von diesem Patch Panel verbunden sind',
 	'Class:PatchPanel/Tab:frontendpanels_list' => 'Nachbar-Anschlüsse der Vorderseite des Panels',
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste aller Patch Panels verbunden mit dem aktuellen Panel durch die Netzwerk-Dose der angeschlossenen Dosen',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Nachbar-Anschlüsse der Rückseite des Panels',
@@ -154,8 +154,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerk-Dose kann NICHT mit BEIDEM, einem Interface und einer anderen Netzwerk-Dose, verbunden sein!',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerk-Dosen verbunden',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerk-Dose kann nicht mit beidem, einem Interface und einer anderen Netzwerk-Dose, verbunden sein!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerk-Dose kann nicht mit mit der selben entfernten Netzwerk-Dose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
 ));
 
@@ -165,9 +165,9 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Relation:wiring/Description' => 'Wiring layout',
-	'Relation:wiring/DownStream' => 'Wiring...',
-	'Relation:wiring/DownStream+' => 'Wiring layout',
-	'Relation:wiring/UpStream' => 'Wiring...',
-	'Relation:wiring/UpStream+' => 'Wiring layout',
+	'Relation:wiring/Description' => 'Verkabelungs-Layout',
+	'Relation:wiring/DownStream' => 'Verkabelung...',
+	'Relation:wiring/DownStream+' => 'Verkabelungs-Layout',
+	'Relation:wiring/UpStream' => 'Verkabelung...',
+	'Relation:wiring/UpStream+' => 'Verkabelungs-Layout',
 ));
