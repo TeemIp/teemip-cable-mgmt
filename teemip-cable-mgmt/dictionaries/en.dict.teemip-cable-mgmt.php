@@ -62,6 +62,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Second network socket that the cable is connected to',
 	'Class:NetworkCable/Attribute:networksocket2_name' => 'Network socket #2 name',
 	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
+	'Class:NetworkCable/Attribute:label' => 'Label',
+	'Class:NetworkCable/Attribute:label+' => 'Label attached to the cable',
+	'Class:NetworkCable/Attribute:comment' => 'Comment',
+	'Class:NetworkCable/Attribute:comment+' => '',
 ));
 
 //

@@ -62,6 +62,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Seconde prise réseau connectée au câble',
 	'Class:NetworkCable/Attribute:networksocket2_name' => 'Nom de la prise réseau #2 name',
 	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
+	'Class:NetworkCable/Attribute:label' => 'Etiquette',
+	'Class:NetworkCable/Attribute:label+' => 'Etiquette attachée au câble',
+	'Class:NetworkCable/Attribute:comment' => 'Commentaire',
+	'Class:NetworkCable/Attribute:comment+' => '',
 ));
 
 //

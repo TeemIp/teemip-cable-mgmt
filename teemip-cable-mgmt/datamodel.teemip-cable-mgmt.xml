@@ -278,6 +278,16 @@
           <extkey_attcode>networksocket2_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="label" xsi:type="AttributeString">
+          <sql>label</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="comment" xsi:type="AttributeText">
+          <sql>comment</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
       </fields>
       <methods>
         <method id="DoCheckToWrite">
@@ -323,8 +333,14 @@
                     <item id="cablecategory_id">
                       <rank>40</rank>
                     </item>
-                     <item id="length">
+                    <item id="length">
                       <rank>50</rank>
+                    </item>
+                    <item id="label">
+                      <rank>60</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>70</rank>
                     </item>
                   </items>
                 </item>
@@ -346,8 +362,11 @@
             <item id="cablecategory_id">
               <rank>40</rank>
             </item>
-             <item id="length">
+            <item id="length">
               <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
             </item>
           </items>
         </list>
@@ -365,8 +384,11 @@
             <item id="cablecategory_id">
               <rank>40</rank>
             </item>
-             <item id="length">
+            <item id="length">
               <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
             </item>
           </items>
         </default_search>
@@ -384,8 +406,11 @@
             <item id="cablecategory_id">
               <rank>40</rank>
             </item>
-             <item id="length">
+            <item id="length">
               <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
             </item>
           </items>
         </search>
@@ -482,19 +507,19 @@
           <values>
             <value id="active">
               <code>active</code>
-							<style>
-								<main_color>hsla(92, 47.9%, 42.2%, 1)</main_color>
-								<complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
-								<decoration_classes/>
-							</style>
+              <style>
+                <main_color>hsla(92, 47.9%, 42.2%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
             </value>
             <value id="inactive">
               <code>inactive</code>
-							<style>
-								<main_color>hsla(33, 89.9%, 64.9%, 1)</main_color>
-								<complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
-								<decoration_classes/>
-							</style>
+              <style>
+                <main_color>hsla(33, 89.9%, 64.9%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
             </value>
           </values>
           <sql>status</sql>
@@ -556,24 +581,24 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
-			<relations>
-				<relation id="wiring">
-					<neighbours>
-						<neighbour id="networksocket">
+      <relations>
+        <relation id="wiring">
+          <neighbours>
+            <neighbour id="networksocket">
               <attribute>networksocket_id</attribute>
               <direction>both</direction>
             </neighbour>
-						<neighbour id="backendsocket">
+            <neighbour id="backendsocket">
               <attribute>backendsocket_id</attribute>
               <direction>both</direction>
             </neighbour>
-						<neighbour id="physicalinterface">
+            <neighbour id="physicalinterface">
               <attribute>physicalinterface_id</attribute>
               <direction>both</direction>
             </neighbour>
-					</neighbours>
-				</relation>
-			</relations>
+          </neighbours>
+        </relation>
+      </relations>
       <methods>
         <method id="ComputeValues">
           <comment/>
@@ -680,9 +705,9 @@
                     </item>
                   </items>
                 </item>
-             </items>
+              </items>
             </item>
-         </items>
+          </items>
         </details>
         <list>
           <items>
@@ -698,10 +723,10 @@
             <item id="networksocket_id">
               <rank>40</rank>
             </item>
-             <item id="backendsocket_id">
+            <item id="backendsocket_id">
               <rank>50</rank>
             </item>
-         </items>
+          </items>
         </list>
         <default_search>
           <items>
@@ -726,7 +751,7 @@
             <item id="location_org_id">
               <rank>70</rank>
             </item>
-         </items>
+          </items>
         </default_search>
         <search>
           <items>
@@ -845,7 +870,7 @@
                 </item>
               </items>
             </item>
-         </items>
+          </items>
         </details>
         <list>
           <items>
@@ -909,20 +934,20 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
-			<relations>
-				<relation id="wiring" _delta="define">
-					<neighbours>
-						<neighbour id="networksocket">
+      <relations>
+        <relation id="wiring" _delta="define">
+          <neighbours>
+            <neighbour id="networksocket">
               <attribute>networksocket_id</attribute>
               <direction>both</direction>
             </neighbour>
-						<neighbour id="connectableci">
+            <neighbour id="connectableci">
               <attribute>connectableci_id</attribute>
               <direction>both</direction>
             </neighbour>
-					</neighbours>
-				</relation>
-			</relations>
+          </neighbours>
+        </relation>
+      </relations>
       <presentation>
         <details>
           <items>
@@ -941,17 +966,17 @@
         </details>
       </presentation>
     </class>
-		<class id="ConnectableCI" _delta="must_exist">
-			<relations>
-				<relation id="wiring" _delta="define">
-					<neighbours>
-						<neighbour id="physicalinterface">
+    <class id="ConnectableCI" _delta="must_exist">
+      <relations>
+        <relation id="wiring" _delta="define">
+          <neighbours>
+            <neighbour id="physicalinterface">
               <attribute>physicalinterface_list</attribute>
               <direction>down</direction>
             </neighbour>
-					</neighbours>
-				</relation>
-			</relations>
+          </neighbours>
+        </relation>
+      </relations>
     </class>
   </classes>
   <menus>

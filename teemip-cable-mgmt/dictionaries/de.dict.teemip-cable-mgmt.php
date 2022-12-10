@@ -62,6 +62,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Zweite Netzwerk-Dose, mit welcher das Kabel verbunden ist',
 	'Class:NetworkCable/Attribute:networksocket2_name' => 'Netzwerk-Dose #2 Name',
 	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
+	'Class:NetworkCable/Attribute:label' => 'Etikett',
+	'Class:NetworkCable/Attribute:label+' => 'Am Kabel angebrachtes Etikett',
+	'Class:NetworkCable/Attribute:comment' => 'Kommentar',
+	'Class:NetworkCable/Attribute:comment+' => '',
 ));
 
 //
