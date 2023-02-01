@@ -154,6 +154,15 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 ));
 
 //
+// Class: Rack
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:Rack/Attribute:patchpanels_list' => 'Patch Panels',
+	'Class:Rack/Attribute:patchpanels_list+' => 'Liste aller Patch Panels, welche mit der Rackl verbunden sind',
+));
+
+//
 // Actions
 //
 

@@ -154,6 +154,15 @@ Dict::Add('EN US', 'English', 'English', array(
 ));
 
 //
+// Class: Rack
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:Rack/Attribute:patchpanels_list' => 'Patch Panels',
+	'Class:Rack/Attribute:patchpanels_list+' => 'List of all patch panels hosted by the rack',
+));
+
+//
 // Actions
 //
 

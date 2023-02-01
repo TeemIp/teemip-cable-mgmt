@@ -154,6 +154,15 @@ Dict::Add('FR FR', 'French', 'Français', array(
 ));
 
 //
+// Class: Rack
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:Rack/Attribute:patchpanels_list' => 'Panneaux de brassages',
+	'Class:Rack/Attribute:patchpanels_list+' => 'Liste de tous les panneaux de brassage hébergés par le rack',
+));
+
+//
 // Actions
 //
 
