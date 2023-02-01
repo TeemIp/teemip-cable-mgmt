@@ -266,7 +266,8 @@
         </field>
         <field id="networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>networksocket2_id</sql>
-          <filter><![CDATA[SELECT NetworkSocket AS ns2 JOIN NetworkSocket AS ns1 ON ns1.networksocket_id = ns2.id WHERE ns1.id = :this->networksocket1_id]]></filter>
+          <filter>
+            <![CDATA[SELECT NetworkSocket AS ns2 JOIN NetworkSocket AS ns1 ON ns1.networksocket_id = ns2.id WHERE ns1.id = :this->networksocket1_id]]></filter>
           <dependencies>
             <attribute id="networksocket1_id"/>
           </dependencies>
@@ -545,7 +546,8 @@
         <field id="physicalinterface_id" xsi:type="AttributeExternalKey">
           <sql>physicalinterface_id</sql>
           <target_class>PhysicalInterface</target_class>
-          <filter><![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
+          <filter>
+            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
           <dependencies>
             <attribute id="connectableci_id"/>
           </dependencies>
@@ -977,6 +979,28 @@
           </neighbours>
         </relation>
       </relations>
+    </class>
+    <class id="Rack" _delta="must_exist">
+      <fields>
+        <field id="patchpanels_list" xsi:type="AttributeLinkedSet" _delta="define">
+          <linked_class>PatchPanel</linked_class>
+          <ext_key_to_me>rack_id</ext_key_to_me>
+          <edit_mode>add_only</edit_mode>
+          <count_min>0</count_min>
+          <count_max>0</count_max>
+          <relation_type>link</relation_type>
+          <read_only>false</read_only>
+        </field>
+      </fields>
+      <presentation>
+        <details _delta="must_exist">
+          <items>
+            <item id="patchpanels_list" _delta="define">
+              <rank>195</rank>
+            </item>
+          </items>
+        </details>
+      </presentation>
     </class>
   </classes>
   <menus>
