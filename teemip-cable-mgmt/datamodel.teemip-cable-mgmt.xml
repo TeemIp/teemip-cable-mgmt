@@ -1029,7 +1029,7 @@
     <menu id="Typology" xsi:type="DashboardMenuNode" _delta="must_exist">
       <definition>
         <cells>
-          <cell id="Network" _delta="must_exist">
+          <cell id="Network" _delta="define_if_not_exists">
             <rank>10</rank>
             <dashlets>
               <dashlet id="teemip-1111" xsi:type="DashletBadge" _delta="define">
