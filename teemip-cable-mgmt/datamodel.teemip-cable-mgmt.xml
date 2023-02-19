@@ -935,6 +935,34 @@
           <extkey_attcode>networksocket_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="remote_connectableci_id" xsi:type="AttributeExternalKey" _delta="define">
+          <sql>remote_connectableci_id</sql>
+          <target_class>ConnectableCI</target_class>
+          <filter><![CDATA[SELECT ConnectableCI WHERE org_id = :this->org_id AND id != :this->connectableci_id]]></filter>
+          <dependencies>
+            <attribute id="org_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_connectableci_name" xsi:type="AttributeExternalField" _delta="define">
+          <extkey_attcode>remote_connectableci_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="remote_physicalinterface_id" xsi:type="AttributeExternalKey" _delta="define">
+          <sql>remote_physicalinterface_id</sql>
+          <target_class>PhysicalInterface</target_class>
+          <filter><![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->remote_connectableci_id]]></filter>
+          <dependencies>
+            <attribute id="remote_connectableci_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_physicalinterface_name" xsi:type="AttributeExternalField" _delta="define">
+          <extkey_attcode>remote_physicalinterface_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
       </fields>
       <relations>
         <relation id="wiring" _delta="define">
@@ -953,12 +981,19 @@
       <presentation>
         <details>
           <items>
-            <item id="col:col1" _delta="must_exist">
+            <item id="col:col2" _delta="must_exist">
               <items>
-                <item id="fieldset:Class:NetworkInterface:baseinfo" _delta="must_exist">
+                <item id="fieldset:Class:NetworkInterface:wiringinfo" _delta="merge">
+                  <rank>5</rank>
                   <items>
                     <item id="networksocket_id" _delta="define">
-                      <rank>32</rank>
+                      <rank>20</rank>
+                    </item>
+                    <item id="remote_connectableci_id" _delta="define">
+                      <rank>30</rank>
+                    </item>
+                    <item id="remote_physicalinterface_id" _delta="define">
+                      <rank>40</rank>
                     </item>
                   </items>
                 </item>

@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2022 TeemIp
+ * @copyright   Copyright (C) 2023 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -150,7 +150,15 @@ Dict::Add('EN US', 'English', 'English', array(
 
 Dict::Add('EN US', 'English', 'English', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Network socket',
-	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Remote network socket connected to the interface',
+	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Remote network socket connected to the interface. Cannot coexist with a remote device.',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Remote device',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'Remote device connected to the interface. Cannot coexist with a network socket.',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Name of the remote device',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_name+' => '',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id' => 'Remote physical interface',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id+' => 'Physical interface used on the remote device for the connection.',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name' => 'Name of the remote physical interface',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name+' => '',
 ));
 
 //
