@@ -150,9 +150,9 @@ Dict::Add('FR FR', 'French', 'Français', array(
 
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Prise réseau',
-	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Prise réseau distante connectée à l\'interface. Ne peut coexister avec un matériel distant.',
+	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Prise réseau distante connectée à l\'interface. Cet attribut ne peut être utilisé conjointement avec l\'attribut matériel distant.',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Matériel distant',
-	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'Matériel distant connecté à l\'interface. Ne peut coexister avec une prise réseau.',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'Matériel distant connecté à l\'interface. Cet attribut ne peut être utilisé conjointement avec l\'attribut prise réseau.',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Nom du matériel distant',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name+' => '',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id' => 'Interface physique du matériel distant',
