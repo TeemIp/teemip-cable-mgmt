@@ -308,7 +308,7 @@
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $this->Get('networksocket1_id'), 'ns2_id' => $this->Get('networksocket2_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the 2 selected network sockets
-            $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
         }
 	}]]></code>
         </method>
@@ -504,6 +504,10 @@
           <extkey_attcode>patchpanel_id</extkey_attcode>
           <target_attcode>rack_name</target_attcode>
         </field>
+        <field id="org_id" xsi:type="AttributeExternalField" _delta="define">
+          <extkey_attcode>location_id</extkey_attcode>
+          <target_attcode>org_id</target_attcode>
+        </field>
         <field id="status" xsi:type="AttributeEnum">
           <values>
             <value id="active">
@@ -640,12 +644,11 @@
 
         $iRemoteNetworkSocket = $this->Get('networksocket_id');
         if ($iRemoteNetworkSocket > 0) {
-            // Network socket cannot be connected to both a remote network socket and a connectableCI
             if ($this->Get('connectableci_id') > 0) {
-                $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
+                $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
             }
             if (($this->Get('backendsocket_id') == $iRemoteNetworkSocket)) {
-                $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
+                $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
             }
         }
 	}]]></code>
@@ -675,8 +678,11 @@
                     <item id="patchpanel_id">
                       <rank>50</rank>
                     </item>
-                    <item id="comment">
+                    <item id="org_id">
                       <rank>60</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>70</rank>
                     </item>
                   </items>
                 </item>
