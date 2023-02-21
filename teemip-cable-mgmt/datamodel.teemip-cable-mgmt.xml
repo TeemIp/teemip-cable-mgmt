@@ -642,6 +642,15 @@
     {
         parent::DoCheckToWrite();
 
+        // Patch panel must be selected if rack is selected
+        $iRack = $this->Get('rack_id');
+        if ($iRack > 0) {
+        	if ($this->Get('patchpanel_id') <= 0) {
+                $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel');
+        	}
+        }
+
+        // Network socket cannot be connected to both a remote network socket and a connectableCI
         $iRemoteNetworkSocket = $this->Get('networksocket_id');
         if ($iRemoteNetworkSocket > 0) {
             if ($this->Get('connectableci_id') > 0) {
