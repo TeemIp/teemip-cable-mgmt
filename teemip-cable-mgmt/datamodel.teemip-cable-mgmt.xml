@@ -979,6 +979,28 @@
           <target_attcode>name</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <listener id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnPhysicalInterfaceCheckToWriteByCableMgmt</callback>
+          <rank>100</rank>
+        </listener>
+      </event_listeners>
+      <methods>
+        <method id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>l</type>
+          <code><![CDATA[    public function OnPhysicalInterfaceCheckToWriteByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+		// Check that networksocket_id and remote_connectableci_id are not set at the same time
+		if (($this->Get('networksocket_id') != 0) && ($this->Get('remote_connectableci_id') != 0)) {
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed');
+		}
+    }]]></code>
+        </method>
+      </methods>
       <relations>
         <relation id="wiring" _delta="define">
           <neighbours>
@@ -999,7 +1021,7 @@
             <item id="col:col2" _delta="must_exist">
               <items>
                 <item id="fieldset:Class:NetworkInterface:wiringinfo" _delta="merge">
-                  <rank>5</rank>
+                  <rank _delta="define_if_not_exists">5</rank>
                   <items>
                     <item id="networksocket_id" _delta="define">
                       <rank>20</rank>
