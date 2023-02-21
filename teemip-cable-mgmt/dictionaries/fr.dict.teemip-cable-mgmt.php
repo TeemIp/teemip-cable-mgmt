@@ -99,6 +99,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkSocket/Attribute:patchpanel_id+' => 'Panneau de brassage hébergeant la prise',
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Nom Panneau de brassage',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
+	'Class:NetworkSocket/Attribute:org_id' => 'Organisation',
+	'Class:NetworkSocket/Attribute:org_id+' => 'Organisation du lieu. Cela définit aussi l\'organisation de la prise.',
 	'Class:NetworkSocket/Attribute:comment' => 'Commentaire',
 	'Class:NetworkSocket/Attribute:comment+' => '',
 	'Class:NetworkSocket/Attribute:connectableci_id' => 'Equipement',
@@ -176,8 +178,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 
 Dict::Add('FR FR', 'French', 'Français', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Un cable connectant les mêmes prises réseau existe déja !',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Un panneau de brassage doit être sélectionné quand la prise appartient à un rack !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Une prise réseau ne peut pas être connectée A LA FOIS à une interface réseau et une autre prise réseau !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Une prise réseau ne peut pas être connectée à la même prise distante à travers ses 2 connecteurs de prise réseau et de prise arrière !',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Une interface physique ne peut pas être connectée à une prise réseau et à un matériel distant !',
 ));
 
 //////////////////////////////////////////////////////////////////////

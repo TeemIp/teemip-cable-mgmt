@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2022 TeemIp
+ * @copyright   Copyright (C) 2023 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -99,6 +99,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:patchpanel_id+' => 'Patch Panel, welches zur Netzwerk-Dose gehört',
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Patch Panel Name',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
+	'Class:NetworkSocket/Attribute:org_id' => 'Organisation',
+	'Class:NetworkSocket/Attribute:org_id+' => 'Organisation, zu der der Standort gehört. Es definiert auch die Organisation der Netzwerk-Dose.',
 	'Class:NetworkSocket/Attribute:comment' => 'Kommentar',
 	'Class:NetworkSocket/Attribute:comment+' => '',
 	'Class:NetworkSocket/Attribute:connectableci_id' => 'Gerät',
@@ -151,6 +153,14 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Netzwerk-Dose',
 	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Entfernte Netzwerk-Dose, welche mit dem Interface verbunden ist',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Remote-Gerät',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'An die Interface angeschlossenes Remote-Gerät. Dieses Attribut kann nicht gleichzeitig mit dem Netzwerk-Socket gefüllt werden.',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Name des Remote-Geräts',
+	'Class:PhysicalInterface/Attribute:remote_connectableci_name+' => '',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id' => 'Remote Physisches Interface',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id+' => 'Physische KInterface, die auf dem Remote-Gerät für die Verbindung verwendet wird.',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name' => 'Name der Remote Physisches Interface',
+	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name+' => '',
 ));
 
 //
@@ -168,8 +178,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerk-Dosen verbunden',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Ein Patch panel muss ausgewählt werden, wenn die Netzwerkdose zu einem Rack gehört!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerk-Dose kann nicht mit beidem, einem Interface und einer anderen Netzwerk-Dose, verbunden sein!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerk-Dose kann nicht mit mit der selben entfernten Netzwerk-Dose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physische Interface kann nicht gleichzeitig mit einem Netzwerk-Socket und einem Remote-Gerät verbunden werden!',
 ));
 
 //////////////////////////////////////////////////////////////////////

@@ -99,6 +99,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:patchpanel_id+' => 'Patch panel hosting the network socket',
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Patch panel name',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
+	'Class:NetworkSocket/Attribute:org_id' => 'Organization',
+	'Class:NetworkSocket/Attribute:org_id+' => 'Organization that the location belongs to. It defines as well the socket\'s organization.',
 	'Class:NetworkSocket/Attribute:comment' => 'Comment',
 	'Class:NetworkSocket/Attribute:comment+' => '',
 	'Class:NetworkSocket/Attribute:connectableci_id' => 'Device',
@@ -176,8 +178,10 @@ Dict::Add('EN US', 'English', 'English', array(
 
 Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'A patch panel needs to be selected when the network socket belongs to a rack!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
 ));
 
 //////////////////////////////////////////////////////////////////////
