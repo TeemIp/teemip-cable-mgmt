@@ -1045,7 +1045,9 @@
         <relation id="wiring" _delta="define">
           <neighbours>
             <neighbour id="physicalinterface">
-              <attribute>physicalinterface_list</attribute>
+              <query_down>SELECT PhysicalInterface AS pi WHERE pi.connectableci_id = :this->id AND pi.status = 'active'</query_down>
+              <query_up>SELECT ConnectableCI as ci JOIN PhysicalInterface AS pi ON pi.connectableci_id = ci.id WHERE ci.id = :this->id</query_up>
+              <!--attribute>physicalinterface_list</attribute-->
               <direction>down</direction>
             </neighbour>
           </neighbours>
