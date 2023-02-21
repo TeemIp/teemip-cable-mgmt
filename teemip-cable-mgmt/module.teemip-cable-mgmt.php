@@ -7,7 +7,7 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-cable-mgmt/1.0.0',
+	'teemip-cable-mgmt/1.1.0',
 	array(
 		// Identification
 		//
@@ -22,6 +22,7 @@ SetupWebPage::AddModule(
 		),
 		'mandatory' => false,
 		'visible' => true,
+		'installer' => 'CableManagementInstaller',
 
 		// Components
 		//
@@ -46,5 +47,68 @@ SetupWebPage::AddModule(
 	)
 );
 
+if (!class_exists('CableManagementInstaller')) {
+	// Module installation handler
+	//
+	class CableManagementInstaller extends ModuleInstallerAPI
+	{
+		public static function BeforeWritingConfig(Config $oConfiguration)
+		{
+			// If you want to override/force some configuration values, do it here
+			return $oConfiguration;
+		}
 
-?>
+		/**
+		 * Handler called before creating or upgrading the database schema
+		 * @param $oConfiguration Config The new configuration of the application
+		 * @param $sPreviousVersion string PRevious version number of the module (empty string in case of first install)
+		 * @param $sCurrentVersion string Current version number of the module
+		 */
+		public static function BeforeDatabaseCreation(Config $oConfiguration, $sPreviousVersion, $sCurrentVersion)
+		{
+			// If you want to migrate data from one format to another, do it here
+		}
+
+		/**
+		 * Handler called after the creation/update of the database schema
+		 * @param $oConfiguration Config The new configuration of the application
+		 * @param $sPreviousVersion string PRevious version number of the module (empty string in case of first install)
+		 * @param $sCurrentVersion string Current version number of the module
+		 */
+		public static function AfterDatabaseCreation(Config $oConfiguration, $sPreviousVersion, $sCurrentVersion)
+		{
+			// Load audit category and rules related to the module
+			if (version_compare($sPreviousVersion, $sCurrentVersion, '!=')) {
+				$oDataLoader = new XMLDataLoader();
+
+				CMDBObject::SetTrackInfo("Initialization");
+				$oMyChange = CMDBObject::GetCurrentChange();
+
+				$sLang = null;
+				// Try to get app. language from configuration fil (app. upgrade)
+				$sConfigFileName = APPCONF.'production/'.ITOP_CONFIG_FILE;
+				if (file_exists($sConfigFileName)) {
+					$oFileConfig = new Config($sConfigFileName);
+					if (is_object($oFileConfig)) {
+						$sLang = str_replace(' ', '_', strtolower($oFileConfig->GetDefaultLanguage()));
+					}
+				}
+
+				// If still no language, get the default one
+				if (null === $sLang) {
+					$sLang = str_replace(' ', '_', strtolower($oConfiguration->GetDefaultLanguage()));
+				}
+
+				$sFileName = dirname(__FILE__)."/data/{$sLang}.data.teemip-cable-mgmt.xml";
+				SetupLog::Info("Searching file: $sFileName");
+				if (!file_exists($sFileName)) {
+					$sFileName = dirname(__FILE__)."/data/en_us.data.teemip-cable-mgmt.xml";
+				}
+				SetupLog::Info("Loading file: $sFileName");
+				$oDataLoader->StartSession($oMyChange);
+				$oDataLoader->LoadFile($sFileName, false, true);
+				$oDataLoader->EndSession();
+			}
+		}
+	}
+}

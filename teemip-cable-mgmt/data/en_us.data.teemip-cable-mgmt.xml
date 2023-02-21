@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<AuditCategory alias="AuditCategory" id="1">
+		<name>Cable Management</name>
+		<description>Set of audit rules related to cables</description>
+		<definition_set>SELECT NetworkCable</definition_set>
+	</AuditCategory>
+	<AuditRule alias="AuditRule" id="1">
+		<name>Cable is connected to only one network socket</name>
+		<description>Only one end of the cable is attached to a network socket</description>
+		<query>SELECT NetworkCable AS nc WHERE (nc.networksocket1_id != 0) AND (nc.networksocket2_id != 0) </query>
+		<valid_flag>true</valid_flag>
+		<category_id>1</category_id>
+	</AuditRule>
+</Set>

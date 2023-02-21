@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<AuditCategory alias="AuditCategory" id="1">
+		<name>Gestion des câbles</name>
+		<description>Ensemble de règles liée aux câbles</description>
+		<definition_set>SELECT NetworkCable</definition_set>
+	</AuditCategory>
+	<AuditRule alias="AuditRule" id="1">
+		<name>Le câble est connecté à seulement une prise réseau</name>
+		<description>Seule une des treminaisons du câble est attachée à une prise réseau</description>
+		<query>SELECT NetworkCable AS nc WHERE (nc.networksocket1_id != 0) AND (nc.networksocket2_id != 0) </query>
+		<valid_flag>true</valid_flag>
+		<category_id>1</category_id>
+	</AuditRule>
+</Set>
