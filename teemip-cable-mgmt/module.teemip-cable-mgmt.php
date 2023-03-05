@@ -77,6 +77,19 @@ if (!class_exists('CableManagementInstaller')) {
 		 */
 		public static function AfterDatabaseCreation(Config $oConfiguration, $sPreviousVersion, $sCurrentVersion)
 		{
+			if ($sPreviousVersion == '1.0.0') {
+				SetupLog::Info("Module teemip-cable-mgmt: move NetworkCable class to FrontEndNetworkCable");
+
+				$sDBSubname = $oConfiguration->Get('db_subname');
+				$sCopy = "INSERT INTO ".$sDBSubname."frontendnetworkcable (id, networksocket1_id, networksocket2_id) SELECT id, networksocket1_id, networksocket2_id FROM ".$sDBSubname."networkcable";
+				CMDBSource::Query($sCopy);
+
+				$sCopy = "UPDATE ".$sDBSubname."networkcable SET finalclass = 'FrontEndNetworkCable'";
+				CMDBSource::Query($sCopy);
+
+				SetupLog::Info("Module teemip-cable-mgmt: migration done");
+			}
+
 			// Load audit category and rules related to the module
 			if (version_compare($sPreviousVersion, $sCurrentVersion, '!=')) {
 				$oDataLoader = new XMLDataLoader();

@@ -42,8 +42,9 @@ Dict::Add('EN US', 'English', 'English', array(
 Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkCable' => 'Network Cable',
 	'Class:NetworkCable+' => '',
-	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:NetworkCable/Name' => '%1$s',
 	'Class:NetworkCable:baseinfo' => 'General Information',
+	'Class:NetworkCable:endpoints' => 'Connecting Points',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Cable type',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
 	'Class:NetworkCable/Attribute:cabletype_name' => 'Cable type name',
@@ -54,18 +55,68 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkCable/Attribute:cablecategory_name+' => '',
 	'Class:NetworkCable/Attribute:length' => 'Length (m)',
 	'Class:NetworkCable/Attribute:length+' => 'Length of the cable, in meter',
-	'Class:NetworkCable/Attribute:networksocket1_id' => 'Network socket #1',
-	'Class:NetworkCable/Attribute:networksocket1_id+' => 'First network socket that the cable is connected to',
-	'Class:NetworkCable/Attribute:networksocket1_name' => 'Network socket #1 name',
-	'Class:NetworkCable/Attribute:networksocket1_name+' => '',
-	'Class:NetworkCable/Attribute:networksocket2_id' => 'Network socket #2',
-	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Second network socket that the cable is connected to',
-	'Class:NetworkCable/Attribute:networksocket2_name' => 'Network socket #2 name',
-	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
 	'Class:NetworkCable/Attribute:label' => 'Label',
 	'Class:NetworkCable/Attribute:label+' => 'Label attached to the cable',
 	'Class:NetworkCable/Attribute:comment' => 'Comment',
 	'Class:NetworkCable/Attribute:comment+' => '',
+));
+
+//
+// Class: FrontEndNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:FrontEndNetworkCable' => 'Front End Network Cable',
+	'Class:FrontEndNetworkCable+' => 'Cable that connects 2 network sockets through their front end',
+	'Class:FrontEndNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_id' => 'Network socket #1 - Front end',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_id+' => 'First network socket front end that the cable is connected to',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_name' => 'Network socket #1 name',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_name+' => '',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_id' => 'Network socket #2 - Front end',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_id+' => 'Second network socket front end that the cable is connected to',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_name' => 'Network socket #2 name',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_name+' => '',
+));
+
+//
+// Class: BackEndNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:BackEndNetworkCable' => 'Back End Network Cable',
+	'Class:BackEndNetworkCable+' => 'Cable that connects 2 network sockets through their back end',
+	'Class:BackEndNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_id' => 'Network socket #1 - Back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_id+' => 'First network socket back end that the cable is connected to',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_name' => 'Network socket #1 name',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_name+' => '',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_id' => 'Network socket #2 - Back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Second network socket back end that the cable is connected to',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Network socket #2 name',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
+));
+
+//
+// Class: DeviceNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:DeviceNetworkCable' => 'Device Network Cable',
+	'Class:DeviceNetworkCable+' => 'Cable that connects a network socket front end to a physical interface',
+	'Class:DeviceNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:DeviceNetworkCable/Attribute:networksocket_id' => 'Network socket - Front end',
+	'Class:DeviceNetworkCable/Attribute:networksocket_id+' => 'Network socket front end that the cable is connected to',
+	'Class:DeviceNetworkCable/Attribute:networksocket_name' => 'Network socket name',
+	'Class:DeviceNetworkCable/Attribute:networksocket_name+' => '',
+	'Class:DeviceNetworkCable/Attribute:connectableci_id' => 'Device',
+	'Class:DeviceNetworkCable/Attribute:connectableci_id+' => 'Device hosting the physical interface that the cable is connected to',
+	'Class:DeviceNetworkCable/Attribute:connectableci_name' => 'Device name',
+	'Class:DeviceNetworkCable/Attribute:connectableci_name+' => '',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_id' => 'Physical interface',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_id+' => 'Physical interface that the cable is connected to',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_name' => 'Physical interface name',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_name+' => '',
 ));
 
 //

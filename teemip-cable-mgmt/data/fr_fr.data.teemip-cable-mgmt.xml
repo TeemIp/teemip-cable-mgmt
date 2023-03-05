@@ -6,9 +6,23 @@
 		<definition_set>SELECT NetworkCable</definition_set>
 	</AuditCategory>
 	<AuditRule alias="AuditRule" id="1">
-		<name>Le câble est connecté à seulement une prise réseau</name>
-		<description>Seule une des treminaisons du câble est attachée à une prise réseau</description>
-		<query>SELECT NetworkCable AS nc WHERE (nc.networksocket1_id != 0) AND (nc.networksocket2_id != 0) </query>
+		<name>Le câble frontal est connecté à seulement une prise réseau</name>
+		<description>Seule une des terminaisons du câble est attachée à une prise réseau</description>
+		<query>SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id != 0) AND (nc.networksocket2_id != 0) </query>
+		<valid_flag>true</valid_flag>
+		<category_id>1</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="2">
+		<name>Le câble arrière est connecté à seulement une prise réseau</name>
+		<description>Seule une des terminaisons du câble est attachée à une prise réseau</description>
+		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id != 0) AND (nc.backendsocket2_id != 0) </query>
+		<valid_flag>true</valid_flag>
+		<category_id>1</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="3">
+		<name>Le câble d'équipement est connecté à seulement une prise réseau</name>
+		<description>Seule une des terminaisons du câble est attachée à une prise réseau ou à un équipement</description>
+		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id != 0) AND (nc.physicalinterface_id != 0) </query>
 		<valid_flag>true</valid_flag>
 		<category_id>1</category_id>
 	</AuditRule>

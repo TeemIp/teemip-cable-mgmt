@@ -198,15 +198,14 @@
       <parent>cmdbAbstractObject</parent>
       <properties>
         <category>bizmodel,searchable,configmgmt</category>
-        <abstract>false</abstract>
+        <abstract>true</abstract>
         <key_type>autoincrement</key_type>
         <db_table>networkcable</db_table>
         <db_key_field>id</db_key_field>
         <db_final_class_field/>
         <naming>
           <attributes>
-            <attribute id="networksocket1_name"/>
-            <attribute id="networksocket2_name"/>
+            <attribute id="label"/>
           </attributes>
         </naming>
         <style>
@@ -214,8 +213,7 @@
         </style>
         <reconciliation>
           <attributes>
-            <attribute id="networksocket1_id"/>
-            <attribute id="networksocket2_id"/>
+            <attribute id="label"/>
           </attributes>
         </reconciliation>
         <uniqueness_rules/>
@@ -252,6 +250,97 @@
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
         </field>
+        <field id="label" xsi:type="AttributeString">
+          <sql>label</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="comment" xsi:type="AttributeText">
+          <sql>comment</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+      </fields>
+      <methods/>
+      <presentation>
+        <details/>
+        <list>
+          <items>
+            <item id="cabletype_id">
+              <rank>10</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>20</rank>
+            </item>
+            <item id="length">
+              <rank>30</rank>
+            </item>
+            <item id="label">
+              <rank>40</rank>
+            </item>
+          </items>
+        </list>
+        <default_search>
+          <items>
+            <item id="cabletype_id">
+              <rank>10</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>20</rank>
+            </item>
+            <item id="length">
+              <rank>30</rank>
+            </item>
+            <item id="label">
+              <rank>40</rank>
+            </item>
+          </items>
+        </default_search>
+        <search>
+          <items>
+            <item id="cabletype_id">
+              <rank>10</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>20</rank>
+            </item>
+            <item id="length">
+              <rank>30</rank>
+            </item>
+            <item id="label">
+              <rank>40</rank>
+            </item>
+          </items>
+        </search>
+      </presentation>
+    </class>
+    <class id="FrontEndNetworkCable" _delta="define">
+      <parent>NetworkCable</parent>
+      <properties>
+        <category>bizmodel,searchable,configmgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>frontendnetworkcable</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="networksocket1_name"/>
+            <attribute id="networksocket2_name"/>
+          </attributes>
+        </naming>
+        <style>
+          <icon>assets/img/icons8-fe-network-cable.svg</icon>
+        </style>
+        <reconciliation>
+          <attributes>
+            <attribute id="networksocket1_id"/>
+            <attribute id="networksocket2_id"/>
+          </attributes>
+        </reconciliation>
+        <uniqueness_rules/>
+      </properties>
+      <fields>
         <field id="networksocket1_id" xsi:type="AttributeExternalKey">
           <sql>networksocket1_id</sql>
           <filter><![CDATA[SELECT NetworkSocket]]></filter>
@@ -279,16 +368,6 @@
           <extkey_attcode>networksocket2_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
-        <field id="label" xsi:type="AttributeString">
-          <sql>label</sql>
-          <default_value/>
-          <is_null_allowed>true</is_null_allowed>
-        </field>
-        <field id="comment" xsi:type="AttributeText">
-          <sql>comment</sql>
-          <default_value/>
-          <is_null_allowed>true</is_null_allowed>
-        </field>
       </fields>
       <methods>
         <method id="DoCheckToWrite">
@@ -301,9 +380,9 @@
         parent::DoCheckToWrite();
 
         if ($this->IsNew()) {
-            $sOQL = "SELECT NetworkCable AS nc WHERE (nc.networksocket1_id = :ns1_id AND nc.networksocket2_id = :ns2_id) OR (nc.networksocket1_id = :ns2_id AND nc.networksocket2_id = :ns1_id)";
+            $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = :ns1_id AND nc.networksocket2_id = :ns2_id) OR (nc.networksocket1_id = :ns2_id AND nc.networksocket2_id = :ns1_id)";
         } else {
-            $sOQL = "SELECT NetworkCable AS nc WHERE (nc.networksocket1_id = :ns1_id AND nc.networksocket2_id = :ns2_id AND nc.id != :id) OR (nc.networksocket1_id = :ns2_id AND nc.networksocket2_id = :ns1_id AND nc.id != :id)";
+            $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = :ns1_id AND nc.networksocket2_id = :ns2_id AND nc.id != :id) OR (nc.networksocket1_id = :ns2_id AND nc.networksocket2_id = :ns1_id AND nc.id != :id)";
         }
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $this->Get('networksocket1_id'), 'ns2_id' => $this->Get('networksocket2_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
@@ -322,26 +401,36 @@
                 <item id="fieldset:Class:NetworkCable:baseinfo">
                   <rank>10</rank>
                   <items>
-                    <item id="networksocket1_id">
+                    <item id="cabletype_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="cablecategory_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="length">
+                      <rank>30</rank>
+                    </item>
+                    <item id="label">
+                      <rank>40</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+            <item id="col:col2">
+              <rank>20</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:endpoints">
+                  <rank>10</rank>
+                  <items>
+                   <item id="networksocket1_id">
                       <rank>10</rank>
                     </item>
                     <item id="networksocket2_id">
                       <rank>20</rank>
-                    </item>
-                    <item id="cabletype_id">
-                      <rank>30</rank>
-                    </item>
-                    <item id="cablecategory_id">
-                      <rank>40</rank>
-                    </item>
-                    <item id="length">
-                      <rank>50</rank>
-                    </item>
-                    <item id="label">
-                      <rank>60</rank>
-                    </item>
-                    <item id="comment">
-                      <rank>70</rank>
                     </item>
                   </items>
                 </item>
@@ -399,6 +488,401 @@
               <rank>10</rank>
             </item>
             <item id="networksocket2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </search>
+      </presentation>
+    </class>
+    <class id="BackEndNetworkCable" _delta="define">
+      <parent>NetworkCable</parent>
+      <properties>
+        <category>bizmodel,searchable,configmgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>backendnetworkcable</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="backendsocket1_name"/>
+            <attribute id="backendsocket2_name"/>
+          </attributes>
+        </naming>
+        <style>
+          <icon>assets/img/icons8-be-network-cable.svg</icon>
+        </style>
+        <reconciliation>
+          <attributes>
+            <attribute id="backendsocket1_id"/>
+            <attribute id="backendsocket2_id"/>
+          </attributes>
+        </reconciliation>
+        <uniqueness_rules/>
+      </properties>
+      <fields>
+        <field id="backendsocket1_id" xsi:type="AttributeExternalKey">
+          <sql>backendsocket1_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket]]></filter>
+          <dependencies/>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="backendsocket1_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>backendsocket1_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="backendsocket2_id" xsi:type="AttributeExternalKey">
+          <sql>backendsocket2_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket AS ns2 JOIN NetworkSocket AS ns1 ON ns1.backendsocket_id = ns2.id WHERE ns1.id = :this->backendsocket1_id]]></filter>
+          <dependencies/>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="backendsocket2_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>backendsocket2_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+      </fields>
+      <methods>
+        <method id="DoCheckToWrite">backendsocket_id
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function DoCheckToWrite()
+    {
+        parent::DoCheckToWrite();
+
+        if ($this->IsNew()) {
+            $sOQL = "SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = :ns1_id AND nc.backendsocket2_id = :ns2_id) OR (nc.backendsocket1_id = :ns2_id AND nc.backendsocket2_id = :ns1_id)";
+        } else {
+            $sOQL = "SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = :ns1_id AND nc.backendsocket2_id = :ns2_id AND nc.id != :id) OR (nc.backendsocket1_id = :ns2_id AND nc.backendsocket2_id = :ns1_id AND nc.id != :id)";
+        }
+        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $this->Get('backendsocket1_id'), 'ns2_id' => $this->Get('backendsocket2_id'), 'id' =>$this->GetKey()));
+        if ($oNetworkCableSet->CountExceeds(0)) {
+            // A cable already connects the 2 selected network sockets
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+        }
+	}]]></code>
+        </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col1">
+              <rank>10</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:baseinfo">
+                  <rank>10</rank>
+                  <items>
+                    <item id="cabletype_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="cablecategory_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="length">
+                      <rank>30</rank>
+                    </item>
+                    <item id="label">
+                      <rank>40</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+            <item id="col:col2">
+              <rank>20</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:endpoints">
+                  <rank>10</rank>
+                  <items>
+                    <item id="backendsocket1_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="backendsocket2_id">
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+        <list>
+          <items>
+            <item id="backendsocket1_id">
+              <rank>10</rank>
+            </item>
+            <item id="backendsocket2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </list>
+        <default_search>
+          <items>
+            <item id="backendsocket1_id">
+              <rank>10</rank>
+            </item>
+            <item id="backendsocket2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </default_search>
+        <search>
+          <items>
+            <item id="backendsocket1_id">
+              <rank>10</rank>
+            </item>
+            <item id="backendsocket2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </search>
+      </presentation>
+    </class>
+    <class id="DeviceNetworkCable" _delta="define">
+      <parent>NetworkCable</parent>
+      <properties>
+        <category>bizmodel,searchable,configmgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>devicenetworkcable</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="networksocket_name"/>
+            <attribute id="physicalinterface_name"/>
+          </attributes>
+        </naming>
+        <style>
+          <icon>assets/img/icons8-dev-network-cable.svg</icon>
+        </style>
+        <reconciliation>
+          <attributes>
+            <attribute id="networksocket_id"/>
+            <attribute id="connectableci_id"/>
+            <attribute id="physicalinterface_id"/>
+          </attributes>
+        </reconciliation>
+        <uniqueness_rules/>
+      </properties>
+      <fields>
+        <field id="networksocket_id" xsi:type="AttributeExternalKey">
+          <sql>networksocket_id</sql>
+          <filter><![CDATA[SELECT NetworkSocket]]></filter>
+          <dependencies/>
+          <target_class>NetworkSocket</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="networksocket_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>networksocket_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="connectableci_id" xsi:type="AttributeExternalKey">
+          <sql>connectableci_id</sql>
+          <target_class>ConnectableCI</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="connectableci_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>connectableci_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="physicalinterface_id" xsi:type="AttributeExternalKey">
+          <sql>physicalinterface_id</sql>
+          <target_class>PhysicalInterface</target_class>
+          <filter>
+            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
+          <dependencies>
+            <attribute id="connectableci_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="physicalinterface_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>physicalinterface_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+      </fields>
+      <methods>
+        <method id="DoCheckToWrite">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function DoCheckToWrite()
+    {
+        parent::DoCheckToWrite();
+
+        if ($this->IsNew()) {
+            $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :networksocket_id AND nc.physicalinterface_id = :physicalinterface_id";
+        } else {
+            $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :networksocket_id AND nc.physicalinterface_id = :physicalinterface_id AND nc.id != :id)";
+        }
+        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('networksocket_id' => $this->Get('networksocket1_id'), 'physicalinterface_id' => $this->Get('physicalinterface_id'), 'id' =>$this->GetKey()));
+        if ($oNetworkCableSet->CountExceeds(0)) {
+            // A cable already connects the 2 selected network sockets
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+        }
+	}]]></code>
+        </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col1">
+              <rank>10</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:baseinfo">
+                  <rank>10</rank>
+                  <items>
+                    <item id="cabletype_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="cablecategory_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="length">
+                      <rank>30</rank>
+                    </item>
+                    <item id="label">
+                      <rank>40</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+            <item id="col:col2">
+              <rank>20</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:endpoints">
+                  <rank>10</rank>
+                  <items>
+                   <item id="networksocket_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="connectableci_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="physicalinterface_id">
+                      <rank>30</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+        <list>
+          <items>
+            <item id="networksocket_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </list>
+        <default_search>
+          <items>
+            <item id="networksocket_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </default_search>
+        <search>
+          <items>
+            <item id="networksocket_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface_id">
               <rank>20</rank>
             </item>
             <item id="cabletype_id">
@@ -1124,8 +1608,9 @@
     <groups>
       <group id="Network" _delta="must_exist">
         <classes>
-          <class id="PatchPanel" _delta="define"/>
+          <class id="NetworkCable" _delta="define"/>
           <class id="NetworkSocket" _delta="define"/>
+          <class id="PatchPanel" _delta="define"/>
         </classes>
       </group>
     </groups>
@@ -1153,80 +1638,41 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 	public function OnDisplayRelations($oObject, WebPage $oPage, $bEditMode = false) {
 		if ($oObject instanceof PatchPanel) {
 		    if (!$bEditMode) {
-		        // Display network cable connected to a network socket that belong to the patch panel
-		        $sOQL = "SELECT NetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket1_id = ns.id WHERE ns.patchpanel_id = :id
-		           UNION SELECT NetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket2_id = ns.id WHERE ns.patchpanel_id = :id";
+		        // Display network cables connected to a network socket that belong to the patch panel
+		        $sOQL = "SELECT FrontEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket1_id = ns.id WHERE ns.patchpanel_id = :id
+		           UNION SELECT FrontEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket2_id = ns.id WHERE ns.patchpanel_id = :id
+		           UNION SELECT BackEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.backendsocket1_id = ns.id WHERE ns.patchpanel_id = :id
+		           UNION SELECT BackEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.backendsocket2_id = ns.id WHERE ns.patchpanel_id = :id
+		           UNION SELECT DeviceNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket_id = ns.id WHERE ns.patchpanel_id = :id";
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-		        $iNbNetworkCables = $oNetworkCableSet->Count();
 		        $sName = Dict::Format('Class:PatchPanel/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:cables_list+');
-		        if ($iNbNetworkCables > 0) {
-		            $oPage->SetCurrentTab($sName.' ('.$iNbNetworkCables.')');
-		            $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('NetworkCable', false));
-		            $oClassIcon->SetDescription(Dict::Format('Class:PatchPanel/Tab:cables_list+', MetaModel::GetName('NetworkCable')))->AddCSSClass('ibo-block-list--medallion');
-		            $oPage->AddUiBlock($oClassIcon);
-		            $oBlock = new DisplayBlock($oNetworkCableSet->GetFilter(), 'list', false);
-		            $oBlock->Display($oPage, 'networkcables_list', array('menu' => false));
-		        } else {
-		            $oSet = CMDBObjectSet::FromScratch('NetworkCable');
-		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oSet);
-		        }
+	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
 
 		        // Display patch panel connected through the frontend interface of network sockets
 		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.networksocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
 		        $oPatchPanelSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-		        $iNbPanels = $oPatchPanelSet->Count();
 		        $sName = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+');
-		        if ($iNbPanels > 0) {
-				    $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
-				        $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
-				        $oClassIcon->SetDescription(Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+', MetaModel::GetName('PatchPanel')))->AddCSSClass('ibo-block-list--medallion');
-				        $oPage->AddUiBlock($oClassIcon);
-				        $oBlock = new DisplayBlock($oPatchPanelSet->GetFilter(), 'list', false);
-				        $oBlock->Display($oPage, 'frontend_panels', array('menu' => false));
-		        } else {
-		            $oSet = CMDBObjectSet::FromScratch('PatchPanel');
-		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'frontendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
-		        }
+	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'frontendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet);
 
 		        // Display patch panel connected through the backend interface of network sockets
 		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.backendsocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
 		        $oPatchPanelSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-		        $iNbPanels = $oPatchPanelSet->Count();
 		        $sName = Dict::Format('Class:PatchPanel/Tab:backendpanels_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:backendpanels_list+');
-		        if ($iNbPanels > 0) {
-		            $oPage->SetCurrentTab($sName.' ('.$iNbPanels.')');
-		            $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('PatchPanel', false));
-		            $oClassIcon->SetDescription($sTitle)->AddCSSClass('ibo-block-list--medallion');
-		            $oPage->AddUiBlock($oClassIcon);
-		            $oBlock = new DisplayBlock($oPatchPanelSet->GetFilter(), 'list', false);
-		            $oBlock->Display($oPage, 'backend_panels', array('menu' => false));
-		        } else {
-		            $oSet = CMDBObjectSet::FromScratch('PatchPanel');
-		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oSet);
-		        }
+	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet);
 		    }
 		} elseif ($oObject instanceof NetworkSocket) {
 			if (!$bEditMode) {
 		        // Display network cable connected to a network socket that belong to the patch panel
-		        $sOQL = "SELECT NetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id";
-		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-		        $iNbNetworkCables = $oNetworkCableSet->Count();
+		        $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id
+		            UNION SELECT BackEndNetworkCable AS nc WHERE nc.backendsocket1_id = :id OR nc.backendsocket2_id = :id
+		            UNION SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id AND nc.physicalinterface_id = :physicalinterface_id";
+		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey(), 'physicalinterface_id' => $oObject->Get('physicalinterface_id')));
 		        $sName = Dict::Format('Class:NetworkSocket/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:NetworkSocket/Tab:cables_list+');
-		        if ($iNbNetworkCables > 0) {
-		            $oPage->SetCurrentTab($sName.' ('.$iNbNetworkCables.')');
-		            $oClassIcon = new MedallionIcon(MetaModel::GetClassIcon('NetworkCable', false));
-		            $oClassIcon->SetDescription(Dict::Format('Class:NetworkSocket/Tab:cables_list+', MetaModel::GetName('NetworkCable')))->AddCSSClass('ibo-block-list--medallion');
-		            $oPage->AddUiBlock($oClassIcon);
-		            $oBlock = new DisplayBlock($oNetworkCableSet->GetFilter(), 'list', false);
-		            $oBlock->Display($oPage, 'networkcables_list', array('menu' => false));
-		        } else {
-		            $oSet = CMDBObjectSet::FromScratch('NetworkCable');
-		            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oSet);
-		        }
+		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
 				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
@@ -1383,8 +1829,9 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					}
 				}
 
-				// Update the cable that includes the network socket
-				$sOQL = "SELECT NetworkCable WHERE networksocket1_id = :id OR networksocket2_id = :id";
+				// 1. Update the front end cable that includes the network socket
+				// Note that 1 and 2 are exclusive
+				$sOQL = "SELECT FrontEndNetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id";
 				$iId = $oObject->GetKey();
 				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
 				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
@@ -1396,6 +1843,18 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 						} else {
 							$oNetworkCable->Set('networksocket1_id', $oObject->Get('networksocket_id'));
 						}
+						$oNetworkCable->DBUpdate();
+					}
+				}
+				// 2. Update the device cable that includes the network socket
+				$sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id";
+				$iId = $oObject->GetKey();
+				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+					if ($oObject->Get('physicalinterface_id') == 0) {
+						$oNetworkCable->DBDelete();
+					} else {
+						$oNetworkCable->Set('physicalinterface_id', $oObject->Get('physicalinterface_id'));
 						$oNetworkCable->DBUpdate();
 					}
 				}
@@ -1415,6 +1874,23 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 					if ($oOldRemoteeBackendSocket && ($oOldRemoteeBackendSocket->Get('backendsocket_id') == $oObject->GetKey())) {
 						$oOldRemoteeBackendSocket->Set('backendsocket_id', 0);
 						$oOldRemoteeBackendSocket->DBUpdate();
+					}
+				}
+
+				// Update the back end cable that includes the network socket
+				$sOQL = "SELECT BackEndNetworkCable AS nc WHERE nc.backendsocket1_id = :id OR nc.backendsocket2_id = :id";
+				$iId = $oObject->GetKey();
+				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+					if ($oObject->Get('backendsocket_id') == 0) {
+						$oNetworkCable->DBDelete();
+					} else {
+						if ($oNetworkCable->Get('backendsocket1_id') == $iId) {
+							$oNetworkCable->Set('backendsocket2_id', $oObject->Get('backendsocket_id'));
+						} else {
+							$oNetworkCable->Set('backendsocket1_id', $oObject->Get('backendsocket_id'));
+						}
+						$oNetworkCable->DBUpdate();
 					}
 				}
 			}
@@ -1437,6 +1913,19 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 						$oOldNetworkSocket->Set('connectableci_id', 0);
 						$oOldNetworkSocket->Set('physicalinterface_id', 0);
 						$oOldNetworkSocket->DBUpdate();
+					}
+				}
+
+				// Update the device cable that includes the physical interface
+				$sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id";
+				$iId = $oObject->GetKey();
+				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+					if ($oObject->Get('networksocket_id') == 0) {
+						$oNetworkCable->DBDelete();
+					} else {
+						$oNetworkCable->Set('networksocket_id', $oObject->Get('networksocket_id'));
+						$oNetworkCable->DBUpdate();
 					}
 				}
 			}

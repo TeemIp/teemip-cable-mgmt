@@ -115,7 +115,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkSocket/Attribute:networksocket_id+' => 'Prise réseau distante connectée à la prise réseau. Cet attribut ne peut être utilisé conjointement avec l\'attribut Equipement',
 	'Class:NetworkSocket/Attribute:networksocket_name' => 'Nom Prise réseau',
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
-	'Class:NetworkSocket/Attribute:backendsocket_id' => 'prise réseau de Back end',
+	'Class:NetworkSocket/Attribute:backendsocket_id' => 'Prise réseau de Back end',
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Prise réseau distante connectée à la prise réseau via le câblage de back end',
 	'Class:NetworkSocket/Tab:cables_list' => 'Câbles',
 	'Class:NetworkSocket/Tab:cables_list+' => 'Liste de tous les câbles connectés à une prise réseau hébergée par ce panneau de brassage',
