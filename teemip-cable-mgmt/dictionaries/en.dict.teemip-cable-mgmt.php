@@ -235,12 +235,12 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
 ));
 
-//////////////////////////////////////////////////////////////////////
-// Relations
-//////////////////////////////////////////////////////////////////////
+//
+// Menus
 //
 
 Dict::Add('EN US', 'English', 'English', array(
+	'Menu:TeemIpNetworking:Cabling' => 'Cabling',
 	'Relation:wiring/Description' => 'Wiring layout',
 	'Relation:wiring/DownStream' => 'Wiring...',
 	'Relation:wiring/DownStream+' => 'Wiring layout',
