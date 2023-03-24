@@ -204,6 +204,8 @@ Dict::Add('EN US', 'English', 'English', array(
 Dict::Add('EN US', 'English', 'English', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Network socket',
 	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Remote network socket connected to the interface. This attribute cannot be filled at the same time as the remote device.',
+	'Class:PhysicalInterface/Attribute:cable' => 'Cable',
+	'Class:PhysicalInterface/Attribute:cable+' => 'Device Network Cable connected to the interface',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Remote device',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'Remote device connected to the interface. This attribute cannot be filled at the same time as the network socket.',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Name of the remote device',

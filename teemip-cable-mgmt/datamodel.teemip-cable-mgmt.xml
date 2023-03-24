@@ -1465,6 +1465,15 @@
           <extkey_attcode>remote_physicalinterface_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
+        <field id="cable" xsi:type="AttributeLinkedSet" _delta="define">
+          <linked_class>DeviceNetworkCable</linked_class>
+          <ext_key_to_me>physicalinterface_id</ext_key_to_me>
+          <edit_mode>none</edit_mode>
+          <display_style>tab</display_style>
+          <count_min>0</count_min>
+          <count_max>0</count_max>
+          <duplicates/>
+        </field>
       </fields>
       <event_listeners>
         <listener id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
@@ -1505,6 +1514,9 @@
       <presentation>
         <details>
           <items>
+            <item id="cable" _delta="define">
+              <rank>40</rank>
+            </item>
             <item id="col:col2" _delta="must_exist">
               <items>
                 <item id="fieldset:Class:NetworkInterface:wiringinfo" _delta="merge">
