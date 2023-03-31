@@ -44,6 +44,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable+' => '',
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Informations Générales',
+	'Class:NetworkCable:endpoints' => 'Points de Connexion',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Type de câble',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
 	'Class:NetworkCable/Attribute:cabletype_name' => 'Nom du type de câble',
@@ -54,18 +55,68 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable/Attribute:cablecategory_name+' => '',
 	'Class:NetworkCable/Attribute:length' => 'Longueur (m)',
 	'Class:NetworkCable/Attribute:length+' => 'Longueur du câble, en mètre',
-	'Class:NetworkCable/Attribute:networksocket1_id' => 'Prise réseau #1',
-	'Class:NetworkCable/Attribute:networksocket1_id+' => 'Première prise réseau connectée au câble',
-	'Class:NetworkCable/Attribute:networksocket1_name' => 'Nom de la prise réseau #1',
-	'Class:NetworkCable/Attribute:networksocket1_name+' => '',
-	'Class:NetworkCable/Attribute:networksocket2_id' => 'Prise réseau #2',
-	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Seconde prise réseau connectée au câble',
-	'Class:NetworkCable/Attribute:networksocket2_name' => 'Nom de la prise réseau #2 name',
-	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
 	'Class:NetworkCable/Attribute:label' => 'Etiquette',
 	'Class:NetworkCable/Attribute:label+' => 'Etiquette attachée au câble',
 	'Class:NetworkCable/Attribute:comment' => 'Commentaire',
 	'Class:NetworkCable/Attribute:comment+' => '',
+));
+
+//
+// Class: FrontEndNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:FrontEndNetworkCable' => 'Câble réseau frontal',
+	'Class:FrontEndNetworkCable+' => 'Câble connectant 2 prises réseau par leur interface frontale',
+	'Class:FrontEndNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_id' => 'Prise réseau #1 - Frontal',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_id+' => 'Première prise réseau connectée au câble via son interface frontale',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_name' => 'Nom de la prise réseau #1',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_name+' => '',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_id' => 'Prise réseau #2 - Frontal',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_id+' => 'Seconde prise réseau connectée au câble via son interface frontale',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_name' => 'Nom de la prise réseau #2',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_name+' => '',
+));
+
+//
+// Class: BackEndNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:BackEndNetworkCable' => 'Câble réseau back end',
+	'Class:BackEndNetworkCable+' => 'Câble connectant 2 prises réseau par leur interface back end',
+	'Class:BackEndNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_id' => 'Prise réseau #1 - Back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_id+' => 'Première prise réseau connectée au câble via son interface back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_name' => 'Nom de la prise réseau #1',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_name+' => '',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_id' => 'Prise réseau #2 - Back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Seconde prise réseau connectée au câble via son interface back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Nom de la prise réseau #2',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
+));
+
+//
+// Class: DeviceNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:DeviceNetworkCable' => 'Câble réseau équipement',
+	'Class:DeviceNetworkCable+' => 'Câble connectant l\interface frontale d\une prise réseau à une interface physique',
+	'Class:DeviceNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:DeviceNetworkCable/Attribute:networksocket_id' => 'Prise réseau - Frontal',
+	'Class:DeviceNetworkCable/Attribute:networksocket_id+' => 'Prise réseau connectée au câble via son interface frontale',
+	'Class:DeviceNetworkCable/Attribute:networksocket_name' => 'Nom de la prise réseau',
+	'Class:DeviceNetworkCable/Attribute:networksocket_name+' => '',
+	'Class:DeviceNetworkCable/Attribute:connectableci_id' => 'Equipement',
+	'Class:DeviceNetworkCable/Attribute:connectableci_id+' => 'Equipement hébergeant l\'interface physique connectée au câble',
+	'Class:DeviceNetworkCable/Attribute:connectableci_name' => 'Nom de l\'équipement',
+	'Class:DeviceNetworkCable/Attribute:connectableci_name+' => '',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_id' => 'Interface physique',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_id+' => 'Interface physique connectée au câble',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_name' => 'Nom de l\'interface physique',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_name+' => '',
 ));
 
 //

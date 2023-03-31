@@ -44,6 +44,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable+' => '',
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Allgemeine Informationen',
+	'Class:NetworkCable:endpoints' => 'Connecting Points',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Kabel-Typ',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
 	'Class:NetworkCable/Attribute:cabletype_name' => 'Kabel-Typ Name',
@@ -54,18 +55,68 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable/Attribute:cablecategory_name+' => '',
 	'Class:NetworkCable/Attribute:length' => 'Laenge (m)',
 	'Class:NetworkCable/Attribute:length+' => 'Laenge des Kabels, in Meter',
-	'Class:NetworkCable/Attribute:networksocket1_id' => 'Netzwerk-Dose #1',
-	'Class:NetworkCable/Attribute:networksocket1_id+' => 'Erste Netzwerk-Dose, mit welcher das Kabel verbunden ist',
-	'Class:NetworkCable/Attribute:networksocket1_name' => 'Netzwerk-Dose #1 Name',
-	'Class:NetworkCable/Attribute:networksocket1_name+' => '',
-	'Class:NetworkCable/Attribute:networksocket2_id' => 'Netzwerk-Dose #2',
-	'Class:NetworkCable/Attribute:networksocket2_id+' => 'Zweite Netzwerk-Dose, mit welcher das Kabel verbunden ist',
-	'Class:NetworkCable/Attribute:networksocket2_name' => 'Netzwerk-Dose #2 Name',
-	'Class:NetworkCable/Attribute:networksocket2_name+' => '',
 	'Class:NetworkCable/Attribute:label' => 'Etikett',
 	'Class:NetworkCable/Attribute:label+' => 'Am Kabel angebrachtes Etikett',
 	'Class:NetworkCable/Attribute:comment' => 'Kommentar',
 	'Class:NetworkCable/Attribute:comment+' => '',
+));
+
+//
+// Class: FrontEndNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:FrontEndNetworkCable' => 'Front End Network Cable',
+	'Class:FrontEndNetworkCable+' => 'Cable that connects 2 network sockets through their front end',
+	'Class:FrontEndNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_id' => 'Netzwerk-Dose #1 - Front end',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_id+' => 'Erste Netzwerk-Dose front end, mit welcher das Kabel verbunden ist',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_name' => 'Netzwerk-Dose #1 Name',
+	'Class:FrontEndNetworkCable/Attribute:networksocket1_name+' => '',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_id' => 'Netzwerk-Dose #2 - Front end',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_id+' => 'Zweite Netzwerk-Dose front end, mit welcher das Kabel verbunden ist',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_name' => 'Netzwerk-Dose #2 Name',
+	'Class:FrontEndNetworkCable/Attribute:networksocket2_name+' => '',
+));
+
+//
+// Class: BackEndNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:BackEndNetworkCable' => 'Back End Network Cable',
+	'Class:BackEndNetworkCable+' => 'Cable that connects 2 network sockets through their back end',
+	'Class:BackEndNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_id' => 'Network socket #1 - Back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_id+' => 'First network socket back end that the cable is connected to',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_name' => 'Network socket #1 name',
+	'Class:BackEndNetworkCable/Attribute:backendsocket1_name+' => '',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_id' => 'Network socket #2 - Back end',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Second network socket back end that the cable is connected to',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Network socket #2 name',
+	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
+));
+
+//
+// Class: DeviceNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:DeviceNetworkCable' => 'Device Network Cable',
+	'Class:DeviceNetworkCable+' => 'Cable that connects a network socket front end to a physical interface',
+	'Class:DeviceNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:DeviceNetworkCable/Attribute:networksocket_id' => 'Network socket - Front end',
+	'Class:DeviceNetworkCable/Attribute:networksocket_id+' => 'Network socket front end that the cable is connected to',
+	'Class:DeviceNetworkCable/Attribute:networksocket_name' => 'Network socket name',
+	'Class:DeviceNetworkCable/Attribute:networksocket_name+' => '',
+	'Class:DeviceNetworkCable/Attribute:connectableci_id' => 'Device',
+	'Class:DeviceNetworkCable/Attribute:connectableci_id+' => 'Device hosting the physical interface that the cable is connected to',
+	'Class:DeviceNetworkCable/Attribute:connectableci_name' => 'Device name',
+	'Class:DeviceNetworkCable/Attribute:connectableci_name+' => '',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_id' => 'Physical interface',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_id+' => 'Physical interface that the cable is connected to',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_name' => 'Physical interface name',
+	'Class:DeviceNetworkCable/Attribute:physicalinterface_name+' => '',
 ));
 
 //
@@ -153,6 +204,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Netzwerk-Dose',
 	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Entfernte Netzwerk-Dose, welche mit dem Interface verbunden ist',
+	'Class:PhysicalInterface/Attribute:cable' => 'Cable',
+	'Class:PhysicalInterface/Attribute:cable+' => 'Device Network Cable connected to the interface',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Remote-Gerät',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'An die Interface angeschlossenes Remote-Gerät. Dieses Attribut kann nicht gleichzeitig mit dem Netzwerk-Socket gefüllt werden.',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Name des Remote-Geräts',
