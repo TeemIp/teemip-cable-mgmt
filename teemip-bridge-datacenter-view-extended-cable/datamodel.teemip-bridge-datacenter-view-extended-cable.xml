@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0">
+  <classes>
+    <class id="PatchPanel" _delta="must_exist">
+      <fields>
+        <field id="nb_cols" xsi:type="AttributeInteger" _delta="define">
+          <sql>nb_cols</sql>
+          <default_value>1</default_value>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="expected_power_input" xsi:type="AttributeInteger" _delta="define">
+          <sql>expected_power_input</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="nb_u" xsi:type="AttributeString" _delta="define">
+          <sql>nb_u</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="position_h" xsi:type="AttributeInteger" _delta="define">
+          <sql>position_h</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="position_p" xsi:type="AttributeEnum" _delta="define">
+          <sql>position_p</sql>
+          <values>
+            <value id="front">
+              <code>front</code>
+            </value>
+            <value id="rear">
+              <code>rear</code>
+            </value>
+          </values>
+          <default_value>front</default_value>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>list</display_style>
+        </field>
+        <field id="position_v" xsi:type="AttributeInteger" _delta="define">
+          <sql>position_v</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="weight" xsi:type="AttributeDecimal" _delta="define">
+          <sql>weight</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+          <digits>8</digits>
+          <decimals>3</decimals>
+        </field>
+        <field id="zero_u" xsi:type="AttributeEnum" _delta="define">
+          <sql>zero_u</sql>
+          <values>
+            <value id="yes">
+              <code>yes</code>
+            </value>
+            <value id="no">
+              <code>no</code>
+            </value>
+          </values>
+          <default_value>no</default_value>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>list</display_style>
+        </field>
+      </fields>
+      <methods>
+        <method id="GetEndPositionH" _delta="define">
+          <comment><![CDATA[/**
+            * Returns object ending col. (eg. A 4 cols. object positioned at col. 2 will return 5)
+            *
+            * @return int
+            */]]></comment>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function GetEndPositionH()
+	{
+		$iWidth = ((int) $this->Get('nb_cols') > 0) ? $this->Get('nb_cols') : 1;
+		$iPositionH = (int) $this->Get('position_h');
+
+		return $iPositionH + $iWidth - 1;
+	}]]></code>
+        </method>
+        <method id="GetEndPositionV" _delta="define">
+          <comment><![CDATA[/**
+            * Returns object ending U (eg. A 4U object positioned at 10U will return 13)
+            *
+            * @return int
+            */]]></comment>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function GetEndPositionV()
+	{
+		$iHeight = ((int) $this->Get('nb_u') > 0) ? $this->Get('nb_u') : 1;
+		$iPositionV = (int) $this->Get('position_v');
+
+		return $iPositionV + $iHeight - 1;
+	}]]></code>
+        </method>
+        <method id="IsMounted" _delta="define">
+          <comment><![CDATA[/**
+            * Returns true if object is mounted in its host (position_v > 0)
+            *
+            * @return bool
+            */]]></comment>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function IsMounted()
+	{
+		$iPositionV = (int) $this->Get('position_v');
+
+		return $iPositionV > 0;
+	}]]></code>
+        </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col2" _delta="must_exist">
+              <items>
+                <item id="fieldset:Class:PatchPanel:rackinfo" _delta="must_exist">
+                  <items>
+                    <item id="position_p" _delta="define">
+                      <rank>20</rank>
+                    </item>
+                    <item id="zero_u" _delta="define">
+                      <rank>30</rank>
+                    </item>
+                    <item id="position_v" _delta="define">
+                      <rank>40</rank>
+                    </item>
+                    <item id="nb_u" _delta="define">
+                      <rank>50</rank>
+                    </item>
+                    <item id="weight" _delta="define">
+                      <rank>60</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+         </items>
+        </details>
+      </presentation>
+    </class>
+  </classes>
+</itop_design>
