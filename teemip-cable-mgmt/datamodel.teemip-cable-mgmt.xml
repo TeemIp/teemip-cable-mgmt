@@ -1351,7 +1351,7 @@
                     <item id="location_id">
                       <rank>40</rank>
                     </item>
-                    <item id="rack_id">
+                    <item id="capacity">
                       <rank>50</rank>
                     </item>
                     <item id="description">
@@ -1364,10 +1364,10 @@
             <item id="col:col2">
               <rank>30</rank>
               <items>
-                <item id="fieldset:Class:PatchPanel:moreinfo">
+                <item id="fieldset:Class:PatchPanel:rackinfo">
                   <rank>10</rank>
                   <items>
-                    <item id="capacity">
+                    <item id="rack_id">
                       <rank>10</rank>
                     </item>
                   </items>
