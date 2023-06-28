@@ -181,6 +181,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PatchPanel+' => '',
 	'Class:PatchPanel:baseinfo' => 'Informations Générales',
 	'Class:PatchPanel:moreinfo' => 'Informations Complémentaires',
+	'Class:PatchPanel:rackinfo' => 'Informations liées au Rack',
 	'Class:PatchPanel/Attribute:rack_id' => 'Rack',
 	'Class:PatchPanel/Attribute:rack_id+' => 'Rack hébergeant le panneau de brassage',
 	'Class:PatchPanel/Attribute:rack_name' => 'Nom Rack',

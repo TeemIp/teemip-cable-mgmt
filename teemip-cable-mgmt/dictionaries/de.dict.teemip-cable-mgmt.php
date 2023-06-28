@@ -181,6 +181,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel+' => '',
 	'Class:PatchPanel:baseinfo' => 'Allgemeine Informationen',
 	'Class:PatchPanel:moreinfo' => 'Mehr Informationen',
+	'Class:PatchPanel:rackinfo' => 'Rack Informationen',
 	'Class:PatchPanel/Attribute:rack_id' => 'Rack',
 	'Class:PatchPanel/Attribute:rack_id+' => 'Rack, welches zum Patch Panel gehört',
 	'Class:PatchPanel/Attribute:rack_name' => 'Rack Name',
