@@ -26,6 +26,3 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel/Attribute:zero_u/Value:yes' => 'Yes',
 	'Class:PatchPanel/Attribute:zero_u/Value:no' => 'No',
 ));
-
-
-
