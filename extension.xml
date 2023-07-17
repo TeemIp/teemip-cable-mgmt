@@ -6,7 +6,7 @@
   <label><![CDATA[TeemIp Cable Management]]></label>
   <description><![CDATA[Documents physical connections between devices]]></description>
   <version>1.1.0</version>
-	<release_date>2023-xx-yy</release_date>
+	<release_date>2023-07-17</release_date>
 	<version_description><![CDATA[Initial revision]]></version_description>
 	<itop_version_min>3.0.0</itop_version_min>
 	<status>stable</status>
