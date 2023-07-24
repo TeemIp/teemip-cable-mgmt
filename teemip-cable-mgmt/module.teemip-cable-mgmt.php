@@ -27,6 +27,7 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
+			'model.teemip-cable-mgmt.php',
 		),
 		'webservice' => array(
 		),
