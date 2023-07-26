@@ -1633,8 +1633,7 @@
     <menu id="Typology" _delta="must_exist">
       <definition>
         <cells>
-          <cell id="Network" _delta="define_if_not_exists">
-            <rank>10</rank>
+          <cell id="Network" _delta="must_exist">
             <dashlets>
               <dashlet id="teemip-1111" xsi:type="DashletBadge" _delta="define">
                 <rank>10</rank>
