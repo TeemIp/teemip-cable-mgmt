@@ -150,7 +150,6 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:patchpanel_id+' => 'Patch panel hosting the network socket',
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Patch panel name',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
-	'Class:NetworkSocket/Attribute:org_id' => 'Organization',
 	'Class:NetworkSocket/Attribute:org_id+' => 'Organization that the location belongs to. It defines as well the socket\'s organization.',
 	'Class:NetworkSocket/Attribute:comment' => 'Comment',
 	'Class:NetworkSocket/Attribute:comment+' => '',

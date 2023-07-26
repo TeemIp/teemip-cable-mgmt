@@ -150,7 +150,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkSocket/Attribute:patchpanel_id+' => 'Panneau de brassage hébergeant la prise',
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Nom Panneau de brassage',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
-	'Class:NetworkSocket/Attribute:org_id' => 'Organisation',
 	'Class:NetworkSocket/Attribute:org_id+' => 'Organisation du lieu. Cela définit aussi l\'organisation de la prise.',
 	'Class:NetworkSocket/Attribute:comment' => 'Commentaire',
 	'Class:NetworkSocket/Attribute:comment+' => '',

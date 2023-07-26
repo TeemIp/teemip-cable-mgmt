@@ -150,7 +150,6 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:patchpanel_id+' => 'Patch Panel, welches zur Netzwerk-Dose gehört',
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Patch Panel Name',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
-	'Class:NetworkSocket/Attribute:org_id' => 'Organisation',
 	'Class:NetworkSocket/Attribute:org_id+' => 'Organisation, zu der der Standort gehört. Es definiert auch die Organisation der Netzwerk-Dose.',
 	'Class:NetworkSocket/Attribute:comment' => 'Kommentar',
 	'Class:NetworkSocket/Attribute:comment+' => '',
