@@ -1,4 +1,4 @@
-# ![](https://wiki.teemip.net/lib/exe/fetch.php?media=extensions:icons8-network-cable.png "") TeemIp Cable Management
+# ![](https://wiki.teemip.net/lib/exe/fetch.php?media=extensions:picto_cablemanagement.png "") TeemIp Cable Management
 
 TeemIp extension that documents physical connections between devices.
 
