@@ -1700,11 +1700,11 @@
         </field>
       </fields>
       <event_listeners>
-        <listener id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
+        <event_listener id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
           <event>EVENT_DB_CHECK_TO_WRITE</event>
           <callback>OnPhysicalInterfaceCheckToWriteByCableMgmt</callback>
           <rank>100</rank>
-        </listener>
+        </event_listener>
       </event_listeners>
       <methods>
         <method id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
