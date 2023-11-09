@@ -120,6 +120,32 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 ));
 
 //
+// Class: DirectNetworkCable
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:DirectNetworkCable' => 'Direktes Netzwerk-Kabel',
+	'Class:DirectNetworkCable+' => 'Kabel, welches zwei physikalischen Schnittstellen (Interfaces) verbindet',
+	'Class:DirectNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:DirectNetworkCable/Attribute:connectableci1_id' => 'Gerät #1',
+	'Class:DirectNetworkCable/Attribute:connectableci1_id+' => 'Gerät, gehörend zur physikalischen Schnittstelle #1 (Interface), welches mit dem Kabel verbunden ist',
+	'Class:DirectNetworkCable/Attribute:connectableci1_name' => 'Name Gerät #1',
+	'Class:DirectNetworkCable/Attribute:connectableci1_name+' => '',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_id' => 'Physikalische Schnittstelle (Interface) #1',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_id+' => 'Physikalische Schnittstelle (Interface) #1 mit welchem das Kabel verbunden ist',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_name' => 'Name physikalische Schnittstelle #1',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_name+' => '',
+	'Class:DirectNetworkCable/Attribute:connectableci2_id' => 'Gerät #2',
+	'Class:DirectNetworkCable/Attribute:connectableci2_id+' => 'Gerät, gehörend zur physikalischen Schnittstelle #2 (Interface), welches mit dem Kabel verbunden ist',
+	'Class:DirectNetworkCable/Attribute:connectableci2_name' => 'Name Gerät #2',
+	'Class:DirectNetworkCable/Attribute:connectableci2_name+' => '',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_id' => 'Physikalische Schnittstelle (Interface) #2',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_id+' => 'Physikalische Schnittstelle (Interface) #2 mit welchem das Kabel verbunden ist',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_name' => 'Name physikalische Schnittstelle #2',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_name+' => '',
+));
+
+//
 // Class: NetworkSocket
 //
 
@@ -237,12 +263,12 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerk-Dose und einem entfernten Gerät verbunden werden!',
 ));
 
-//////////////////////////////////////////////////////////////////////
-// Relations
-//////////////////////////////////////////////////////////////////////
+//
+// Menus
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Menu:TeemIpNetworking:Cabling' => 'Verkabelung',
 	'Relation:wiring/Description' => 'Verkabelungs-Layout',
 	'Relation:wiring/DownStream' => 'Verkabelung (DownStream)...',
 	'Relation:wiring/DownStream+' => 'Verkabelungs-Layout (DownStream)',

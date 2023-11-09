@@ -65,7 +65,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 // Class: FrontEndNetworkCable
 //
 
-Dict::Add('EN US', 'English', 'English', array(
+Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:FrontEndNetworkCable' => 'Câble réseau frontal',
 	'Class:FrontEndNetworkCable+' => 'Câble connectant 2 prises réseau par leur interface frontale',
 	'Class:FrontEndNetworkCable/Name' => '%1$s <-> %2$s',
@@ -83,7 +83,7 @@ Dict::Add('EN US', 'English', 'English', array(
 // Class: BackEndNetworkCable
 //
 
-Dict::Add('EN US', 'English', 'English', array(
+Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:BackEndNetworkCable' => 'Câble réseau back end',
 	'Class:BackEndNetworkCable+' => 'Câble connectant 2 prises réseau par leur interface back end',
 	'Class:BackEndNetworkCable/Name' => '%1$s <-> %2$s',
@@ -101,7 +101,7 @@ Dict::Add('EN US', 'English', 'English', array(
 // Class: DeviceNetworkCable
 //
 
-Dict::Add('EN US', 'English', 'English', array(
+Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:DeviceNetworkCable' => 'Câble réseau équipement',
 	'Class:DeviceNetworkCable+' => 'Câble connectant l\interface frontale d\une prise réseau à une interface physique',
 	'Class:DeviceNetworkCable/Name' => '%1$s <-> %2$s',
@@ -117,6 +117,32 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:DeviceNetworkCable/Attribute:physicalinterface_id+' => 'Interface physique connectée au câble',
 	'Class:DeviceNetworkCable/Attribute:physicalinterface_name' => 'Nom de l\'interface physique',
 	'Class:DeviceNetworkCable/Attribute:physicalinterface_name+' => '',
+));
+
+//
+// Class: DirectNetworkCable
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:DirectNetworkCable' => 'Câble réseau direct',
+	'Class:DirectNetworkCable+' => 'Câble connectant les interfaces physiques de deux équipements',
+	'Class:DirectNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:DirectNetworkCable/Attribute:connectableci1_id' => 'Equipement #1',
+	'Class:DirectNetworkCable/Attribute:connectableci1_id+' => 'Equipement hébergeant l\'interface physique #1 connectée au câble',
+	'Class:DirectNetworkCable/Attribute:connectableci1_name' => 'Nom de l\'équipement #1',
+	'Class:DirectNetworkCable/Attribute:connectableci1_name+' => '',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_id' => 'Interface physique #1',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_id+' => 'Interface physique de l\'équipement #1 connecté au câble',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_name' => 'Nom de l\'interface physique #1',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_name+' => '',
+	'Class:DirectNetworkCable/Attribute:connectableci2_id' => 'Equipement #2',
+	'Class:DirectNetworkCable/Attribute:connectableci2_id+' => 'Equipement hébergeant l\'interface physique #2 connectée au câble',
+	'Class:DirectNetworkCable/Attribute:connectableci2_name' => 'Nom de l\'équipement #2',
+	'Class:DirectNetworkCable/Attribute:connectableci2_name+' => '',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_id' => 'Interface physique #2',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_id+' => 'Interface physique de l\'équipement #2 connecté au câble',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_name' => 'Nom de l\'interface physique #2',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_name+' => '',
 ));
 
 //
@@ -237,12 +263,12 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Une interface physique ne peut pas être connectée à une prise réseau et à un matériel distant !',
 ));
 
-//////////////////////////////////////////////////////////////////////
-// Relations
-//////////////////////////////////////////////////////////////////////
+//
+// Menus
 //
 
 Dict::Add('FR FR', 'French', 'Français', array(
+	'Menu:TeemIpNetworking:Cabling' => 'Câblage',
 	'Relation:wiring/Description' => 'Schéma de câblage',
 	'Relation:wiring/DownStream' => 'Câblage...',
 	'Relation:wiring/DownStream+' => 'Schéma de câblage',

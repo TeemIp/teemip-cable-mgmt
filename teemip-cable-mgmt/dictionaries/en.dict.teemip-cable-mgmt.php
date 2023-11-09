@@ -120,6 +120,32 @@ Dict::Add('EN US', 'English', 'English', array(
 ));
 
 //
+// Class: DirectNetworkCable
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:DirectNetworkCable' => 'Direct Network Cable',
+	'Class:DirectNetworkCable+' => 'Cable that connects together the physical interface of 2 devices',
+	'Class:DirectNetworkCable/Name' => '%1$s <-> %2$s',
+	'Class:DirectNetworkCable/Attribute:connectableci1_id' => 'Device #1',
+	'Class:DirectNetworkCable/Attribute:connectableci1_id+' => 'Device hosting the physical interface #1 that the cable is connected to',
+	'Class:DirectNetworkCable/Attribute:connectableci1_name' => 'Device #1 name',
+	'Class:DirectNetworkCable/Attribute:connectableci1_name+' => '',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_id' => 'Physical interface #1',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_id+' => 'Physical interface of the device #1 that the cable is connected to',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_name' => 'Physical interface #1 name',
+	'Class:DirectNetworkCable/Attribute:physicalinterface1_name+' => '',
+	'Class:DirectNetworkCable/Attribute:connectableci2_id' => 'Device #2',
+	'Class:DirectNetworkCable/Attribute:connectableci2_id+' => 'Device hosting the physical interface #2 that the cable is connected to',
+	'Class:DirectNetworkCable/Attribute:connectableci2_name' => 'Device #2 name',
+	'Class:DirectNetworkCable/Attribute:connectableci2_name+' => '',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_id' => 'Physical interface #2',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_id+' => 'Physical interface of the device #2 that the cable is connected to',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_name' => 'Physical interface #2 name',
+	'Class:DirectNetworkCable/Attribute:physicalinterface2_name+' => '',
+));
+
+//
 // Class: NetworkSocket
 //
 

@@ -781,7 +781,7 @@
         }
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('networksocket_id' => $this->Get('networksocket_id'), 'connectableci_id' => $this->Get('connectableci_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
-            // A cable already connects the 2 selected network sockets
+            // A cable already connects the slected network socket and CI
             $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
         }
 	}]]></code>
@@ -886,6 +886,229 @@
               <rank>10</rank>
             </item>
             <item id="physicalinterface_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </search>
+      </presentation>
+    </class>
+    <class id="DirectNetworkCable" _delta="define">
+      <parent>NetworkCable</parent>
+      <properties>
+        <category>bizmodel,searchable,configmgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>directnetworkcable</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="physicalinterface1_name"/>
+            <attribute id="physicalinterface2_name"/>
+          </attributes>
+        </naming>
+        <style>
+          <icon>assets/img/icons8-dir-network-cable.svg</icon>
+        </style>
+        <reconciliation>
+          <attributes>
+            <attribute id="connectableci1_id"/>
+            <attribute id="physicalinterface1_id"/>
+            <attribute id="connectableci2_id"/>
+            <attribute id="physicalinterface2_id"/>
+          </attributes>
+        </reconciliation>
+        <uniqueness_rules/>
+      </properties>
+      <fields>
+        <field id="connectableci1_id" xsi:type="AttributeExternalKey">
+          <sql>connectableci1_id</sql>
+          <target_class>ConnectableCI</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="connectableci1_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>connectableci1_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="physicalinterface1_id" xsi:type="AttributeExternalKey">
+          <sql>physicalinterface1_id</sql>
+          <target_class>PhysicalInterface</target_class>
+          <filter>
+            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci1_id]]></filter>
+          <dependencies>
+            <attribute id="connectableci1_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="physicalinterface1_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>physicalinterface1_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="connectableci2_id" xsi:type="AttributeExternalKey">
+          <sql>connectableci2_id</sql>
+          <target_class>ConnectableCI</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="connectableci2_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>connectableci2_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="physicalinterface2_id" xsi:type="AttributeExternalKey">
+          <sql>physicalinterface2_id</sql>
+          <target_class>PhysicalInterface</target_class>
+          <filter>
+            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci2_id]]></filter>
+          <dependencies>
+            <attribute id="connectableci2_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="physicalinterface2_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>physicalinterface2_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+      </fields>
+      <methods>
+        <method id="DoCheckToWrite">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function DoCheckToWrite()
+    {
+        parent::DoCheckToWrite();
+
+        if ($this->IsNew()) {
+            $sOQL = "SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci1_id AND nc.connectableci2_id = :connectableci2_id";
+        } else {
+            $sOQL = "SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci1_id AND nc.connectableci2_id = :connectableci2_id AND nc.id != :id";
+        }
+        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('connectableci1_id' => $this->Get('connectableci1_id'), 'connectableci2_id' => $this->Get('connectableci2_id'), 'id' =>$this->GetKey()));
+        if ($oNetworkCableSet->CountExceeds(0)) {
+            // A cable already connects the 2 selected network sockets
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+        }
+	}]]></code>
+        </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col1">
+              <rank>10</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:baseinfo">
+                  <rank>10</rank>
+                  <items>
+                    <item id="cabletype_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="cablecategory_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="length">
+                      <rank>30</rank>
+                    </item>
+                    <item id="label">
+                      <rank>40</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+            <item id="col:col2">
+              <rank>20</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:endpoints">
+                  <rank>10</rank>
+                  <items>
+                    <item id="connectableci1_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="physicalinterface1_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="connectableci2_id">
+                      <rank>30</rank>
+                    </item>
+                    <item id="physicalinterface2_id">
+                      <rank>40</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+        <list>
+          <items>
+            <item id="physicalinterface1_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </list>
+        <default_search>
+          <items>
+            <item id="physicalinterface1_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </default_search>
+        <search>
+          <items>
+            <item id="physicalinterface1_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface2_id">
               <rank>20</rank>
             </item>
             <item id="cabletype_id">
@@ -1595,7 +1818,7 @@
               <dashlet id="10" xsi:type="DashletHeaderStatic">
                 <rank>10</rank>
                 <title>Menu:TeemIpNetworking:Cabling</title>
-                <icon>teemip-cable-mgmt/assets/img/icons8-network-cable.svg</icon>
+                <icon>teemip-cable-mgmt/assets/img/icons8-dev-network-cable.svg</icon>
               </dashlet>
               <dashlet id="20" xsi:type="DashletBadge">
                 <rank>20</rank>
@@ -1612,6 +1835,10 @@
               <dashlet id="50" xsi:type="DashletBadge">
                 <rank>50</rank>
                 <class>DeviceNetworkCable</class>
+              </dashlet>
+              <dashlet id="55" xsi:type="DashletBadge">
+                <rank>55</rank>
+                <class>DirectNetworkCable</class>
               </dashlet>
               <dashlet id="60" xsi:type="DashletBadge">
                 <rank>60</rank>
