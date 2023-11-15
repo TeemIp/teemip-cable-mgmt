@@ -562,7 +562,7 @@
         </field>
       </fields>
       <methods>
-        <method id="DoCheckToWrite">backendsocket_id
+        <method id="DoCheckToWrite">
           <comment/>
           <static>false</static>
           <access>public</access>
@@ -1372,6 +1372,221 @@
         }
 	}]]></code>
         </method>
+        <method id="AfterInsert">
+          <comment/>
+          <static>false</static>
+          <access>protected</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	protected function AfterInsert()
+    {
+        parent::AfterInsert();
+
+		// Set network socket at remote physical interface
+		if ($this->Get('physicalinterface_id') > 0) {
+			$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $this->Get('physicalinterface_id'), false);
+			if ($oPhysicalInterface) {
+				$oPhysicalInterface->Set('networksocket_id', $this->GetKey());
+				$oPhysicalInterface->DBUpdate();
+			}
+		}
+
+		// Set network socket at remote network socket
+		if ($this->Get('networksocket_id') > 0) {
+			$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
+			if ($oRemoteNetworkSocket) {
+				$oRemoteNetworkSocket->Set('networksocket_id', $this->GetKey());
+				$oRemoteNetworkSocket->DBUpdate();
+			}
+		}
+
+		// Set network socket at remote backend socket
+		if ($this->Get('backendsocket_id') > 0) {
+			$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $this->Get('backendsocket_id'), false);
+			if ($oRemoteBackendSocket) {
+				$oRemoteBackendSocket->Set('backendsocket_id', $this->GetKey());
+				$oRemoteBackendSocket->DBUpdate();
+			}
+		}
+	}]]></code>
+        </method>
+        <method id="AfterUpdate">
+          <comment/>
+          <static>false</static>
+          <access>protected</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	protected function AfterUpdate()
+    {
+        parent::AfterUpdate();
+
+		$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+
+		// Connection to a physical interface or remote front end socket has changed
+		if (array_key_exists('physicalinterface_id', $aChanges) || array_key_exists('networksocket_id', $aChanges)) {
+			// Get cables first
+			// 1. Front end cable that includes the network socket
+			// 2. Device cable that includes the network socket
+			$iId = $this->GetKey();
+			$sOQL = "SELECT FrontEndNetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id";
+			$oFrontEndNetworkCableSet = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+			$sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id";
+			$oDeviceNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+
+			if (array_key_exists('physicalinterface_id', $aChanges)) {
+				if ($this->Get('physicalinterface_id') > 0) {
+					// $this is connected to a device and not to a front end network socket
+					// Update cables
+					while ($oFrontEndNetworkCable = $oFrontEndNetworkCableSet->Fetch()) {
+						$oFrontEndNetworkCable->DBDelete();
+					}
+					while ($oDeviceNetworkCable = $oDeviceNetworkCableSet->Fetch()) {
+						$oDeviceNetworkCable->Set('physicalinterface_id', $this->Get('physicalinterface_id'));
+						$oDeviceNetworkCable->DBUpdate();
+					}
+
+					// Set network socket at new remote physical interface
+					$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $this->Get('physicalinterface_id'), false);
+					if ($oPhysicalInterface) {
+						$oPhysicalInterface->Set('networksocket_id', $this->GetKey());
+						$oPhysicalInterface->DBUpdate();
+					}
+				} else {
+				    // Delete device cables disconnected from the network socket
+					while ($oDeviceNetworkCable = $oDeviceNetworkCableSet->Fetch()) {
+						$oDeviceNetworkCable->DBDelete();
+					}
+				}
+
+				if ($aChanges['physicalinterface_id'] > 0) {
+					// Reset network socket at old remote physical interface
+					$oOldPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $aChanges['physicalinterface_id'], false);
+					if ($oOldPhysicalInterface && ($oOldPhysicalInterface->Get('networksocket_id') == $this->GetKey())) {
+						$oOldPhysicalInterface->Set('networksocket_id', 0);
+						$oOldPhysicalInterface->DBUpdate();
+					}
+				}
+			}
+
+			// Connection to remote front end socket has changed
+			if (array_key_exists('networksocket_id', $aChanges)) {
+				if ($this->Get('networksocket_id') > 0) {
+					// $this is connected to a front end network socket and not to a device
+					// Update cables
+					while ($oDeviceNetworkCable = $oDeviceNetworkCableSet->Fetch()) {
+						$oDeviceNetworkCable->DBDelete();
+					}
+					while ($oFrontEndNetworkCable = $oFrontEndNetworkCableSet->Fetch()) {
+						if ($oFrontEndNetworkCable->Get('networksocket1_id') == $iId) {
+							$oFrontEndNetworkCable->Set('networksocket2_id', $this->Get('networksocket_id'));
+						} else {
+							$oFrontEndNetworkCable->Set('networksocket1_id', $this->Get('networksocket_id'));
+						}
+						$oFrontEndNetworkCable->DBUpdate();
+					}
+
+					// Set network socket at new remote network socket
+					$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
+					if ($oRemoteNetworkSocket) {
+						$oRemoteNetworkSocket->Set('networksocket_id', $this->GetKey());
+						$oRemoteNetworkSocket->DBUpdate();
+					}
+				} else {
+				    // Delete front end cable disconnected from the network socket
+					while ($oFrontEndNetworkCable = $oFrontEndNetworkCableSet->Fetch()) {
+						$oFrontEndNetworkCable->DBDelete();
+					}
+				}
+
+				if ($aChanges['networksocket_id'] > 0) {
+					// Reset network socket at old remote network socket
+					$oOldRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
+					if ($oOldRemoteNetworkSocket && ($oOldRemoteNetworkSocket->Get('networksocket_id') == $this->GetKey())) {
+						$oOldRemoteNetworkSocket->Set('networksocket_id', 0);
+						$oOldRemoteNetworkSocket->DBUpdate();
+					}
+				}
+			}
+		}
+
+		// Connection to remote back end socket has changed
+		if (array_key_exists('backendsocket_id', $aChanges)) {
+			// Get cables first
+			// Update the back end cable that includes the network socket
+			$iId = $this->GetKey();
+			$sOQL = "SELECT BackEndNetworkCable AS nc WHERE nc.backendsocket1_id = :id OR nc.backendsocket2_id = :id";
+			$oBackEndNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+
+			if ($this->Get('backendsocket_id') > 0) {
+				// $this is connected to a back end network socket
+				// Update cables
+				while ($oBackEndNetworkCable = $oBackEndNetworkCableSet->Fetch()) {
+					if ($oBackEndNetworkCable->Get('backendsocket1_id') == $iId) {
+						$oBackEndNetworkCable->Set('backendsocket2_id', $this->Get('backendsocket_id'));
+					} else {
+						$oBackEndNetworkCable->Set('backendsocket1_id', $this->Get('backendsocket_id'));
+					}
+					$oBackEndNetworkCable->DBUpdate();
+				}
+
+				// Set network socket at new remote backend socket
+				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $this->Get('backendsocket_id'), false);
+				if ($oRemoteBackendSocket) {
+					$oRemoteBackendSocket->Set('backendsocket_id', $this->GetKey());
+					$oRemoteBackendSocket->DBUpdate();
+				}
+			} else {
+				while ($oBackEndNetworkCable = $oBackEndNetworkCableSet->Fetch()) {
+					$oBackEndNetworkCable->DBDelete();
+				}
+			}
+
+			if ($aChanges['backendsocket_id'] > 0) {
+				// Reset network socket at old remote backend socket
+				$oOldRemoteeBackendSocket = MetaModel::GetObject('NetworkSocket', $aChanges['backendsocket_id'], false);
+				if ($oOldRemoteeBackendSocket && ($oOldRemoteeBackendSocket->Get('backendsocket_id') == $this->GetKey())) {
+					$oOldRemoteeBackendSocket->Set('backendsocket_id', 0);
+					$oOldRemoteeBackendSocket->DBUpdate();
+				}
+			}
+		}
+	}]]></code>
+        </method>
+        <method id="AfterDelete">
+          <comment/>
+          <static>false</static>
+          <access>protected</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	protected function AfterDelete()
+    {
+        parent::AfterDelete();
+
+		// Reset network socket at remote physical interface
+		if ($this->Get('physicalinterface_id') > 0) {
+			$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $this->Get('physicalinterface_id'), false);
+			if ($oPhysicalInterface) {
+				$oPhysicalInterface->Set('networksocket_id', 0);
+				$oPhysicalInterface->DBUpdate();
+			}
+		}
+
+		// Reset network socket at remote network socket
+		if ($this->Get('networksocket_id') > 0) {
+			$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
+			if ($oRemoteNetworkSocket) {
+				$oRemoteNetworkSocket->Set('networksocket_id', 0);
+				$oRemoteNetworkSocket->DBUpdate();
+			}
+		}
+
+		// Reset network socket at remote backend socket
+		if ($this->Get('backendsocket_id') > 0) {
+			$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $this->Get('backendsocket_id'), false);
+			if ($oRemoteBackendSocket) {
+				$oRemoteBackendSocket->Set('backendsocket_id', 0);
+				$oRemoteBackendSocket->DBUpdate();
+			}
+		}
+	}]]></code>
+        </method>
       </methods>
       <presentation>
         <details>
@@ -1550,7 +1765,27 @@
           <duplicates/>
         </field>
       </fields>
-      <methods/>
+      <methods>
+        <method id="AfterUpdate">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[    protected function AfterUpdate()
+    {
+		$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+		if (array_key_exists('name', $aChanges)) {
+			// Propagate name change to impacted network socket
+			$sOQL = "SELECT NetworkSocket WHERE patchpanel_id = :id";
+			$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
+			while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
+				$oNetworkSocket->ComputeValues();
+				$oNetworkSocket->DBUpdate();
+			}
+        }
+    }]]></code>
+        </method>
+      </methods>
       <presentation>
         <details>
           <items>
@@ -1705,18 +1940,105 @@
           <callback>OnPhysicalInterfaceCheckToWriteByCableMgmt</callback>
           <rank>100</rank>
         </event_listener>
+        <event_listener id="OnPhysicalInterfaceAfterWriteRequestedByCableMgmt" _delta="define">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnPhysicalInterfaceAfterWriteRequestedByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
+        <event_listener id="OnPhysicalInterfaceAfterDeleteRequestedByCableMgmt" _delta="define">
+          <event>EVENT_DB_AFTER_DELETE</event>
+          <callback>OnPhysicalInterfaceAfterDeleteRequestedByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
       </event_listeners>
       <methods>
         <method id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>l</type>
+          <type>EventListener</type>
           <code><![CDATA[    public function OnPhysicalInterfaceCheckToWriteByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
     {
 		// Check that networksocket_id and remote_connectableci_id are not set at the same time
 		if (($this->Get('networksocket_id') != 0) && ($this->Get('remote_connectableci_id') != 0)) {
             $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed');
+		}
+    }]]></code>
+        </method>
+        <method id="OnPhysicalInterfaceAfterWriteRequestedByCableMgmt" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnPhysicalInterfaceAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $aEventData = $oEventData->GetEventData();
+        if ($aEventData['is_new']) {
+        	// We are in the AfterInsert situation
+			if ($this->Get('networksocket_id') > 0) {
+				// Set physical interface at remote network socket
+				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
+				if ($oNetworkSocket) {
+					$oNetworkSocket->Set('connectableci_id', $this->Get('connectableci_id'));
+					$oNetworkSocket->Set('physicalinterface_id', $this->GetKey());
+					$oNetworkSocket->DBUpdate();
+				}
+			}
+ 		} else {
+		    // We are in the AfterUpdate situation
+			$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+			if (array_key_exists('networksocket_id', $aChanges)) {
+				// Update the device cable that includes the physical interface
+				$sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.physicalinterface_id = :id";
+				$iId = $this->GetKey();
+				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
+				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
+					if ($this->Get('networksocket_id') == 0) {
+						$oNetworkCable->DBDelete();
+					} else {
+						$oNetworkCable->Set('networksocket_id', $this->Get('networksocket_id'));
+						$oNetworkCable->DBUpdate();
+					}
+				}
+
+				// Set physical interface at new remote network socket
+				if ($this->Get('networksocket_id') > 0) {
+					$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
+					if ($oNetworkSocket) {
+						$oNetworkSocket->Set('connectableci_id', $this->Get('connectableci_id'));
+						$oNetworkSocket->Set('physicalinterface_id', $this->GetKey());
+						$oNetworkSocket->DBUpdate();
+					}
+				}
+
+				// Reset physical interface at old remote network socket
+				if ($aChanges['networksocket_id'] > 0) {
+					$oOldNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
+					if ($oOldNetworkSocket && ($oOldNetworkSocket->Get('physicalinterface_id') == $this->GetKey())) {
+						$oOldNetworkSocket->Set('connectableci_id', 0);
+						$oOldNetworkSocket->Set('physicalinterface_id', 0);
+						$oOldNetworkSocket->DBUpdate();
+					}
+				}
+			}
+        }
+    }]]></code>
+        </method>
+        <method id="OnPhysicalInterfaceAfterDeleteRequestedByCableMgmt" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnPhysicalInterfaceAfterDeleteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+		if ($this->Get('networksocket_id') > 0) {
+			// Reset physical interface at remote network socket
+			$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
+			if ($oNetworkSocket) {
+				$oNetworkSocket->Set('connectableci_id', 0);
+				$oNetworkSocket->Set('physicalinterface_id', 0);
+				$oNetworkSocket->DBUpdate();
+			}
 		}
     }]]></code>
         </method>
@@ -1789,6 +2111,38 @@
           <read_only>false</read_only>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnRackAfterWriteRequestedByCableMgmt" _delta="define">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnRackAfterWriteRequestedByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
+      </event_listeners>
+      <methods>
+        <method id="OnRackAfterWriteRequestedByCableMgmt" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnRackAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $aEventData = $oEventData->GetEventData();
+        if (!$aEventData['is_new']) {
+		    // We are in the AfterUpdate situation
+			$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+			if (array_key_exists('name', $aChanges)) {
+				// Propagate name change to impacted network socket
+				$sOQL = "SELECT NetworkSocket WHERE rack_id = :id";
+				$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
+				while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
+					$oNetworkSocket->ComputeValues();
+					$oNetworkSocket->DBUpdate();
+				}
+			}
+        }
+    }]]></code>
+        </method>
+      </methods>
       <presentation>
         <details _delta="must_exist">
           <items>
@@ -1798,6 +2152,40 @@
           </items>
         </details>
       </presentation>
+    </class>
+    <class id="Location"  _delta="must_exist">
+      <event_listeners>
+        <event_listener id="OnLocationAfterWriteRequestedByCableMgmt" _delta="define">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnLocationAfterWriteRequestedByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
+      </event_listeners>
+      <methods>
+        <method id="OnLocationAfterWriteRequestedByCableMgmt" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnLocationAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $aEventData = $oEventData->GetEventData();
+        if (!$aEventData['is_new']) {
+		    // We are in the AfterUpdate situation
+			$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+			if (array_key_exists('name', $aChanges)) {
+				// Propagate name change to impacted network socket
+				$sOQL = "SELECT NetworkSocket WHERE location_id = :id";
+				$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
+				while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
+					$oNetworkSocket->ComputeValues();
+					$oNetworkSocket->DBUpdate();
+				}
+			}
+        }
+    }]]></code>
+        </method>
+      </methods>
     </class>
   </classes>
   <menus>
@@ -1896,7 +2284,7 @@
 use Combodo\iTop\Application\UI\Base\Component\MedallionIcon\MedallionIcon;
 use TeemIp\TeemIp\Extension\Framework\Helper\IPUtils;
 
-class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExtension
+class TeemIpCableMgmt implements iApplicationUIExtension
 {
 	/**
 	 * @inheritdoc
@@ -1997,309 +2385,6 @@ class TeemIpCableMgmt implements iApplicationUIExtension, iApplicationObjectExte
 		return array();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function OnIsModified($oObject) {
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function OnCheckToWrite($oObject) {
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function OnCheckToDelete($oObject) {
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function OnDBInsert($oObject, $oChange = null) {
-		$sClass = get_class($oObject);
-		if ($sClass == 'NetworkSocket') {
-		    // Caution: for reentrance reasons, this code cannot be moved under AfterInsert method
-			if ($oObject->Get('physicalinterface_id') > 0) {
-				// Set network socket at remote physical interface
-				$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
-				if ($oPhysicalInterface) {
-					$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
-					$oPhysicalInterface->DBUpdate();
-				}
-			}
-			if ($oObject->Get('networksocket_id') > 0) {
-				// Set network socket at remote network socket
-				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
-				if ($oRemoteNetworkSocket) {
-					$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
-					$oRemoteNetworkSocket->DBUpdate();
-				}
-			}
-			if ($oObject->Get('backendsocket_id') > 0) {
-				// Set network socket at remote backend socket
-				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
-				if ($oRemoteBackendSocket) {
-					$oRemoteBackendSocket->Set('backendsocket_id', $oObject->GetKey());
-					$oRemoteBackendSocket->DBUpdate();
-				}
-			}
-		} elseif ($sClass == 'PhysicalInterface') {
-			if ($oObject->Get('networksocket_id') > 0) {
-				// Set physical interface at remote network socket
-				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
-				if ($oNetworkSocket) {
-					$oNetworkSocket->Set('connectableci_id', $oObject->Get('connectableci_id'));
-					$oNetworkSocket->Set('physicalinterface_id', $oObject->GetKey());
-					$oNetworkSocket->DBUpdate();
-				}
-			}
-		}
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function OnDBUpdate($oObject, $oChange = null) {
-		$sClass = get_class($oObject);
-		if ($sClass == 'NetworkSocket') {
-		    // Caution: for reentrance reasons, this code cannot be moved under AfterInsert method
-			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
-			// Connection to a physical interface or remote front end socket has changed
-			if (array_key_exists('physicalinterface_id', $aChanges) || array_key_exists('networksocket_id', $aChanges)) {
-				// Get cables first
-				// 1. Front end cable that includes the network socket
-				// 2. Device cable that includes the network socket
-				$iId = $oObject->GetKey();
-				$sOQL = "SELECT FrontEndNetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id";
-				$oFrontEndNetworkCableSet = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
-				$sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id";
-				$oDeviceNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
-
-				if (array_key_exists('physicalinterface_id', $aChanges)) {
-					if ($oObject->Get('physicalinterface_id') > 0) {
-						// $oObject is connected to a device and not to a front end network socket
-						// Update cables
-						while ($oFrontEndNetworkCable = $oFrontEndNetworkCableSet->Fetch()) {
-							$oFrontEndNetworkCable->DBDelete();
-						}
-						while ($oDeviceNetworkCable = $oDeviceNetworkCableSet->Fetch()) {
-							$oDeviceNetworkCable->Set('physicalinterface_id', $oObject->Get('physicalinterface_id'));
-							$oDeviceNetworkCable->DBUpdate();
-						}
-
-						// Set network socket at new remote physical interface
-						$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
-						if ($oPhysicalInterface) {
-							$oPhysicalInterface->Set('networksocket_id', $oObject->GetKey());
-							$oPhysicalInterface->DBUpdate();
-						}
-					} else {
-					    // Delete device cables disconnected from the network socket
-						while ($oDeviceNetworkCable = $oDeviceNetworkCableSet->Fetch()) {
-							$oDeviceNetworkCable->DBDelete();
-						}
-					}
-
-					if ($aChanges['physicalinterface_id'] > 0) {
-						// Reset network socket at old remote physical interface
-						$oOldPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $aChanges['physicalinterface_id'], false);
-						if ($oOldPhysicalInterface && ($oOldPhysicalInterface->Get('networksocket_id') == $oObject->GetKey())) {
-							$oOldPhysicalInterface->Set('networksocket_id', 0);
-							$oOldPhysicalInterface->DBUpdate();
-						}
-					}
-				}
-
-				// Connection to remote front end socket has changed
-				if (array_key_exists('networksocket_id', $aChanges)) {
-					if ($oObject->Get('networksocket_id') > 0) {
-						// $oObject is connected to a front end network socket and not to a device
-						// Update cables
-						while ($oDeviceNetworkCable = $oDeviceNetworkCableSet->Fetch()) {
-							$oDeviceNetworkCable->DBDelete();
-						}
-						while ($oFrontEndNetworkCable = $oFrontEndNetworkCableSet->Fetch()) {
-							if ($oFrontEndNetworkCable->Get('networksocket1_id') == $iId) {
-								$oFrontEndNetworkCable->Set('networksocket2_id', $oObject->Get('networksocket_id'));
-							} else {
-								$oFrontEndNetworkCable->Set('networksocket1_id', $oObject->Get('networksocket_id'));
-							}
-							$oFrontEndNetworkCable->DBUpdate();
-						}
-
-						// Set network socket at new remote network socket
-						$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
-						if ($oRemoteNetworkSocket) {
-							$oRemoteNetworkSocket->Set('networksocket_id', $oObject->GetKey());
-							$oRemoteNetworkSocket->DBUpdate();
-						}
-					} else {
-					    // Delete front end cable disconnected from the network socket
-						while ($oFrontEndNetworkCable = $oFrontEndNetworkCableSet->Fetch()) {
-							$oFrontEndNetworkCable->DBDelete();
-						}
-					}
-
-					if ($aChanges['networksocket_id'] > 0) {
-						// Reset network socket at old remote network socket
-						$oOldRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
-						if ($oOldRemoteNetworkSocket && ($oOldRemoteNetworkSocket->Get('networksocket_id') == $oObject->GetKey())) {
-							$oOldRemoteNetworkSocket->Set('networksocket_id', 0);
-							$oOldRemoteNetworkSocket->DBUpdate();
-						}
-					}
-				}
-			}
-
-			// Connection to remote back end socket has changed
-			if (array_key_exists('backendsocket_id', $aChanges)) {
-				// Get cables first
-				// Update the back end cable that includes the network socket
-				$iId = $oObject->GetKey();
-				$sOQL = "SELECT BackEndNetworkCable AS nc WHERE nc.backendsocket1_id = :id OR nc.backendsocket2_id = :id";
-				$oBackEndNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
-
-				if ($oObject->Get('backendsocket_id') > 0) {
-					// $oObject is connected to a back end network socket
-					// Update cables
-					while ($oBackEndNetworkCable = $oBackEndNetworkCableSet->Fetch()) {
-						if ($oBackEndNetworkCable->Get('backendsocket1_id') == $iId) {
-							$oBackEndNetworkCable->Set('backendsocket2_id', $oObject->Get('backendsocket_id'));
-						} else {
-							$oBackEndNetworkCable->Set('backendsocket1_id', $oObject->Get('backendsocket_id'));
-						}
-						$oBackEndNetworkCable->DBUpdate();
-					}
-
-					// Set network socket at new remote backend socket
-					$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
-					if ($oRemoteBackendSocket) {
-						$oRemoteBackendSocket->Set('backendsocket_id', $oObject->GetKey());
-						$oRemoteBackendSocket->DBUpdate();
-					}
-				} else {
-					while ($oBackEndNetworkCable = $oBackEndNetworkCableSet->Fetch()) {
-						$oBackEndNetworkCable->DBDelete();
-					}
-				}
-
-				if ($aChanges['backendsocket_id'] > 0) {
-					// Reset network socket at old remote backend socket
-					$oOldRemoteeBackendSocket = MetaModel::GetObject('NetworkSocket', $aChanges['backendsocket_id'], false);
-					if ($oOldRemoteeBackendSocket && ($oOldRemoteeBackendSocket->Get('backendsocket_id') == $oObject->GetKey())) {
-						$oOldRemoteeBackendSocket->Set('backendsocket_id', 0);
-						$oOldRemoteeBackendSocket->DBUpdate();
-					}
-				}
-			}
-		} elseif ($sClass == 'PhysicalInterface') {
-			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
-			if (array_key_exists('networksocket_id', $aChanges)) {
-				if ($oObject->Get('networksocket_id') > 0) {
-					// Set physical interface at new remote network socket
-					$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
-					if ($oNetworkSocket) {
-						$oNetworkSocket->Set('connectableci_id', $oObject->Get('connectableci_id'));
-						$oNetworkSocket->Set('physicalinterface_id', $oObject->GetKey());
-						$oNetworkSocket->DBUpdate();
-					}
-				}
-				if ($aChanges['networksocket_id'] > 0) {
-					// Reset physical interface at old remote network socket
-					$oOldNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
-					if ($oOldNetworkSocket && ($oOldNetworkSocket->Get('physicalinterface_id') == $oObject->GetKey())) {
-						$oOldNetworkSocket->Set('connectableci_id', 0);
-						$oOldNetworkSocket->Set('physicalinterface_id', 0);
-						$oOldNetworkSocket->DBUpdate();
-					}
-				}
-
-				// Update the device cable that includes the physical interface
-				$sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id";
-				$iId = $oObject->GetKey();
-				$oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $iId));
-				while ($oNetworkCable = $oNetworkCableSet->Fetch()) {
-					if ($oObject->Get('networksocket_id') == 0) {
-						$oNetworkCable->DBDelete();
-					} else {
-						$oNetworkCable->Set('networksocket_id', $oObject->Get('networksocket_id'));
-						$oNetworkCable->DBUpdate();
-					}
-				}
-			}
-		} elseif (($sClass == 'Location') || ($sClass == 'Rack') || ($sClass == 'PatchPanel')) {
-			$aChanges = $oObject->ListPreviousValuesForUpdatedAttributes();
-			if (array_key_exists('name', $aChanges)) {
-				// Propagate name change to impacted network socket
-				switch ($sClass) {
-					case 'Location':
-						$sAttribute = 'location_id';
-						break;
-
-					case 'Rack':
-						$sAttribute = 'rack_id';
-						break;
-
-					case 'PatchPanel':
-						$sAttribute = 'patchpanel_id';
-						break;
-				}
-				$sOQL = "SELECT NetworkSocket WHERE $sAttribute = :id";
-				$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
-				while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
-					$oNetworkSocket->ComputeValues();
-					$oNetworkSocket->DBUpdate();
-				}
-			}
-		}
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function OnDBDelete($oObject, $oChange = null) {
-		$sClass = get_class($oObject);
-		if ($sClass == 'NetworkSocket') {
-		    // Caution: for reentrance reasons, this code cannot be moved under AfterInsert method
-			if ($oObject->Get('physicalinterface_id') > 0) {
-				// Reset network socket at remote physical interface
-				$oPhysicalInterface = MetaModel::GetObject('PhysicalInterface', $oObject->Get('physicalinterface_id'), false);
-				if ($oPhysicalInterface) {
-					$oPhysicalInterface->Set('networksocket_id', 0);
-					$oPhysicalInterface->DBUpdate();
-				}
-			}
-			if ($oObject->Get('networksocket_id') > 0) {
-				// Reset network socket at remote network socket
-				$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
-				if ($oRemoteNetworkSocket) {
-					$oRemoteNetworkSocket->Set('networksocket_id', 0);
-					$oRemoteNetworkSocket->DBUpdate();
-				}
-			}
-			if ($oObject->Get('backendsocket_id') > 0) {
-				// Reset network socket at remote backend socket
-				$oRemoteBackendSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('backendsocket_id'), false);
-				if ($oRemoteBackendSocket) {
-					$oRemoteBackendSocket->Set('backendsocket_id', 0);
-					$oRemoteBackendSocket->DBUpdate();
-				}
-			}
-		} elseif ($sClass == 'PhysicalInterface') {
-			if ($oObject->Get('networksocket_id') > 0) {
-				// Reset physical interface at remote network socket
-				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $oObject->Get('networksocket_id'), false);
-				if ($oNetworkSocket) {
-					$oOldNetworkSocket->Set('connectableci_id', 0);
-					$oNetworkSocket->Set('physicalinterface_id', 0);
-					$oNetworkSocket->DBUpdate();
-				}
-			}
-		}
-	}
 }]]></content>
     </snippet>
   </snippets>
