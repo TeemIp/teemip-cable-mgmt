@@ -2,11 +2,11 @@
 <Set>
 	<AuditDomain alias="AuditDomain" id="1">
 		<name>Gestion des câbles</name>
-		<description>Tous les câbles definis dans la CMDB</description>
+		<description>Audit des câbles definis dans la CMDB</description>
 	</AuditDomain>
 	<AuditCategory alias="AuditCategory" id="1">
 		<name>Gestion des câbles frontaux</name>
-		<description>Ensemble de règles liée aux câbles frontaux</description>
+		<description>Ensemble de règles liées aux câbles frontaux</description>
 		<definition_set>SELECT FrontEndNetworkCable</definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="1">
@@ -14,58 +14,93 @@
 		<category_id>1</category_id>
 	</lnkAuditCategoryToAuditDomain>
 	<AuditRule alias="AuditRule" id="1">
-		<name>Le câble frontal est connecté à seulement une prise réseau</name>
-		<description>Seule une des terminaisons du câble est attachée à une prise réseau</description>
-		<query>SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id != 0) AND (nc.networksocket2_id != 0) </query>
-		<valid_flag>true</valid_flag>
+		<name>Câbles frontaux non connectés des 2 côtés</name>
+		<description>Liste les câbles frontaux qui ne sont pas connectés à chaque extrémités</description>
+		<query>SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = 0) OR (nc.networksocket2_id = 0)</query>
+		<valid_flag>false</valid_flag>
+		<category_id>1</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="2">
+		<name>Câbles frontaux en double</name>
+		<description>Liste les câbles frontaux qui relient des prises réseau déjà reliées entre elles</description>
+		<query>SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket1_id = ns.id WHERE nc1.id != nc2.id
+			UNION
+			SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket2_id = ns.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>1</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="2">
 		<name>Gestion des câbles arrière</name>
-		<description>Ensemble de règles liée aux câbles arrière</description>
+		<description>Ensemble de règles liées aux câbles arrières</description>
 		<definition_set>SELECT BackEndNetworkCable</definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="2">
 		<domain_id>1</domain_id>
 		<category_id>2</category_id>
 	</lnkAuditCategoryToAuditDomain>
-	<AuditRule alias="AuditRule" id="2">
-		<name>Le câble arrière est connecté à seulement une prise réseau</name>
-		<description>Seule une des terminaisons du câble est attachée à une prise réseau</description>
-		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id != 0) AND (nc.backendsocket2_id != 0) </query>
-		<valid_flag>true</valid_flag>
+	<AuditRule alias="AuditRule" id="3">
+		<name>Câbles arrières non connectés des 2 côtés</name>
+		<description>Liste les câbles arrières qui ne sont pas connectés à chaque extrémités</description>
+		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = 0) OR (nc.backendsocket2_id = 0)</query>
+		<valid_flag>false</valid_flag>
+		<category_id>2</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="4">
+		<name>Câbles arrières en double</name>
+		<description>Liste les câbles frontaux qui relient des prises réseau déjà reliées entre elles</description>
+		<query>SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket1_id = ns.id WHERE nc1.id != nc2.id
+			UNION
+			SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket2_id = ns.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>2</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="3">
 		<name>Gestion des câbles d'équipements</name>
-		<description>Ensemble de règles liée aux câbles d'équipements</description>
+		<description>Ensemble de règles liées aux câbles d'équipements</description>
 		<definition_set>SELECT DeviceNetworkCable</definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="3">
 		<domain_id>1</domain_id>
 		<category_id>3</category_id>
 	</lnkAuditCategoryToAuditDomain>
-	<AuditRule alias="AuditRule" id="3">
-		<name>Le câble d'équipement est connecté à seulement une prise réseau</name>
-		<description>Seule une des terminaisons du câble est attachée à une prise réseau ou à l'interface physique d'un équipement</description>
-		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id != 0) AND (nc.physicalinterface_id != 0) </query>
-		<valid_flag>true</valid_flag>
+	<AuditRule alias="AuditRule" id="5">
+		<name>Câbles d'équipements non connectés des 2 côtés</name>
+		<description>Liste les câbles d'équipements qui ne sont pas connectés à chaque extrémités</description>
+		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id = 0) OR (nc.physicalinterface_id = 0) </query>
+		<valid_flag>false</valid_flag>
+		<category_id>3</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="6">
+		<name>Câbles d'équipements en double</name>
+		<description>Liste les câbles d'équipements qui relient une interface physique et une prise réseau déjà reliées entre elles</description>
+		<query>SELECT DeviceNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface_id = pi.id JOIN DeviceNetworkCable AS nc2 ON nc2.physicalinterface_id = pi.id WHERE nc1.id != nc2.id
+			UNION
+			SELECT DeviceNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket_id = ns.id JOIN DeviceNetworkCable AS nc2 ON nc2.networksocket_id = ns.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>3</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="4">
 		<name>Gestion des câbles directs</name>
-		<description>Ensemble de règles liée aux câbles directs</description>
+		<description>Ensemble de règles liées aux câbles directs</description>
 		<definition_set>SELECT DirectNetworkCable</definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="4">
 		<domain_id>1</domain_id>
 		<category_id>4</category_id>
 	</lnkAuditCategoryToAuditDomain>
-	<AuditRule alias="AuditRule" id="4">
-		<name>Le câble direct est connecté à seulement une interface physique</name>
-		<description>Seule une des terminaisons du câble est attachée à l'interface physique d'un équipement</description>
-		<query>SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id != 0) AND (nc.physicalinterface2_id != 0) </query>
-		<valid_flag>true</valid_flag>
+	<AuditRule alias="AuditRule" id="7">
+		<name>Câbles directs non connectés des 2 côtés</name>
+		<description>Liste les câbles directs qui ne sont pas connectés à chaque extrémités</description>
+		<query>SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id = 0) OR (nc.physicalinterface2_id = 0) </query>
+		<valid_flag>false</valid_flag>
+		<category_id>4</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="8">
+		<name>Câbles directs en double</name>
+		<description>Liste les câbles directs qui relient des interfaces physiques déjà reliées entre elles</description>
+		<query>SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface1_id = pi.id WHERE nc1.id != nc2.id
+			UNION SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface2_id = pi.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>4</category_id>
 	</AuditRule>
 </Set>

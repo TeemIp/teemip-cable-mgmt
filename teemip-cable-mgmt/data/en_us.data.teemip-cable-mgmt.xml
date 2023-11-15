@@ -2,7 +2,7 @@
 <Set>
 	<AuditDomain alias="AuditDomain" id="1">
 		<name>Cable Management</name>
-		<description>All cables defined in the CMDB</description>
+		<description>Audit the cables defined in the CMDB</description>
 	</AuditDomain>
 	<AuditCategory alias="AuditCategory" id="1">
 		<name>Front end Cable Management</name>
@@ -14,10 +14,19 @@
 		<category_id>1</category_id>
 	</lnkAuditCategoryToAuditDomain>
 	<AuditRule alias="AuditRule" id="1">
-		<name>Front end Cable is connected to only one network socket</name>
-		<description>Only one end of the cable is attached to a network socket</description>
-		<query>SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id != 0) AND (nc.networksocket2_id != 0) </query>
-		<valid_flag>true</valid_flag>
+		<name>Front end cables not connected on both sides</name>
+		<description>List the front end cables that are not connected at both ends</description>
+		<query>SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = 0) OR (nc.networksocket2_id = 0)</query>
+		<valid_flag>false</valid_flag>
+		<category_id>1</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="2">
+		<name>Duplicate front end cables</name>
+		<description>List of front end cables that connect network sockets already connected together through a front end cable</description>
+		<query>SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket1_id = ns.id WHERE nc1.id != nc2.id
+			UNION
+			SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket2_id = ns.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>1</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="2">
@@ -29,11 +38,20 @@
 		<domain_id>1</domain_id>
 		<category_id>2</category_id>
 	</lnkAuditCategoryToAuditDomain>
-	<AuditRule alias="AuditRule" id="2">
-		<name>Back end Cable is connected to only one network socket</name>
-		<description>Only one end of the cable is attached to a network socket</description>
-		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id != 0) AND (nc.backendsocket2_id != 0) </query>
-		<valid_flag>true</valid_flag>
+	<AuditRule alias="AuditRule" id="3">
+		<name>Back end cables not connected on both sides</name>
+		<description>List the back end cables that are not connected at both ends</description>
+		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = 0) OR (nc.backendsocket2_id = 0)</query>
+		<valid_flag>false</valid_flag>
+		<category_id>2</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="4">
+		<name>Duplicate back end cables</name>
+		<description>List of back end cables that connect network sockets already connected together through a back end cable</description>
+		<query>SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket1_id = ns.id WHERE nc1.id != nc2.id
+			UNION
+			SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket2_id = ns.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>2</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="3">
@@ -45,11 +63,20 @@
 		<domain_id>1</domain_id>
 		<category_id>3</category_id>
 	</lnkAuditCategoryToAuditDomain>
-	<AuditRule alias="AuditRule" id="3">
-		<name>Device Cable is connected to only one network socket</name>
-		<description>Only one end of the cable is attached to a network socket or the physical interface of a connectable CI</description>
-		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id != 0) AND (nc.physicalinterface_id != 0) </query>
-		<valid_flag>true</valid_flag>
+	<AuditRule alias="AuditRule" id="5">
+		<name>Device cables not connected on both sides</name>
+		<description>List of device cables that are not attached to a network socket and to a physical interface</description>
+		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id = 0) OR (nc.physicalinterface_id = 0) </query>
+		<valid_flag>false</valid_flag>
+		<category_id>3</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="6">
+		<name>Duplicate device cables</name>
+		<description>List of device cables that connect a physical interface and a network socket already connected together</description>
+		<query>SELECT DeviceNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface_id = pi.id JOIN DeviceNetworkCable AS nc2 ON nc2.physicalinterface_id = pi.id WHERE nc1.id != nc2.id
+			UNION
+			SELECT DeviceNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket_id = ns.id JOIN DeviceNetworkCable AS nc2 ON nc2.networksocket_id = ns.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>3</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="4">
@@ -61,11 +88,19 @@
 		<domain_id>1</domain_id>
 		<category_id>4</category_id>
 	</lnkAuditCategoryToAuditDomain>
-	<AuditRule alias="AuditRule" id="4">
-		<name>Direct Cable is connected to only one physical interface</name>
-		<description>Only one end of the cable is attached to the physical interface of a connectable CI</description>
-		<query>SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id != 0) AND (nc.physicalinterface2_id != 0) </query>
-		<valid_flag>true</valid_flag>
+	<AuditRule alias="AuditRule" id="7">
+		<name>Direct cables not connected on both sides</name>
+		<description>List of direct cables that are not attached at both ends</description>
+		<query>SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id = 0) OR (nc.physicalinterface2_id = 0) </query>
+		<valid_flag>false</valid_flag>
+		<category_id>4</category_id>
+	</AuditRule>
+	<AuditRule alias="AuditRule" id="8">
+		<name>Duplicate direct cables</name>
+		<description>List of direct cables that connect physical interfaces already connected together</description>
+		<query>SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface1_id = pi.id WHERE nc1.id != nc2.id
+			UNION SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface2_id = pi.id WHERE nc1.id != nc2.id</query>
+		<valid_flag>false</valid_flag>
 		<category_id>4</category_id>
 	</AuditRule>
 </Set>
