@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Set>
-	<AuditCategory alias="AuditCategory" id="1">
+	<AuditDomain alias="AuditDomain" id="1">
 		<name>Gestion des câbles</name>
-		<description>Ensemble de règles liée aux câbles</description>
-		<definition_set>SELECT NetworkCable</definition_set>
+		<description>Tous les câbles definis dans la CMDB</description>
+	</AuditDomain>
+	<AuditCategory alias="AuditCategory" id="1">
+		<name>Gestion des câbles frontaux</name>
+		<description>Ensemble de règles liée aux câbles frontaux</description>
+		<definition_set>SELECT FrontEndNetworkCable</definition_set>
 	</AuditCategory>
+	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="1">
+		<domain_id>1</domain_id>
+		<category_id>1</category_id>
+	</lnkAuditCategoryToAuditDomain>
 	<AuditRule alias="AuditRule" id="1">
 		<name>Le câble frontal est connecté à seulement une prise réseau</name>
 		<description>Seule une des terminaisons du câble est attachée à une prise réseau</description>
@@ -12,18 +20,52 @@
 		<valid_flag>true</valid_flag>
 		<category_id>1</category_id>
 	</AuditRule>
+	<AuditCategory alias="AuditCategory" id="2">
+		<name>Gestion des câbles arrière</name>
+		<description>Ensemble de règles liée aux câbles arrière</description>
+		<definition_set>SELECT BackEndNetworkCable</definition_set>
+	</AuditCategory>
+	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="2">
+		<domain_id>1</domain_id>
+		<category_id>2</category_id>
+	</lnkAuditCategoryToAuditDomain>
 	<AuditRule alias="AuditRule" id="2">
 		<name>Le câble arrière est connecté à seulement une prise réseau</name>
 		<description>Seule une des terminaisons du câble est attachée à une prise réseau</description>
 		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id != 0) AND (nc.backendsocket2_id != 0) </query>
 		<valid_flag>true</valid_flag>
-		<category_id>1</category_id>
+		<category_id>2</category_id>
 	</AuditRule>
+	<AuditCategory alias="AuditCategory" id="3">
+		<name>Gestion des câbles d'équipements</name>
+		<description>Ensemble de règles liée aux câbles d'équipements</description>
+		<definition_set>SELECT DeviceNetworkCable</definition_set>
+	</AuditCategory>
+	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="3">
+		<domain_id>1</domain_id>
+		<category_id>3</category_id>
+	</lnkAuditCategoryToAuditDomain>
 	<AuditRule alias="AuditRule" id="3">
 		<name>Le câble d'équipement est connecté à seulement une prise réseau</name>
-		<description>Seule une des terminaisons du câble est attachée à une prise réseau ou à un équipement</description>
+		<description>Seule une des terminaisons du câble est attachée à une prise réseau ou à l'interface physique d'un équipement</description>
 		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id != 0) AND (nc.physicalinterface_id != 0) </query>
 		<valid_flag>true</valid_flag>
-		<category_id>1</category_id>
+		<category_id>3</category_id>
+	</AuditRule>
+	<AuditCategory alias="AuditCategory" id="4">
+		<name>Gestion des câbles directs</name>
+		<description>Ensemble de règles liée aux câbles directs</description>
+		<definition_set>SELECT DirectNetworkCable</definition_set>
+	</AuditCategory>
+	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="4">
+		<domain_id>1</domain_id>
+		<category_id>4</category_id>
+	</lnkAuditCategoryToAuditDomain>
+	<AuditRule alias="AuditRule" id="4">
+		<name>Le câble direct est connecté à seulement une interface physique</name>
+		<description>Seule une des terminaisons du câble est attachée à l'interface physique d'un équipement</description>
+		<query>SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id != 0) AND (nc.physicalinterface2_id != 0) </query>
+		<valid_flag>true</valid_flag>
+		<category_id>4</category_id>
 	</AuditRule>
 </Set>
