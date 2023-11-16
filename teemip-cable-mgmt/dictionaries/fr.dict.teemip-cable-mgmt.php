@@ -45,6 +45,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Informations Générales',
 	'Class:NetworkCable:endpoints' => 'Points de Connexion',
+	'Class:NetworkCable/Attribute:finalclass' => 'Classe',
+	'Class:NetworkCable/Attribute:finalclass+' => '',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Type de câble',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
 	'Class:NetworkCable/Attribute:cabletype_name' => 'Nom du type de câble',

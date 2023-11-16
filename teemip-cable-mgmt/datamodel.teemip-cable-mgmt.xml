@@ -266,17 +266,20 @@
         <details/>
         <list>
           <items>
-            <item id="cabletype_id">
+            <item id="finalclass">
               <rank>10</rank>
             </item>
-            <item id="cablecategory_id">
+            <item id="cabletype_id">
               <rank>20</rank>
             </item>
-            <item id="length">
+            <item id="cablecategory_id">
               <rank>30</rank>
             </item>
-            <item id="label">
+            <item id="length">
               <rank>40</rank>
+            </item>
+            <item id="label">
+              <rank>50</rank>
             </item>
           </items>
         </list>

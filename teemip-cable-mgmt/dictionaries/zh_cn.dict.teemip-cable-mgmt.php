@@ -45,6 +45,8 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 	'Class:NetworkCable/Name' => '%1$s',
 	'Class:NetworkCable:baseinfo' => '基本信息',
 	'Class:NetworkCable:endpoints' => '连接点',
+	'Class:NetworkCable/Attribute:finalclass' => 'Class',
+	'Class:NetworkCable/Attribute:finalclass+' => '',
 	'Class:NetworkCable/Attribute:cabletype_id' => '电缆类型',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
 	'Class:NetworkCable/Attribute:cabletype_name' => '电缆类型名称',

@@ -45,6 +45,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Allgemeine Informationen',
 	'Class:NetworkCable:endpoints' => 'Verbindungspunkte',
+	'Class:NetworkCable/Attribute:finalclass' => 'Klasse',
+	'Class:NetworkCable/Attribute:finalclass+' => '',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Kabel-Typ',
 	'Class:NetworkCable/Attribute:cabletype_id+' => '',
 	'Class:NetworkCable/Attribute:cabletype_name' => 'Name Kabel-Typ',
