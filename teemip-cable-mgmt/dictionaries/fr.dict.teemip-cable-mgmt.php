@@ -230,8 +230,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Prise réseau',
 	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Prise réseau distante connectée à l\'interface. Cet attribut ne peut être utilisé conjointement avec l\'attribut matériel distant.',
-	'Class:PhysicalInterface/Attribute:cable' => 'Câble',
-	'Class:PhysicalInterface/Attribute:cable+' => 'Câble réseau d\'équipement connecté à l\'interface',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Matériel distant',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'Matériel distant connecté à l\'interface. Cet attribut ne peut être utilisé conjointement avec l\'attribut prise réseau.',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Nom du matériel distant',
@@ -240,6 +238,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id+' => 'Interface physique utilisée sur le matériel distant pour la connexion.',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name' => 'Nom de l\'Interface physique du matériel distant',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name+' => '',
+	'Class:PhysicalInterface/Tab:cables_list' => 'Câbles',
+	'Class:PhysicalInterface/Tab:cables_list+' => 'Liste de tous les câbles connectés à l\'interface',
 ));
 
 //

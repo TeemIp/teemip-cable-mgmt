@@ -205,8 +205,6 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => '网络插座',
 	'Class:PhysicalInterface/Attribute:networksocket_id+' => '连接到接口的远程网络插座。此属性不能同时填写远程设备。',
-	'Class:PhysicalInterface/Attribute:cable' => '电缆',
-	'Class:PhysicalInterface/Attribute:cable+' => '连接到接口的设备网络电缆',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => '远程设备',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => '连接到接口的远程设备。此属性不能同时填写网络插座。',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => '远程设备名称',
@@ -215,6 +213,8 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id+' => '用于连接的远程设备上的物理接口。',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name' => '远程物理接口名称',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name+' => '',
+	'Class:PhysicalInterface/Tab:cables_list' => '电缆',
+	'Class:PhysicalInterface/Tab:cables_list+' => '连接到接口的所有电缆的列表',
 ));
 
 //

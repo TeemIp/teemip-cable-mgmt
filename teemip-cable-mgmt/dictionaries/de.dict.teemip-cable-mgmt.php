@@ -230,8 +230,6 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PhysicalInterface/Attribute:networksocket_id' => 'Netzwerk-Dose',
 	'Class:PhysicalInterface/Attribute:networksocket_id+' => 'Entfernte Netzwerk-Dose, welche mit der Schnittstelle (Interface) verbunden ist',
-	'Class:PhysicalInterface/Attribute:cable' => 'Kabel',
-	'Class:PhysicalInterface/Attribute:cable+' => 'Geräte-Kabel, welches mit der Schnittstelle (Interface) verbunden ist',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id' => 'Remote-Gerät',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_id+' => 'An die Schnittstelle (Interface) angeschlossenes Remote-Gerät. Dieses Attribut kann nicht gleichzeitig mit dem Netzwerk-Socket gefüllt werden.',
 	'Class:PhysicalInterface/Attribute:remote_connectableci_name' => 'Name des Remote-Geräts',
@@ -240,6 +238,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_id+' => 'Physikalische Schnittstelle (Interface), welches an dem entfernten Gerät für die Verbindung verwendet wird',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name' => 'Name der entfernten physikalischen Schnittstelle',
 	'Class:PhysicalInterface/Attribute:remote_physicalinterface_name+' => '',
+	'Class:PhysicalInterface/Tab:cables_list' => 'Kabel',
+	'Class:PhysicalInterface/Tab:cables_list+' => 'Liste aller Kabel, welche mit der Schnittstelle (Interface) verbunden sind',
 ));
 
 //

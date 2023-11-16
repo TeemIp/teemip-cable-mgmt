@@ -1924,15 +1924,6 @@
           <extkey_attcode>remote_physicalinterface_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
-        <field id="cable" xsi:type="AttributeLinkedSet" _delta="define">
-          <linked_class>DeviceNetworkCable</linked_class>
-          <ext_key_to_me>physicalinterface_id</ext_key_to_me>
-          <edit_mode>none</edit_mode>
-          <display_style>tab</display_style>
-          <count_min>0</count_min>
-          <count_max>0</count_max>
-          <duplicates/>
-        </field>
       </fields>
       <event_listeners>
         <event_listener id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
@@ -2123,9 +2114,6 @@
       <presentation>
         <details>
           <items>
-            <item id="cable" _delta="define">
-              <rank>40</rank>
-            </item>
             <item id="col:col2" _delta="must_exist">
               <items>
                 <item id="fieldset:Class:NetworkInterface:wiringinfo" _delta="merge">
@@ -2407,8 +2395,8 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci_id AND nc.physicalinterface1_id = :id
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci2_id = :connectableci_id AND nc.physicalinterface2_id = :id";
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('connectableci_id' => $oObject->Get('connectableci_id'), 'id' => $oObject->GetKey()));
-		        $sName = Dict::Format('Class:NetworkSocket/Tab:cables_list');
-		        $sTitle = Dict::Format('Class:NetworkSocket/Tab:cables_list+');
+		        $sName = Dict::Format('Class:PhysicalInterface/Tab:cables_list');
+		        $sTitle = Dict::Format('Class:PhysicalInterface/Tab:cables_list+');
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
