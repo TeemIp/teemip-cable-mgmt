@@ -508,6 +508,19 @@
             </item>
           </items>
         </search>
+        <summary>
+          <items>
+            <item id="networksocket1_id">
+              <rank>10</rank>
+            </item>
+            <item id="networksocket2_id">
+              <rank>20</rank>
+            </item>
+            <item id="label">
+              <rank>30</rank>
+            </item>
+          </items>
+        </summary>
       </presentation>
     </class>
     <class id="BackEndNetworkCable" _delta="define">
@@ -699,6 +712,19 @@
             </item>
           </items>
         </search>
+        <summary>
+          <items>
+            <item id="backendsocket1_id">
+              <rank>10</rank>
+            </item>
+            <item id="backendsocket2_id">
+              <rank>20</rank>
+            </item>
+            <item id="label">
+              <rank>30</rank>
+            </item>
+          </items>
+        </summary>
       </presentation>
     </class>
     <class id="DeviceNetworkCable" _delta="define">
@@ -905,6 +931,19 @@
             </item>
           </items>
         </search>
+        <summary>
+          <items>
+            <item id="networksocket_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface_id">
+              <rank>20</rank>
+            </item>
+            <item id="label">
+              <rank>30</rank>
+            </item>
+          </items>
+        </summary>
       </presentation>
     </class>
     <class id="DirectNetworkCable" _delta="define">
@@ -1128,6 +1167,19 @@
             </item>
           </items>
         </search>
+        <summary>
+          <items>
+            <item id="physicalinterface1_id">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface2_id">
+              <rank>20</rank>
+            </item>
+            <item id="label">
+              <rank>30</rank>
+            </item>
+          </items>
+        </summary>
       </presentation>
     </class>
     <class id="NetworkSocket" _delta="define">
@@ -1708,6 +1760,22 @@
             </item>
           </items>
         </search>
+        <summary>
+          <items>
+            <item id="status">
+              <rank>10</rank>
+            </item>
+            <item id="physicalinterface_id">
+              <rank>20</rank>
+            </item>
+            <item id="networksocket_id">
+              <rank>30</rank>
+            </item>
+            <item id="backendsocket_id">
+              <rank>40</rank>
+            </item>
+          </items>
+        </summary>
       </presentation>
     </class>
     <class id="PatchPanel" _delta="define">
@@ -1883,6 +1951,16 @@
             </item>
           </items>
         </search>
+        <summary>
+          <items>
+            <item id="status">
+              <rank>10</rank>
+            </item>
+            <item id="capacity">
+              <rank>20</rank>
+            </item>
+          </items>
+        </summary>
       </presentation>
     </class>
     <class id="PhysicalInterface" _delta="must_exist">
