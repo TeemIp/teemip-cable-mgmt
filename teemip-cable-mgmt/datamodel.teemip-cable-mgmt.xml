@@ -1904,7 +1904,7 @@
           <target_class>ConnectableCI</target_class>
           <filter><![CDATA[SELECT ConnectableCI WHERE org_id = :this->org_id AND id != :this->connectableci_id]]></filter>
           <dependencies>
-            <attribute id="org_id"/>
+            <attribute id="connectableci_id"/>
           </dependencies>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
