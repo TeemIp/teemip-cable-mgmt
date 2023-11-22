@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<DeviceNetworkCable alias="DeviceNetworkCable" id="221">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>5</length>
+		<label></label>
+		<comment></comment>
+		<networksocket_id>215</networksocket_id>
+		<connectableci_id>121</connectableci_id>
+		<physicalinterface_id>132</physicalinterface_id>
+	</DeviceNetworkCable>
+	<DeviceNetworkCable alias="DeviceNetworkCable" id="222">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>5</length>
+		<label></label>
+		<comment></comment>
+		<networksocket_id>214</networksocket_id>
+		<connectableci_id>122</connectableci_id>
+		<physicalinterface_id>133</physicalinterface_id>
+	</DeviceNetworkCable>
+	<DeviceNetworkCable alias="DeviceNetworkCable" id="223">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>3</length>
+		<label></label>
+		<comment></comment>
+		<networksocket_id>211</networksocket_id>
+		<connectableci_id>102</connectableci_id>
+		<physicalinterface_id>134</physicalinterface_id>
+	</DeviceNetworkCable>
+	<DeviceNetworkCable alias="DeviceNetworkCable" id="224">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<label>5</label>
+		<comment></comment>
+		<networksocket_id>216</networksocket_id>
+		<connectableci_id>103</connectableci_id>
+		<physicalinterface_id>136</physicalinterface_id>
+	</DeviceNetworkCable>
+</Set>

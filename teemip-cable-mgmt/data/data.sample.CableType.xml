@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<CableType alias="CableType" id="271">
+		<name>SFTP</name>
+		<description></description>
+	</CableType>
+</Set>

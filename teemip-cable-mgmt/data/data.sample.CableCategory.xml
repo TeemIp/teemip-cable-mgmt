@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<CableCategory alias="CableCategory" id="272">
+		<name>Cat 6</name>
+		<description></description>
+		<cabletype_id>271</cabletype_id>
+	</CableCategory>
+</Set>

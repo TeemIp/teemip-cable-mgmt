@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<NetworkSocket alias="NetworkSocket" id="211">
+		<code>NS 12</code>
+		<location_id>2</location_id>
+		<org_id>2</org_id>
+		<rack_id>141</rack_id>
+		<patchpanel_id>201</patchpanel_id>
+		<status>active</status>
+		<connectableci_id>102</connectableci_id>
+		<physicalinterface_id>134</physicalinterface_id>
+		<backendsocket_id></backendsocket_id>
+	</NetworkSocket>
+	<NetworkSocket alias="NetworkSocket" id="212">
+		<code>NS 20</code>
+		<location_id>2</location_id>
+		<org_id>2</org_id>
+		<rack_id>142</rack_id>
+		<patchpanel_id>202</patchpanel_id>
+		<status>active</status>
+		<networksocket_id></networksocket_id>
+		<backendsocket_id>211</backendsocket_id>
+	</NetworkSocket>
+	<NetworkSocket alias="NetworkSocket" id="213">
+		<code>NS 2</code>
+		<location_id>2</location_id>
+		<org_id>2</org_id>
+		<rack_id>142</rack_id>
+		<patchpanel_id>202</patchpanel_id>
+		<status>active</status>
+		<networksocket_id>212</networksocket_id>
+		<backendsocket_id></backendsocket_id>
+	</NetworkSocket>
+	<NetworkSocket alias="NetworkSocket" id="214">
+		<code>NS 2</code>
+		<location_id>2</location_id>
+		<org_id>2</org_id>
+		<rack_id>143</rack_id>
+		<patchpanel_id>203</patchpanel_id>
+		<status>active</status>
+		<connectableci_id>122</connectableci_id>
+		<physicalinterface_id>133</physicalinterface_id>
+		<backendsocket_id>213</backendsocket_id>
+	</NetworkSocket>
+	<NetworkSocket alias="NetworkSocket" id="215">
+		<code>NS 5</code>
+		<location_id>2</location_id>
+		<org_id>2</org_id>
+		<rack_id>141</rack_id>
+		<patchpanel_id>201</patchpanel_id>
+		<status>active</status>
+		<connectableci_id>121</connectableci_id>
+		<physicalinterface_id>132</physicalinterface_id>
+		<backendsocket_id></backendsocket_id>
+	</NetworkSocket>
+	<NetworkSocket alias="NetworkSocket" id="216">
+		<code>NS 5</code>
+		<location_id>2</location_id>
+		<org_id>2</org_id>
+		<rack_id>144</rack_id>
+		<patchpanel_id>204</patchpanel_id>
+		<status>active</status>
+		<connectableci_id>103</connectableci_id>
+		<physicalinterface_id>136</physicalinterface_id>
+		<backendsocket_id>215</backendsocket_id>
+	</NetworkSocket>
+</Set>

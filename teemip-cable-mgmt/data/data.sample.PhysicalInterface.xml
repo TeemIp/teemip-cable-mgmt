@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<PhysicalInterface alias="PhysicalInterface" id="131">
+		<remote_connectableci_id>102</remote_connectableci_id>
+		<remote_physicalinterface_id>135</remote_physicalinterface_id>
+	</PhysicalInterface>
+	<PhysicalInterface alias="PhysicalInterface" id="135">
+		<remote_connectableci_id>121</remote_connectableci_id>
+		<remote_physicalinterface_id>131</remote_physicalinterface_id>
+	</PhysicalInterface>
+</Set>

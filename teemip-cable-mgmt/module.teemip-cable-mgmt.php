@@ -17,8 +17,9 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'teemip-ip-mgmt/3.1.0',
-			'teemip-config-mgmt-adaptor/3.1.0',
+			'teemip-ip-mgmt/3.1.2',
+			'teemip-config-mgmt-adaptor/3.1.1',
+			'teemip-datacenter-mgmt-adaptor/3.1.1',
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -34,6 +35,15 @@ SetupWebPage::AddModule(
 		'data.struct' => array(
 		),
 		'data.sample' => array(
+			'data/data.sample.PatchPanel.xml',
+			'data/data.sample.NetworkSocket.xml',
+			'data/data.sample.CableType.xml',
+			'data/data.sample.CableCategory.xml',
+			'data/data.sample.DeviceNetworkCable.xml',
+			'data/data.sample.BackEndNetworkCable.xml',
+			'data/data.sample.FrontEndNetworkCable.xml',
+			'data/data.sample.DirectNetworkCable.xml',
+			'data/data.sample.PhysicalInterface.xml'
 		),
 
 		// Documentation

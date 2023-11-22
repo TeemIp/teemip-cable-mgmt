@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<BackEndNetworkCable alias="BackEndNetworkCable" id="241">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>10</length>
+		<label></label>
+		<comment></comment>
+		<backendsocket1_id>211</backendsocket1_id>
+		<backendsocket2_id>212</backendsocket2_id>
+	</BackEndNetworkCable>
+	<BackEndNetworkCable alias="BackEndNetworkCable" id="242">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>10</length>
+		<label></label>
+		<comment></comment>
+		<backendsocket1_id>213</backendsocket1_id>
+		<backendsocket2_id>214</backendsocket2_id>
+	</BackEndNetworkCable>
+	<BackEndNetworkCable alias="BackEndNetworkCable" id="243">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>10</length>
+		<label></label>
+		<comment></comment>
+		<backendsocket1_id>215</backendsocket1_id>
+		<backendsocket2_id>216</backendsocket2_id>
+	</BackEndNetworkCable>
+</Set>

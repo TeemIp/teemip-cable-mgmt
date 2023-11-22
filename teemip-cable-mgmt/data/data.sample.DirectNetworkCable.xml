@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<DirectNetworkCable alias="DirectNetworkCable" id="251">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>5</length>
+		<label></label>
+		<comment></comment>
+		<connectableci1_id>121</connectableci1_id>
+		<physicalinterface1_id>131</physicalinterface1_id>
+		<connectableci2_id>102</connectableci2_id>
+		<physicalinterface2_id>135</physicalinterface2_id>
+	</DirectNetworkCable>
+</Set>

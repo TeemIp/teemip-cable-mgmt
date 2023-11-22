@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<FrontEndNetworkCable alias="FrontEndNetworkCable" id="261">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>5</length>
+		<label></label>
+		<comment></comment>
+		<networksocket1_id>212</networksocket1_id>
+		<networksocket2_id>213</networksocket2_id>
+	</FrontEndNetworkCable>
+</Set>
