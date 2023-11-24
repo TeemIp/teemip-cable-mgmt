@@ -1195,6 +1195,9 @@
           <attributes>
             <attribute id="name"/>
           </attributes>
+          <complementary_attributes>
+            <attribute id="status"></attribute>
+          </complementary_attributes>
         </naming>
         <fields_semantic>
           <state_attribute>status</state_attribute>
@@ -1791,6 +1794,12 @@
           <attributes>
             <attribute id="name"/>
           </attributes>
+          <complementary_attributes>
+            <attribute id="location_name"/>
+            <attribute id="rack_name"/>
+            <attribute id="status"></attribute>
+            <attribute id="capacity"></attribute>
+          </complementary_attributes>
         </naming>
         <style>
           <icon>assets/img/icons8-toolbar.svg</icon>
