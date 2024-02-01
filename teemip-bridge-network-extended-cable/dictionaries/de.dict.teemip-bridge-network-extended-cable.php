@@ -10,6 +10,17 @@
 //
 
 //
+// Class: PatchPanel
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:PatchPanel/Attribute:interfaceconnector_id' => 'Konnektor',
+	'Class:PatchPanel/Attribute:interfaceconnector_id+' => 'Konnektor-Typ der Patch panel',
+	'Class:PatchPanel/Attribute:interfaceconnector_name' => 'Konnektor Name',
+	'Class:PatchPanel/Attribute:interfaceconnector_name+' => '',
+));
+
+//
 // Class: NetworkSocket
 //
 
@@ -25,6 +36,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:InterfaceConnector/Attribute:patchpanels_list' => 'Patch panels',
+	'Class:InterfaceConnector/Attribute:patchpanels_list+' => 'Patchpanels, in denen dieser Steckverbindertyp untergebracht ist',
 	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Netzwerk-Dose',
 	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Netzwerk-Dosen mit diesem Konnektor',
 ));

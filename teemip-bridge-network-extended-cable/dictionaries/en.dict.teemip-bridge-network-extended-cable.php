@@ -10,6 +10,17 @@
 //
 
 //
+// Class: PatchPanel
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:PatchPanel/Attribute:interfaceconnector_id' => 'Connector',
+	'Class:PatchPanel/Attribute:interfaceconnector_id+' => 'Connector type used by the patch panel',
+	'Class:PatchPanel/Attribute:interfaceconnector_name' => 'Connector name',
+	'Class:PatchPanel/Attribute:interfaceconnector_name+' => '',
+));
+
+//
 // Class: NetworkSocket
 //
 
@@ -25,6 +36,8 @@ Dict::Add('EN US', 'English', 'English', array(
 //
 
 Dict::Add('EN US', 'English', 'English', array(
+	'Class:InterfaceConnector/Attribute:patchpanels_list' => 'Patch panels',
+	'Class:InterfaceConnector/Attribute:patchpanels_list+' => 'Patch panels hosting that connector',
 	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Network sockets',
 	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Network sockets with that connector',
 ));
