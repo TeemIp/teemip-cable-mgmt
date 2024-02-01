@@ -276,9 +276,10 @@ Dict::Add('EN US', 'English', 'English', array(
 
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Créer les prises réseau',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Créer les câbles back end',
-	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Crée les câbles réseau back end pour le paneau de brassage : %1$s',
-	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Sélectionnez un paneau de brassage',
-	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Les câbles réseau back end n\'ont pu être créés : le paneau de brassage distant %1$s n\'existe pas !',
-	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le paneau de brassage distant %1$s n\'a plus de capacité !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Crée les câbles réseau back end pour le panneau de brassage : %1$s',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Sélectionnez un panneau de brassage',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'Aucun panneau de brassage n\'est en fait disponible pour cette opération !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'existe pas !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'a plus de capacité !',
 
 ));

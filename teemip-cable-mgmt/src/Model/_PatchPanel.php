@@ -75,7 +75,7 @@ class _PatchPanel extends PhysicalDevice
 
 		$oPatchPanel = MetaModel::GetObject('PatchPanel', $iPatchPanel);
 		$iPatchPanelCapacity = $oPatchPanel->Get('capacity');
-		if (is_null($iPatchPanelCapacity)) {
+		if (empty($iPatchPanelCapacity)) {
 			return [0, null];
 		}
 
@@ -95,7 +95,7 @@ class _PatchPanel extends PhysicalDevice
 	public function CreateBackEndNetworkCables($iRemotePatchPanel): string
 	{
 		// Get list of available remote network Sockets
-		if (is_null($iRemotePatchPanel)) {
+		if (empty($iRemotePatchPanel)) {
 			return Dict::Format('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists', $iRemotePatchPanel);
 		}
 		list ($iRemoteCapacity, $oRemoteNetworkSocketSet) = $this->GetNetworkSocketsWithFreeBackEnd($iRemotePatchPanel);

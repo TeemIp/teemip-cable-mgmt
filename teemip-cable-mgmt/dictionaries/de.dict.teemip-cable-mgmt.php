@@ -278,6 +278,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Netzwerk-Kabel (Rückseite) zu Erstellen',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Erstellen Sie Netzwerk-Kabel (Rückseite) für Patch Panel xx: %1$s',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Wählen Sie einen Entfernte Patch Panel aus',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'Für diesen Vorgang steht eigentlich keine entfernte Patch Panel zur Verfügung !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Netzwerk-Kabel (Rückseite) können nicht erstellt werden: Entfernte Patch Panel %1$s existiert nicht !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Netzwerk-Kabel (Rückseite) können nicht erstellt werden: Entfernte Patch Panel %1$s hat keine Kapazität !',
 

@@ -41,7 +41,7 @@ class CableMgmtController extends Controller
 				$oPatchPanel = MetaModel::GetObject('PatchPanel', $iKey);
 				$aParams['PatchpanelName'] = $oPatchPanel->Get('friendlyname');
 
-				$aActionFields = $this->GetActionFieldsForOperation($oPatchPanel);
+				list($bIssue, $sLevel, $sMessage, $aActionFields) = $this->GetActionFieldsForOperation($oPatchPanel);
 				$aParams = array_merge($aParams, $aActionFields);
 				break;
 
@@ -49,7 +49,7 @@ class CableMgmtController extends Controller
 				break;
 		}
 
-		return $aParams;
+		return [$bIssue, $sLevel, $sMessage, $aParams];
 	}
 
 	/**
@@ -59,6 +59,9 @@ class CableMgmtController extends Controller
 	private function GetActionFieldsForOperation($oPatchPanel): array
 	{
 		$aParams = array();
+		$bIssue = false;
+		$sLevel = '';
+		$sMessage = '';
 		$iFormId = rand();
 
 		// Patch Panel
@@ -68,16 +71,27 @@ class CableMgmtController extends Controller
 		$iOrgId = $oPatchPanel->Get('org_id');
 		$oRemotePatchPanelSet = new CMDBObjectSet(DBObjectSearch::FromOQL("SELECT PatchPanel AS p WHERE p.org_id = :org_id AND p.id != :key"), array(), array('org_id' => $iOrgId, 'key' => $iKey));
 		$sInputId = $iFormId.'_'.$sAttCode;
-		$sHTMLValue = "<select id=\"$sInputId\" name=\"attr_$sAttCode\">\n";
-		while ($oRemotePatchPanel = $oRemotePatchPanelSet->Fetch()) {
-			list ($iCapacity, $oNetworkSocketSet) = $oRemotePatchPanel->GetNetworkSocketsWithFreeBackEnd($oRemotePatchPanel->GetKey());
-			if ($iCapacity > 0) {
-				$iRemotePatchPanel = $oRemotePatchPanel->GetKey();
-				$sRemotePatchPanelName = $oRemotePatchPanel->Get('friendlyname');
-				$sHTMLValue .= "<option value=\"$iRemotePatchPanel\">".$sRemotePatchPanelName."</option>\n";
+		if ($oRemotePatchPanelSet->CountExceeds(0)) {
+			$bEmptyList = true;
+			$sHTMLValue = "<select id=\"$sInputId\" name=\"attr_$sAttCode\">\n";
+			while ($oRemotePatchPanel = $oRemotePatchPanelSet->Fetch()) {
+				list ($iCapacity, $oNetworkSocketSet) = $oRemotePatchPanel->GetNetworkSocketsWithFreeBackEnd($oRemotePatchPanel->GetKey());
+				if ($iCapacity > 0) {
+					$bEmptyList = false;
+					$iRemotePatchPanel = $oRemotePatchPanel->GetKey();
+					$sRemotePatchPanelName = $oRemotePatchPanel->Get('friendlyname');
+					$sHTMLValue .= "<option value=\"$iRemotePatchPanel\">".$sRemotePatchPanelName."</option>\n";
+				}
 			}
+			$sHTMLValue .= "</select>";
+			if ($bEmptyList) {
+				$bIssue = true;
+				$sLevel = 'failure';
+				$sMessage = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
+			}
+		} else {
+			$sHTMLValue = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
 		}
-		$sHTMLValue .= "</select>";
 		$val = array(
 			'label' => '<span  >'.$sAttLabel.'</span>',
 			'value' => $sHTMLValue,
@@ -85,7 +99,7 @@ class CableMgmtController extends Controller
 		);
 		$aParams['aPatchPanelVal'] = $val;
 
-		return $aParams;
+		return [$bIssue, $sLevel, $sMessage, $aParams];
 	}
 
 	public function OperationCreateNetworkSockets()
@@ -105,8 +119,10 @@ class CableMgmtController extends Controller
 	public function OperationCreateBackEndNetworkCables()
 	{
 		$iKey = utils::ReadParam('id');
-		$aParams = $this->GetParams('PatchPanel', $iKey);
-		$aParams['bIssue'] = false;
+		list($bIssue, $sLevel, $sMessage, $aParams) = $this->GetParams('PatchPanel', $iKey);
+		$aParams['bIssue'] = $bIssue;
+		$aParams['sMessage'] = $sMessage;
+		$aParams['sLevel'] = $sLevel;
 		$aParams['sCancelURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=PatchPanel&id='.$iKey;
 
 		$this->m_sOperation = 'CreateBackEndNetworkCables';
@@ -129,12 +145,14 @@ class CableMgmtController extends Controller
 		$aParams = [];
 		if ($sError != '') {
 			$aParams['bIssue'] = true;
+			$aParams['slevel'] = 'warning';
 			$aParams['sMessage'] = Dict::S($sError);
 			$aParams = array_merge($aParams, $this->GetParams('PatchPanel', $iKey));
 
 			$this->m_sOperation = 'CreateBackEndNetworkCables';
 		} else {
 			$aParams['bIssue'] = false;
+			$aParams['slevel'] = '';
 			$aParams['sURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=PatchPanel&id='.$iKey;
 
 			$this->m_sOperation = 'DoCreateBackEndNetworkCables';

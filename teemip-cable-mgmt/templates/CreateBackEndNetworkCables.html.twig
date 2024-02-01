@@ -5,11 +5,19 @@
 {% UIContentBlock Standard {} %}
 
     {% if bIssue %}
-        {% UIAlert ForFailure {} %}
-            {% UIContentBlock Standard {} %}
-                {{ sMessage }}
-            {% EndUIContentBlock %}
-        {% EndUIAlert %}
+        {% if sLevel == 'failure' %}
+            {% UIAlert ForFailure {} %}
+                {% UIContentBlock Standard {} %}
+                    {{ sMessage }}
+                {% EndUIContentBlock %}
+            {% EndUIAlert %}
+        {% else %}
+            {% UIAlert ForWarning {} %}
+                {% UIContentBlock Standard {} %}
+                    {{ sMessage }}
+                {% EndUIContentBlock %}
+            {% EndUIAlert %}
+        {% endif %}
     {% endif %}
 
     {% UIForm Standard {'CSSClasses':['form-inline']} %}
@@ -23,7 +31,9 @@
                     {% EndUIContentBlock %}
                     {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}
                         {% UIButton ForCancel {'sId':'cancel-create', 'sLabel':'iTopUpdate:UI:Cancel'|dict_s, 'bIsSubmit':false} %}
-                        {% UIButton ForPrimaryAction {'sId':'do-create', 'sLabel':'UI:Button:Apply'|dict_s, 'bIsSubmit':true} %}
+                        {% if not (sLevel == 'failure') %}
+                            {% UIButton ForPrimaryAction {'sId':'do-create', 'sLabel':'UI:Button:Apply'|dict_s, 'bIsSubmit':true} %}
+                        {% endif %}
                         {% UIInput ForHidden {'sName':'route', 'sValue':'cable_mgmt.do_create_back_end_network_cables'} %}
                         {% UIInput ForHidden {'sName':'transaction_id', 'sValue':sTransactionId} %}
                         {% UIInput ForHidden {'sName':'id', 'sValue':id} %}

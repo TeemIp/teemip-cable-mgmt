@@ -278,6 +278,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Create back end network cables',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Create back end network cables for patch panel: %1$s',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Select a remote patch panel',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'No remote Patch panel is actually available for the operation!',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Back End cables cannot be created: remote Patch Panel %1$s doesn\'t exist!',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Back End cables cannot be created: remote Patch Panel %1$s doesn\'t have any capacity!',
 
