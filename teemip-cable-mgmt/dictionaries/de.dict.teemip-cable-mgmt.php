@@ -254,26 +254,31 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 ));
 
 //
-// Actions
-//
-
-Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerk-Dosen verbunden',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Ein Patch Panel muss ausgewählt werden, wenn die Netzwerkdose zu einem Rack gehört!',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerk-Dose kann nicht mit beidem, einem Interface und einer anderen Netzwerk-Dose, verbunden sein!',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerk-Dose kann nicht mit mit der selben entfernten Netzwerk-Dose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
-	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerk-Dose und einem entfernten Gerät verbunden werden!',
-));
-
-//
-// Menus
+// Menus & actions
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Menu:TeemIpNetworking:Cabling' => 'Verkabelung',
+
 	'Relation:wiring/Description' => 'Verkabelungs-Layout',
 	'Relation:wiring/DownStream' => 'Verkabelung (DownStream)...',
 	'Relation:wiring/DownStream+' => 'Verkabelungs-Layout (DownStream)',
 	'Relation:wiring/UpStream' => 'Verkabelung (UpStream)...',
 	'Relation:wiring/UpStream+' => 'Verkabelungs-Layout (UpStream)',
+
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerk-Dosen verbunden',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Ein Patch Panel muss ausgewählt werden, wenn die Netzwerkdose zu einem Rack gehört!',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerk-Dose kann nicht mit beidem, einem Interface und einer anderen Netzwerk-Dose, verbunden sein!',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerk-Dose kann nicht mit mit der selben entfernten Netzwerk-Dose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerk-Dose und einem entfernten Gerät verbunden werden!',
+
+	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Netzwerk-Kabel zu Erstellen',
+
+	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Netzwerkdose zu Erstellen',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Netzwerk-Kabel (Rückseite) zu Erstellen',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Erstellen Sie Netzwerk-Kabel (Rückseite) für Patch Panel xx: %1$s',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Wählen Sie einen Entfernte Patch Panel aus',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Netzwerk-Kabel (Rückseite) können nicht erstellt werden: Entfernte Patch Panel %1$s existiert nicht !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Netzwerk-Kabel (Rückseite) können nicht erstellt werden: Entfernte Patch Panel %1$s hat keine Kapazität !',
+
 ));

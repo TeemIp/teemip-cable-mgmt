@@ -254,26 +254,31 @@ Dict::Add('EN US', 'English', 'English', array(
 ));
 
 //
-// Actions
-//
-
-Dict::Add('EN US', 'English', 'English', array(
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'A patch panel needs to be selected when the network socket belongs to a rack!',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
-	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
-));
-
-//
-// Menus
+// Menus & actions
 //
 
 Dict::Add('EN US', 'English', 'English', array(
 	'Menu:TeemIpNetworking:Cabling' => 'Cabling',
+
 	'Relation:wiring/Description' => 'Wiring layout',
 	'Relation:wiring/DownStream' => 'Wiring...',
 	'Relation:wiring/DownStream+' => 'Wiring layout',
 	'Relation:wiring/UpStream' => 'Wiring...',
 	'Relation:wiring/UpStream+' => 'Wiring layout',
+
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'A patch panel needs to be selected when the network socket belongs to a rack!',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
+
+	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Create Back End Cables',
+
+	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Create network sockets',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Create back end network cables',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Create back end network cables for patch panel: %1$s',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Select a remote patch panel',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Back End cables cannot be created: remote Patch Panel %1$s doesn\'t exist!',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Back End cables cannot be created: remote Patch Panel %1$s doesn\'t have any capacity!',
+
 ));

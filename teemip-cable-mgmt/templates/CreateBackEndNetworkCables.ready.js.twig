@@ -1,0 +1,15 @@
+{# @copyright   Copyright (C) 2021 TeemIp #}
+{# @license     http://opensource.org/licenses/AGPL-3.0 #}
+
+$("#do-create").on("click", function(oEvent) {
+    $(this).prop("disabled", true);
+    $("#cancel-create").prop("disabled", true);
+    $(this).parents('form').submit();
+    oEvent.preventDefault();
+    oEvent.stopPropagation();
+    return false;
+});
+
+$("#cancel-create").on("click", function(oEvent) {
+    window.location.href = '{{ sCancelURL|raw }}';
+});
