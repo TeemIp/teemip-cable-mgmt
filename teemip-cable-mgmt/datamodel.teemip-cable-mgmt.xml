@@ -1413,7 +1413,7 @@
               </items>
             </item>
             <item id="col:col2">
-              <rank>10</rank>
+              <rank>20</rank>
               <items>
                 <item id="fieldset:Class:NetworkSocket:frontendinfo">
                   <rank>10</rank>
@@ -2044,6 +2044,423 @@
         </method>
       </methods>
     </class>
+    <class id="CrossConnect" _delta="define">
+      <properties>
+        <category>bizmodel,searchable</category>
+        <abstract>false</abstract>
+        <db_table>crossconnect</db_table>
+        <naming>
+          <attributes>
+            <attribute id="name"/>
+          </attributes>
+          <complementary_attributes>
+            <attribute id="org_id"></attribute>
+            <attribute id="remote_org_id"></attribute>
+          </complementary_attributes>
+        </naming>
+        <reconciliation>
+          <attributes>
+            <attribute id="name"/>
+            <attribute id="org_id"/>
+          </attributes>
+        </reconciliation>
+        <fields_semantic>
+          <state_attribute>status</state_attribute>
+        </fields_semantic>
+        <style>
+          <icon>assets/img/icons8-data-transfer.svg</icon>
+        </style>
+      </properties>
+      <fields>
+        <field id="status" xsi:type="AttributeEnum">
+          <sql>status</sql>
+          <sort_type>rank</sort_type>
+          <values>
+            <value id="construction">
+              <code>construction</code>
+              <style>
+                <main_color>hsla(207, 72.6%, 57.1%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
+              <rank>10</rank>
+            </value>
+            <value id="production">
+              <code>production</code>
+              <style>
+                <main_color>hsla(88, 50.2%, 52.7%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
+              <rank>20</rank>
+            </value>
+            <value id="cancellation">
+              <code>cancellation</code>
+              <style>
+                <main_color>hsla(0, 60.8%, 48%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
+              <rank>30</rank>
+            </value>
+            <value id="obsolete">
+              <code>obsolete</code>
+              <style>
+                <main_color>hsla(209, 23.7%, 74.3%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
+              <rank>40</rank>
+            </value>
+          </values>
+          <default_value>construction</default_value>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+        <field id="ref" xsi:type="AttributeString">
+          <sql>ref</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+          <validation_pattern/>
+        </field>
+        <field id="remote_org_id" xsi:type="AttributeExternalKey">
+          <sql>remote_org_id</sql>
+          <filter/>
+          <is_null_allowed>false</is_null_allowed>
+          <target_class>Organization</target_class>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_ref" xsi:type="AttributeString">
+          <sql>remote_ref</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+          <validation_pattern/>
+        </field>
+        <field id="cabletype_id" xsi:type="AttributeExternalKey">
+          <sql>cabletype_id</sql>
+          <filter><![CDATA[SELECT CableType]]></filter>
+          <dependencies/>
+          <target_class>CableType</target_class>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="cabletype_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>cabletype_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="location_id" xsi:type="AttributeExternalKey">
+          <sql>location_id</sql>
+          <filter><![CDATA[SELECT Location AS l WHERE l.org_id = :this->org_id]]></filter>
+          <dependencies>
+            <attribute id="org_id"/>
+          </dependencies>
+          <target_class>Location</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="location_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>location_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="rack_id" xsi:type="AttributeExternalKey">
+          <sql>rack_id</sql>
+          <target_class>Rack</target_class>
+          <filter><![CDATA[SELECT Rack AS r WHERE r.location_id = :this->location_id]]></filter>
+          <dependencies>
+            <attribute id="location_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="rack_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>rack_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="patchpanel_id" xsi:type="AttributeExternalKey">
+          <sql>patchpanel_id</sql>
+          <target_class>PatchPanel</target_class>
+          <filter><![CDATA[SELECT PatchPanel AS pp WHERE pp.rack_id = :this->rack_id]]></filter>
+          <dependencies>
+            <attribute id="rack_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="patchpanel_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>patchpanel_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="patchpanel_rack_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>patchpanel_id</extkey_attcode>
+          <target_attcode>rack_name</target_attcode>
+        </field>
+        <field id="networksocket1_id" xsi:type="AttributeExternalKey">
+          <sql>networksocket1_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id]]></filter>
+          <dependencies>
+            <attribute id="patchpanel_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="networksocket1_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>networksocket1_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="networksocket2_id" xsi:type="AttributeExternalKey">
+          <sql>networksocket2_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id]]></filter>
+          <dependencies>
+            <attribute id="patchpanel_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="networksocket2_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>networksocket2_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="remote_location_id" xsi:type="AttributeExternalKey">
+          <sql>remote_location_id</sql>
+          <filter><![CDATA[SELECT Location AS l WHERE l.org_id = :this->org_id]]></filter>
+          <dependencies>
+            <attribute id="remote_org_id"/>
+          </dependencies>
+          <target_class>Location</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_location_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_location_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="remote_rack_id" xsi:type="AttributeExternalKey">
+          <sql>remote_rack_id</sql>
+          <target_class>Rack</target_class>
+          <filter><![CDATA[SELECT Rack AS r WHERE r.location_id = :this->remote_location_id]]></filter>
+          <dependencies>
+            <attribute id="remote_location_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_rack_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_rack_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="remote_patchpanel_id" xsi:type="AttributeExternalKey">
+          <sql>remote_patchpanel_id</sql>
+          <target_class>PatchPanel</target_class>
+          <filter><![CDATA[SELECT PatchPanel AS pp WHERE pp.rack_id = :this->remote_rack_id]]></filter>
+          <dependencies>
+            <attribute id="remote_rack_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_patchpanel_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_patchpanel_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="remote_patchpanel_rack_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_patchpanel_id</extkey_attcode>
+          <target_attcode>rack_name</target_attcode>
+        </field>
+        <field id="remote_networksocket1_id" xsi:type="AttributeExternalKey">
+          <sql>remote_networksocket1_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id]]></filter>
+          <dependencies>
+            <attribute id="remote_patchpanel_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_networksocket1_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_networksocket1_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="remote_networksocket2_id" xsi:type="AttributeExternalKey">
+          <sql>remote_networksocket2_id</sql>
+          <target_class>NetworkSocket</target_class>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id]]></filter>
+          <dependencies>
+            <attribute id="remote_patchpanel_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_networksocket2_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_networksocket2_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+      </fields>
+      <methods/>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col1">
+              <rank>10</rank>
+              <items>
+                <item id="fieldset:CrossConnect:baseinfo">
+                  <items>
+                    <item id="name">
+                      <rank>10</rank>
+                    </item>
+                    <item id="org_id">
+                      <rank>20</rank>
+                    </item>
+                     <item id="ref">
+                      <rank>30</rank>
+                    </item>
+                    <item id="remote_org_id">
+                      <rank>40</rank>
+                    </item>
+                    <item id="remote_ref">
+                      <rank>50</rank>
+                    </item>
+                    <item id="status">
+                      <rank>60</rank>
+                    </item>
+                     <item id="cabletype_id">
+                      <rank>70</rank>
+                    </item>
+                     <item id="business_criticity">
+                      <rank>80</rank>
+                    </item>
+                     <item id="move2production">
+                      <rank>90</rank>
+                    </item>
+                    <item id="description">
+                      <rank>100</rank>
+                    </item>
+                  </items>
+                  <rank>10</rank>
+                </item>
+              </items>
+            </item>
+            <item id="col:col2">
+              <rank>20</rank>
+              <items>
+                <item id="fieldset:CrossConnect:localinfo">
+                  <items>
+                    <item id="location_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="rack_id">
+                      <rank>20</rank>
+                    </item>
+                     <item id="patchpanel_id">
+                      <rank>30</rank>
+                    </item>
+                    <item id="networksocket1_id">
+                      <rank>40</rank>
+                    </item>
+                    <item id="networksocket2_id">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+                <item id="fieldset:CrossConnect:remoteinfo">
+                  <items>
+                    <item id="remote_location_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="remote_rack_id">
+                      <rank>20</rank>
+                    </item>
+                     <item id="remote_patchpanel_id">
+                      <rank>30</rank>
+                    </item>
+                    <item id="remote_networksocket1_id">
+                      <rank>40</rank>
+                    </item>
+                    <item id="remote_networksocket2_id">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+        <list>
+          <items>
+            <item id="name">
+              <rank>10</rank>
+            </item>
+	        <item id="cabletype_id">
+              <rank>20</rank>
+            </item>
+            <item id="status">
+              <rank>30</rank>
+            </item>
+            <item id="org_id">
+              <rank>40</rank>
+            </item>
+            <item id="ref">
+              <rank>50</rank>
+            </item>
+            <item id="remote_org_id">
+              <rank>60</rank>
+            </item>
+            <item id="remote_ref">
+              <rank>70</rank>
+            </item>
+          </items>
+        </list>
+        <default_search>
+          <items>
+            <item id="name">
+              <rank>10</rank>
+            </item>
+            <item id="status">
+              <rank>20</rank>
+            </item>
+            <item id="org_id">
+              <rank>30</rank>
+            </item>
+            <item id="remote_org_id">
+              <rank>40</rank>
+            </item>
+          </items>
+        </default_search>
+        <search>
+          <items>
+            <item id="name">
+              <rank>10</rank>
+            </item>
+            <item id="status">
+              <rank>20</rank>
+            </item>
+            <item id="org_id">
+              <rank>30</rank>
+            </item>
+            <item id="remote_org_id">
+              <rank>40</rank>
+            </item>
+          </items>
+        </search>
+        <summary>
+          <items>
+            <item id="org_id">
+              <rank>10</rank>
+            </item>
+            <item id="ref">
+              <rank>20</rank>
+            </item>
+            <item id="remote_org_id">
+              <rank>30</rank>
+            </item>
+            <item id="remote_ref">
+              <rank>40</rank>
+            </item>
+          </items>
+        </summary>
+      </presentation>
+      <parent>FunctionalCI</parent>
+    </class>
   </classes>
   <menus>
     <menu id="ConfigManagement:TeemIpNetworking" _delta="must_exist">
@@ -2097,6 +2514,10 @@
                 <rank>80</rank>
                 <class>NetworkSocket</class>
               </dashlet>
+              <dashlet id="90" xsi:type="DashletBadge">
+                <rank>90</rank>
+                <class>CrossConnect</class>
+              </dashlet>
             </dashlets>
           </cell>
         </cells>
@@ -2125,6 +2546,7 @@
     <groups>
       <group id="Network" _delta="must_exist">
         <classes>
+          <class id="CrossConnect" _delta="define"/>
           <class id="NetworkCable" _delta="define"/>
           <class id="NetworkSocket" _delta="define"/>
           <class id="PatchPanel" _delta="define"/>
