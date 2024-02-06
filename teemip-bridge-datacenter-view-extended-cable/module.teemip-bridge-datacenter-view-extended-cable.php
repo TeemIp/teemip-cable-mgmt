@@ -6,7 +6,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-bridge-datacenter-view-extended-cable/1.1.0',
+	'teemip-bridge-datacenter-view-extended-cable/1.2.0-dev',
 	array(
 		// Identification
 		//
