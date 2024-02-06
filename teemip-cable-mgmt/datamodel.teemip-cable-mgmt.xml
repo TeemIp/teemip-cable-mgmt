@@ -1580,6 +1580,17 @@
           <count_max>0</count_max>
           <duplicates/>
         </field>
+        <field id="enclosure_id" xsi:type="AttributeExternalKey">
+          <sql>enclosure_id</sql>
+          <target_class>Enclosure</target_class>
+          <filter><![CDATA[SELECT Enclosure AS e WHERE e.org_id = :this->org_id AND e.rack_id = :this->rack_id]]></filter>
+          <dependencies>
+            <attribute id="org_id"/>
+            <attribute id="rack_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
       </fields>
       <methods/>
       <presentation>
@@ -1625,6 +1636,9 @@
                     <item id="rack_id">
                       <rank>10</rank>
                     </item>
+                    <item id="enclosure_id">
+                      <rank>20</rank>
+                    </item>
                   </items>
                 </item>
               </items>
@@ -1642,8 +1656,11 @@
             <item id="rack_id">
               <rank>40</rank>
             </item>
-            <item id="capacity">
+            <item id="enclosure_id">
               <rank>50</rank>
+            </item>
+            <item id="capacity">
+              <rank>60</rank>
             </item>
           </items>
         </list>
@@ -1661,8 +1678,11 @@
             <item id="rack_id">
               <rank>40</rank>
             </item>
-            <item id="capacity">
+            <item id="enclosure_id">
               <rank>50</rank>
+            </item>
+            <item id="capacity">
+              <rank>60</rank>
             </item>
           </items>
         </default_search>
@@ -2284,7 +2304,10 @@
         <field id="remote_networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>remote_networksocket2_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id]]></filter>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE
+            ns.patchpanel_id = :this->remote_patchpanel_id AND ns.backendsocket_id > 0 AND ns.networksocket_id = 0 AND ns.physicalinterface_id = 0
+            AND ns.id != :this->remote_networksocket1_id AND ns.id != :this->networksocket1_id AND ns.id != :this->networksocket2_id]]>
+          </filter>
           <dependencies>
             <attribute id="remote_patchpanel_id"/>
           </dependencies>
@@ -2296,6 +2319,20 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <relations>
+        <relation id="wiring" _delta="define">
+          <neighbours>
+            <neighbour id="networksocket1">
+              <attribute>networksocket1_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+            <neighbour id="networksocket2">
+              <attribute>networksocket2_id</attribute>
+              <direction>both</direction>
+            </neighbour>
+          </neighbours>
+        </relation>
+      </relations>
       <methods/>
       <presentation>
         <details>
@@ -2303,7 +2340,7 @@
             <item id="col:col1">
               <rank>10</rank>
               <items>
-                <item id="fieldset:CrossConnect:baseinfo">
+                <item id="fieldset:Class:CrossConnect:baseinfo">
                   <items>
                     <item id="name">
                       <rank>10</rank>
@@ -2323,7 +2360,7 @@
                     <item id="status">
                       <rank>60</rank>
                     </item>
-                     <item id="cabletype_id">
+                     <item id="cablecategory_id">
                       <rank>70</rank>
                     </item>
                      <item id="business_criticity">
@@ -2343,7 +2380,7 @@
             <item id="col:col2">
               <rank>20</rank>
               <items>
-                <item id="fieldset:CrossConnect:localinfo">
+                <item id="fieldset:Class:CrossConnect:localinfo">
                   <items>
                     <item id="location_id">
                       <rank>10</rank>
@@ -2362,7 +2399,7 @@
                     </item>
                   </items>
                 </item>
-                <item id="fieldset:CrossConnect:remoteinfo">
+                <item id="fieldset:Class:CrossConnect:remoteinfo">
                   <items>
                     <item id="remote_location_id">
                       <rank>10</rank>
@@ -2390,7 +2427,7 @@
             <item id="name">
               <rank>10</rank>
             </item>
-	        <item id="cabletype_id">
+	        <item id="cablecategory_id">
               <rank>20</rank>
             </item>
             <item id="status">
@@ -2459,7 +2496,6 @@
           </items>
         </summary>
       </presentation>
-      <parent>FunctionalCI</parent>
     </class>
   </classes>
   <menus>

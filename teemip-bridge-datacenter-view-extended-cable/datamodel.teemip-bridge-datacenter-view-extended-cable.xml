@@ -63,14 +63,6 @@
           <is_null_allowed>false</is_null_allowed>
           <display_style>list</display_style>
         </field>
-        <field id="enclosure_id" xsi:type="AttributeExternalKey" _delta="define">
-          <sql>enclosure_id</sql>
-          <target_class>Enclosure</target_class>
-          <filter/>
-          <dependencies/>
-          <is_null_allowed>true</is_null_allowed>
-          <on_target_delete>DEL_AUTO</on_target_delete>
-        </field>
       </fields>
       <methods>
         <method id="GetEndPositionH" _delta="define">
@@ -132,19 +124,19 @@
                 <item id="fieldset:Class:PatchPanel:rackinfo" _delta="must_exist">
                   <items>
                     <item id="position_p" _delta="define">
-                      <rank>20</rank>
-                    </item>
-                    <item id="zero_u" _delta="define">
                       <rank>30</rank>
                     </item>
-                    <item id="position_v" _delta="define">
+                    <item id="zero_u" _delta="define">
                       <rank>40</rank>
                     </item>
-                    <item id="nb_u" _delta="define">
+                    <item id="position_v" _delta="define">
                       <rank>50</rank>
                     </item>
-                    <item id="weight" _delta="define">
+                    <item id="nb_u" _delta="define">
                       <rank>60</rank>
+                    </item>
+                    <item id="weight" _delta="define">
+                      <rank>70</rank>
                     </item>
                   </items>
                 </item>
