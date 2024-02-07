@@ -1377,7 +1377,22 @@
           </neighbours>
         </relation>
       </relations>
-      <methods/>
+      <methods>
+        <method id="ComputeCode" _delta="define">
+          <comment>/**
+            *
+            * Compute a code for NetworkSockets that are automatically created
+            */
+          </comment>
+          <static>false</static>
+          <access>public</access>
+          <type>custom</type>
+          <code><![CDATA[    public function ComputeCode($iNum, $iNumMax): string
+	{
+		return sprintf('%1$0'.strlen((string)$iNumMax).'d/%2$d', $iNum, $iNumMax);
+    }]]></code>
+        </method>
+      </methods>
       <presentation>
         <details>
           <items>

@@ -15,18 +15,6 @@ use NetworkInterface;
 class _NetworkSocket extends NetworkInterface
 {
 	/**
-	 * Compute a code for NetworkSockets that are automatically created
-	 *
-	 * @param $iNum
-	 * @param $iNumMax
-	 * @return string
-	 */
-	public function ComputeCode($iNum, $iNumMax): string
-	{
-		return sprintf('%1$0'.strlen((string)$iNumMax).'d/%2$d', $iNum, $iNumMax);
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function ComputeValues(): void
