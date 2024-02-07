@@ -230,6 +230,80 @@ Dict::Add('FR FR', 'French', 'Français', array(
 ));
 
 //
+// Class: CrossConnect
+//
+
+Dict::Add('FR FR', 'English', 'English', array(
+	'Class:CrossConnect' => 'Cross Connect',
+	'Class:CrossConnect+' => 'Câblage nécessaire pour établir un lien direct entre 2 unités distinctes',
+	'Class:CrossConnect:baseinfo' => 'Informations Générales',
+	'Class:CrossConnect:localinfo' => 'Informations sur l\Unité Locale',
+	'Class:CrossConnect:remoteinfo' => 'Informations sur l\'Unité Homologue',
+	'Class:CrossConnect/Tab:wiring' => 'Câblage',
+	'Class:CrossConnect/Tab:wiring+' => 'Affiche le câblage entre les paneaux de brassage du local et de son homologue',
+	'Class:CrossConnect/Attribute:ref' => 'Référence',
+	'Class:CrossConnect/Attribute:ref+' => 'Référence du cross connect pour l\'organisation locale',
+	'Class:CrossConnect/Attribute:remote_org_id' => 'Organisation homologue',
+	'Class:CrossConnect/Attribute:remote_org_id+' => 'Organisation homologue du cross connect',
+	'Class:CrossConnect/Attribute:remote_ref' => 'Référence homologue',
+	'Class:CrossConnect/Attribute:remote_ref+' => 'Référence du cross connect pour l\'organisation homologue',
+	'Class:CrossConnect/Attribute:status' => 'Statut',
+	'Class:CrossConnect/Attribute:status+' => 'Statut opérational du cross connect',
+	'Class:CrossConnect/Attribute:status/Value:construction' => 'Construction',
+	'Class:CrossConnect/Attribute:status/Value:construction+' => '',
+	'Class:CrossConnect/Attribute:status/Value:production' => 'Production',
+	'Class:CrossConnect/Attribute:status/Value:production+' => '',
+	'Class:CrossConnect/Attribute:status/Value:cancellation' => 'Annulation',
+	'Class:CrossConnect/Attribute:status/Value:cancellation+' => '',
+	'Class:CrossConnect/Attribute:status/Value:obsolete' => 'Obsolète',
+	'Class:CrossConnect/Attribute:status/Value:obsolete+' => '',
+	'Class:CrossConnect/Attribute:cablecategory_id' => 'Categorie & type de câble',
+	'Class:CrossConnect/Attribute:cablecategory_id+' => 'Categorie et type du câble reliant les 2 entités',
+	'Class:CrossConnect/Attribute:cablecategory_name' => 'Nom catégorie du câble',
+	'Class:CrossConnect/Attribute:cablecategory_name+' => '',
+	'Class:CrossConnect/Attribute:location_id' => 'Lieu',
+	'Class:CrossConnect/Attribute:location_id+' => 'Lieu du rack contenant le paneau de brassage et les prises réseau de l\'unité locale',
+	'Class:CrossConnect/Attribute:location_name' => 'Nom lieu',
+	'Class:CrossConnect/Attribute:location_name+' => '',
+	'Class:CrossConnect/Attribute:rack_id' => 'Rack',
+	'Class:CrossConnect/Attribute:rack_id+' => 'Rack hébergeant le panneau de brassage',
+	'Class:CrossConnect/Attribute:rack_name' => 'Nom Rack',
+	'Class:CrossConnect/Attribute:rack_name+' => '',
+	'Class:CrossConnect/Attribute:patchpanel_id' => 'Panneau de brassage',
+	'Class:CrossConnect/Attribute:patchpanel_id+' => 'Panneau de brassage hébergeant la ou les prise(s) réseau locale(s)',
+	'Class:CrossConnect/Attribute:patchpanel_name' => 'Nom panneau de brassage',
+	'Class:CrossConnect/Attribute:patchpanel_name+' => '',
+	'Class:CrossConnect/Attribute:networksocket1_id' => 'Prise réseau primaire',
+	'Class:CrossConnect/Attribute:networksocket1_id+' => 'Prise réseau primaire à l\'extrémité locale du cross connect',
+	'Class:CrossConnect/Attribute:networksocket1_name' => 'Nom prise réseau primaire',
+	'Class:CrossConnect/Attribute:networksocket1_name+' => '',
+	'Class:CrossConnect/Attribute:networksocket2_id' => 'Prise réseau secondaire',
+	'Class:CrossConnect/Attribute:networksocket2_id+' => 'Prise réseau secondaire, et optionnelle, à l\'extrémité locale du cross connect',
+	'Class:CrossConnect/Attribute:networksocket2_name' => 'Nom prise réseau secondaire',
+	'Class:CrossConnect/Attribute:networksocket2_name+' => '',
+	'Class:CrossConnect/Attribute:remote_location_id' => 'Lieu homologue',
+	'Class:CrossConnect/Attribute:remote_location_id+' => 'Lieu du rack contenant le paneau de brassage et les prises réseau de l\'unité homologue',
+	'Class:CrossConnect/Attribute:remote_location_name' => 'Nom lieu homologue',
+	'Class:CrossConnect/Attribute:remote_location_name+' => '',
+	'Class:CrossConnect/Attribute:remote_rack_id' => 'Rack homologue',
+	'Class:CrossConnect/Attribute:remote_rack_id+' => 'Rack hébergeant le paneau de brassage homologue',
+	'Class:CrossConnect/Attribute:remote_rack_name' => 'Nom rack homologue',
+	'Class:CrossConnect/Attribute:remote_rack_name+' => '',
+	'Class:CrossConnect/Attribute:remote_patchpanel_id' => 'Paneau de brassage homologue',
+	'Class:CrossConnect/Attribute:remote_patchpanel_id+' => 'Panneau de brassage hébergeant la ou les prise(s) réseau homologue(s)',
+	'Class:CrossConnect/Attribute:remote_patchpanel_name' => 'Nom paneau de brassage homologue',
+	'Class:CrossConnect/Attribute:remote_patchpanel_name+' => '',
+	'Class:CrossConnect/Attribute:remote_networksocket1_id' => 'Prise réseau primaire homologue',
+	'Class:CrossConnect/Attribute:remote_networksocket1_id+' => 'Prise réseau primaire à l\'extrémité homologue du cross connect',
+	'Class:CrossConnect/Attribute:remote_networksocket1_name' => 'Nom prise réseau primaire homologue',
+	'Class:CrossConnect/Attribute:remote_networksocket1_name+' => '',
+	'Class:CrossConnect/Attribute:remote_networksocket2_id' => 'Prise réseau secondaire homologue',
+	'Class:CrossConnect/Attribute:remote_networksocket2_id+' => 'Prise réseau secondaire à l\'extrémité homologue du cross connect',
+	'Class:CrossConnect/Attribute:remote_networksocket2_name' => 'Nom prise réseau secondaire homologue',
+	'Class:CrossConnect/Attribute:remote_networksocket2_name+' => '',
+));
+
+//
 // Class: PhysicalInterface
 //
 
@@ -261,7 +335,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 // Menus & actions
 //
 
-Dict::Add('EN US', 'English', 'English', array(
+Dict::Add('FR FR', 'English', 'English', array(
 	'Menu:TeemIpNetworking:Cabling' => 'Câblage',
 
 	'Relation:wiring/Description' => 'Schéma de câblage',
@@ -285,5 +359,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'Aucun panneau de brassage n\'est en fait disponible pour cette opération !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'existe pas !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'a plus de capacité !',
+
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Le cross connect ne peut passer en production sans que les deux prises réseau primaires soient renseignées !',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Si une prise réseau secondaire est renseignée, l\'autre doit aussi être renseignée !',
 
 ));
