@@ -103,6 +103,7 @@
         <naming>
           <attributes>
             <attribute id="name"/>
+            <attribute id="cabletype_name"/>
           </attributes>
         </naming>
         <icon/>
