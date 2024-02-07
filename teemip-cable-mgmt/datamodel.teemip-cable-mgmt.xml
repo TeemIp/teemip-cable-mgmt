@@ -2065,6 +2065,11 @@
       </methods>
     </class>
     <class id="CrossConnect" _delta="define">
+      <parent>FunctionalCI</parent>
+      <php_parent>
+        <name>TeemIp\TeemIp\Extension\CableManagement\Model\_CrossConnect</name>
+        <file>src/Model/_CrossConnect.php</file>
+      </php_parent>
       <properties>
         <category>bizmodel,searchable</category>
         <abstract>false</abstract>
@@ -2155,16 +2160,16 @@
           <is_null_allowed>true</is_null_allowed>
           <validation_pattern/>
         </field>
-        <field id="cabletype_id" xsi:type="AttributeExternalKey">
-          <sql>cabletype_id</sql>
-          <filter><![CDATA[SELECT CableType]]></filter>
+        <field id="cablecategory_id" xsi:type="AttributeExternalKey">
+          <sql>cablecategory_id</sql>
+          <filter/>
           <dependencies/>
-          <target_class>CableType</target_class>
+          <target_class>CableCategory</target_class>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
-        <field id="cabletype_name" xsi:type="AttributeExternalField">
-          <extkey_attcode>cabletype_id</extkey_attcode>
+        <field id="cablecategory_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>cablecategory_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
         <field id="location_id" xsi:type="AttributeExternalKey">
@@ -2216,11 +2221,14 @@
         <field id="networksocket1_id" xsi:type="AttributeExternalKey">
           <sql>networksocket1_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id]]></filter>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE
+            ns.patchpanel_id = :this->patchpanel_id AND ns.backendsocket_id > 0 AND ns.networksocket_id = 0 AND ns.physicalinterface_id = 0
+            AND ns.id != :this->networksocket2_id AND ns.id != :this->remote_networksocket1_id AND ns.id != :this->remote_networksocket2_id]]>
+          </filter>
           <dependencies>
             <attribute id="patchpanel_id"/>
           </dependencies>
-          <is_null_allowed>false</is_null_allowed>
+          <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
         <field id="networksocket1_name" xsi:type="AttributeExternalField">
@@ -2230,7 +2238,10 @@
         <field id="networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>networksocket2_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id]]></filter>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE
+            ns.patchpanel_id = :this->patchpanel_id AND ns.backendsocket_id > 0 AND ns.networksocket_id = 0 AND ns.physicalinterface_id = 0
+            AND ns.id != :this->networksocket1_id AND ns.id != :this->remote_networksocket1_id AND ns.id != :this->remote_networksocket2_id]]>
+          </filter>
           <dependencies>
             <attribute id="patchpanel_id"/>
           </dependencies>
@@ -2290,11 +2301,14 @@
         <field id="remote_networksocket1_id" xsi:type="AttributeExternalKey">
           <sql>remote_networksocket1_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id]]></filter>
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE
+            ns.patchpanel_id = :this->remote_patchpanel_id AND ns.backendsocket_id > 0 AND ns.networksocket_id = 0 AND ns.physicalinterface_id = 0
+            AND ns.id != :this->remote_networksocket2_id AND ns.id != :this->networksocket1_id AND ns.id != :this->networksocket2_id]]>
+          </filter>
           <dependencies>
             <attribute id="remote_patchpanel_id"/>
           </dependencies>
-          <is_null_allowed>false</is_null_allowed>
+          <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
         <field id="remote_networksocket1_name" xsi:type="AttributeExternalField">
