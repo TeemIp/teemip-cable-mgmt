@@ -7,6 +7,7 @@
 namespace TeemIp\TeemIp\Extension\CableManagement\Model;
 
 use ApplicationContext;
+use Combodo\iTop\Application\Helper\WebResourcesHelper;
 use Combodo\iTop\Application\UI\Base\Layout\TabContainer\Tab\AjaxTab;
 use Dict;
 use DisplayableGraph;
@@ -170,17 +171,21 @@ class _CrossConnect extends FunctionalCI
 		parent::DisplayBareRelations($oPage, $bEditMode);
 
 		if (!$bEditMode) {
-			// Compute the wiring graph
-			$iId = $this->GetKey();
+			// Display the wiring graph
+			$sName = Dict::S('Class:CrossConnect/Tab:wiring');
+			$sTitle = Dict::S('Class:CrossConnect/Tab:wiring+');
+			$oPage->SetCurrentTab('otherrecords_list', $sName, $sTitle);
+
+			WebResourcesHelper::EnableSimpleGraphInWebPage($oPage);
 			$iMaxRecursionDepth = MetaModel::GetConfig()->Get('relations_max_depth');
 			$oRelGraph = MetaModel::GetRelatedObjectsDown('wiring', [$this], $iMaxRecursionDepth, []);
 			$aResults = $oRelGraph->GetObjectsByClass();
 			$oGraph = DisplayableGraph::FromRelationGraph($oRelGraph, static::DEFAULT_GROUPING_THRESHOLD, 'down');
 
-			$sContextKey = 'cross_connect/relation_context/CrossConnect/wiring/down';
+			$sContextKey = 'teemip-cable-mgmt/relation_context/CrossConnect/wiring/down';
 			$oAppContext = new ApplicationContext();
 			$oPage->AddSubBlock($oGraph->DisplayFilterBox($oPage, $aResults));
-			$oGraph->DisplayGraph($oPage, 'wiring', $oAppContext, [], 'CrossConnect', $iId, $sContextKey, array('this' => $this));
+			$oGraph->DisplayGraph($oPage, 'wiring', $oAppContext, [], 'CrossConnect', $this->GetKey(), $sContextKey, array('this' => $this));
 		}
 	}
 
