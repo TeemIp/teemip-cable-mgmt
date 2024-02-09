@@ -344,13 +344,15 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'Relation:wiring/UpStream' => 'Câblage...',
 	'Relation:wiring/UpStream+' => 'Schéma de câblage',
 
+	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Créer les câbles Back End',
+	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Chemins de câblage',
+
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Un cable connectant les mêmes prises réseau existe déja !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Un panneau de brassage doit être sélectionné quand la prise appartient à un rack !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Une prise réseau ne peut pas être connectée A LA FOIS à une interface réseau et une autre prise réseau !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Une prise réseau ne peut pas être connectée à la même prise distante à travers ses 2 connecteurs de prise réseau et de prise arrière !',
-	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Une interface physique ne peut pas être connectée à une prise réseau et à un matériel distant !',
 
-	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Créer les câbles Back End',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Une interface physique ne peut pas être connectée à une prise réseau et à un matériel distant !',
 
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Créer les prises réseau',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Créer les câbles back end',
@@ -362,5 +364,7 @@ Dict::Add('FR FR', 'English', 'English', array(
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Le cross connect ne peut passer en production sans que les deux prises réseau primaires soient renseignées !',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Si une prise réseau secondaire est renseignée, l\'autre doit aussi être renseignée !',
-
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Rechercher des chemins de câblage',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'Liste des chemins de câblage possibles pour le %1$s: %2$s',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Selectionez et activez un chemin',
 ));

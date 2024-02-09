@@ -345,13 +345,15 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Relation:wiring/UpStream' => 'Wiring...',
 	'Relation:wiring/UpStream+' => 'Wiring layout',
 
+	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Create Back End Cables',
+	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Wiring paths',
+
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'A patch panel needs to be selected when the network socket belongs to a rack!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
-	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
 
-	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Create Back End Cables',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
 
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Create network sockets',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Create back end network cables',
@@ -363,5 +365,7 @@ Dict::Add('EN US', 'English', 'English', array(
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'The cross connect cannot move to production without both primary network sockets filled!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'If one secondary network socket is set, the other one must be set as well!',
-
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Find wiring paths',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'List of possible wiring paths for %1$s: %2$s',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Select and activate a path',
 ));

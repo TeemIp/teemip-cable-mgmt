@@ -344,13 +344,15 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Relation:wiring/UpStream' => 'Verkabelung (UpStream)...',
 	'Relation:wiring/UpStream+' => 'Verkabelungs-Schema (UpStream)',
 
+	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Netzwerkkabel erstellen',
+	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Verkabelung Wege',
+
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerkbuchse verbunden',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Ein Patchpanel muss ausgewählt werden, wenn die Netzwerkdose zu einem Rack gehört!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerkdose kann nicht mit beidem, einem Interface und einer anderen Netzwerkdose, verbunden sein!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerkdose kann nicht mit der selben entfernten Netzwerkdose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
-	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerkdose und einem entfernten Gerät verbunden werden!',
 
-	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Netzwerkkabel erstellen',
+	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerkdose und einem entfernten Gerät verbunden werden!',
 
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Netzwerkdose erstellen',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Netzwerkkabel (Rückseite) erstellen',
@@ -362,5 +364,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Das Cross Connect kann nicht ohne primäre und sekundäre Netzwerkdose auf Produktion gesetzt werden!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Wenn eine sekundäre Netzwerkdose festgelegt ist, muss die andere auch festgelegt werden!',
-
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Verkabelung Wege suchen',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'Liste möglicher Verkabelung Wege für der %1$s: %2$s',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Wählen Sie einen Weg aus und aktivieren Sie ihn',
 ));
