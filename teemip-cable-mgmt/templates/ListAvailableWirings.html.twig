@@ -24,21 +24,21 @@
         {% UIPanel Neutral {'sTitle':'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title'|dict_format(Class, ClassName), 'sSubTitle':'' } %}
 
             {% UIContentBlock Standard {} %}
-                {% UIFieldSet Standard {'sLegend':'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper'|dict_s} %}
+                {#% UIFieldSet Standard {'sLegend':'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper'|dict_s} %#}
 
                     {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}
                         {{ sHtml|raw  }}
                     {% EndUIContentBlock %}
                     {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}
                         {% UIButton ForCancel {'sId':'cancel-create', 'sLabel':'iTopUpdate:UI:Cancel'|dict_s, 'bIsSubmit':false} %}
-                        {% if not (sLevel == 'failure') %}
+                        {#% if not (sLevel == 'failure') %}
                             {% UIButton ForPrimaryAction {'sId':'do-create', 'sLabel':'UI:Button:Apply'|dict_s, 'bIsSubmit':true} %}
-                        {% endif %}
+                        {% endif %#}
                         {% UIInput ForHidden {'sName':'route', 'sValue':'cable_mgmt.do_create_back_end_network_cables'} %}
                         {% UIInput ForHidden {'sName':'id', 'sValue':id} %}
                     {% EndUIContentBlock %}
 
-                {% EndUIFieldSet %}
+                {#% EndUIFieldSet %#}
             {% EndUIContentBlock %}
 
         {% EndUIPanel %}
