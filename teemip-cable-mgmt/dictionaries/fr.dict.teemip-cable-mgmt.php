@@ -366,5 +366,5 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Si une prise réseau secondaire est renseignée, l\'autre doit aussi être renseignée !',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Rechercher des chemins de câblage',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'Liste des chemins de câblage possibles pour le %1$s: %2$s',
-	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Selectionez et activez un chemin',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Sélectionez et activez un chemin',
 ));
