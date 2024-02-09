@@ -6,10 +6,9 @@
 
 namespace TeemIp\TeemIp\Extension\CableManagement\Hook;
 
-use ApplicationContext;
+use CrossConnect;
 use Dict;
 use iPopupMenuExtension;
-use MetaModel;
 use PatchPanel;
 use SeparatorPopupMenuItem;
 use URLPopupMenuItem;
@@ -43,6 +42,14 @@ class CableMgmtOtherActions implements iPopupMenuExtension {
 							$sMenu = 'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets';
 							$aResult[] = new URLPopupMenuItem($sMenu, Dict::S($sMenu), utils::GetAbsoluteUrlAppRoot()."pages/UI.php?route=cable_mgmt.create_network_sockets&id=$id");
 						}
+					}
+				} elseif ($oObj instanceof CrossConnect) {
+					// List possible wirings between local patch panel and peer one
+					if (($oObj->Get('patchpanel_id') > 0) && ($oObj->Get('remote_patchpanel_id') > 0)) {
+						$id = $oObj->GetKey();
+						$aResult[] = new SeparatorPopupMenuItem();
+						$sMenu = 'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings';
+						$aResult[] = new URLPopupMenuItem($sMenu, Dict::S($sMenu), utils::GetAbsoluteUrlAppRoot()."pages/UI.php?route=cable_mgmt.list_available_wirings&id=$id");
 					}
 				}
 				break;

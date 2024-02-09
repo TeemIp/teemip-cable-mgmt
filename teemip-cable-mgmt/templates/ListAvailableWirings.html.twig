@@ -1,0 +1,49 @@
+{# @copyright   Copyright (C) 2021 TeemIp #}
+{# @license     http://opensource.org/licenses/AGPL-3.0 #}
+{% apply spaceless %}
+
+{% UIContentBlock Standard {} %}
+
+    {% if bIssue %}
+        {% if sLevel == 'failure' %}
+            {% UIAlert ForFailure {} %}
+                {% UIContentBlock Standard {} %}
+                    {{ sMessage }}
+                {% EndUIContentBlock %}
+            {% EndUIAlert %}
+        {% else %}
+            {% UIAlert ForWarning {} %}
+                {% UIContentBlock Standard {} %}
+                {{ sMessage }}
+                {% EndUIContentBlock %}
+            {% EndUIAlert %}
+        {% endif %}
+    {% endif %}
+
+    {% UIForm Standard {'CSSClasses':['form-inline']} %}
+        {% UIPanel Neutral {'sTitle':'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title'|dict_format(Class, ClassName), 'sSubTitle':'' } %}
+
+            {% UIContentBlock Standard {} %}
+                {% UIFieldSet Standard {'sLegend':'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper'|dict_s} %}
+
+                    {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}
+                        {{ sHtml|raw  }}
+                    {% EndUIContentBlock %}
+                    {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}
+                        {% UIButton ForCancel {'sId':'cancel-create', 'sLabel':'iTopUpdate:UI:Cancel'|dict_s, 'bIsSubmit':false} %}
+                        {% if not (sLevel == 'failure') %}
+                            {% UIButton ForPrimaryAction {'sId':'do-create', 'sLabel':'UI:Button:Apply'|dict_s, 'bIsSubmit':true} %}
+                        {% endif %}
+                        {% UIInput ForHidden {'sName':'route', 'sValue':'cable_mgmt.do_create_back_end_network_cables'} %}
+                        {% UIInput ForHidden {'sName':'id', 'sValue':id} %}
+                    {% EndUIContentBlock %}
+
+                {% EndUIFieldSet %}
+            {% EndUIContentBlock %}
+
+        {% EndUIPanel %}
+    {% EndUIForm %}
+
+{% EndUIContentBlock %}
+
+{% endapply %}

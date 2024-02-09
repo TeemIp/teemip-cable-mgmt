@@ -14,6 +14,7 @@ use DBObjectSet;
 use Dict;
 use Exception;
 use MetaModel;
+use TeemIp\TeemIp\Extension\CableManagement\Helper\DisplayWiring;
 use utils;
 
 class CableMgmtController extends Controller
@@ -29,23 +30,26 @@ class CableMgmtController extends Controller
 		$this->CheckAccess();
 	}
 
-	private function GetParams($sClass, $iKey): array
+	private function GetParams($sOperation, $iKey): array
 	{
 		$aParams = [];
 		$sTransactionId = utils::GetNewTransactionId();
 		$aParams['sTransactionId'] = $sTransactionId;
 		$aParams['id'] = $iKey;
-		switch ($sClass) {
-			case 'PatchPanel':
+		switch ($sOperation) {
+			case 'CreateBackEndNetworkCables':
 				/** @var \PatchPanel $oPatchPanel */
 				$oPatchPanel = MetaModel::GetObject('PatchPanel', $iKey);
 				$aParams['PatchpanelName'] = $oPatchPanel->Get('friendlyname');
 
-				list($bIssue, $sLevel, $sMessage, $aActionFields) = $this->GetActionFieldsForOperation($oPatchPanel);
+				list($bIssue, $sLevel, $sMessage, $aActionFields) = $this->GetActionFieldsForOperation($sOperation, $oPatchPanel);
 				$aParams = array_merge($aParams, $aActionFields);
 				break;
 
 			default:
+				$bIssue = true;
+				$sLevel = 'failure';
+				$sMessage = Dict::S('UI:CableManagement:Action:OperationNotFound');
 				break;
 		}
 
@@ -56,7 +60,7 @@ class CableMgmtController extends Controller
 	 * @return array
 	 * @throws \Exception
 	 */
-	private function GetActionFieldsForOperation($oPatchPanel): array
+	private function GetActionFieldsForOperation($sOperation, $oObj): array
 	{
 		$aParams = array();
 		$bIssue = false;
@@ -64,40 +68,51 @@ class CableMgmtController extends Controller
 		$sMessage = '';
 		$iFormId = rand();
 
-		// Patch Panel
-		$sAttCode = 'patchpanel_id';
-		$sAttLabel = MetaModel::GetLabel('NetworkSocket', $sAttCode);
-		$iKey = $oPatchPanel->GetKey();
-		$iOrgId = $oPatchPanel->Get('org_id');
-		$oRemotePatchPanelSet = new CMDBObjectSet(DBObjectSearch::FromOQL("SELECT PatchPanel AS p WHERE p.org_id = :org_id AND p.id != :key"), array(), array('org_id' => $iOrgId, 'key' => $iKey));
-		$sInputId = $iFormId.'_'.$sAttCode;
-		if ($oRemotePatchPanelSet->CountExceeds(0)) {
-			$bEmptyList = true;
-			$sHTMLValue = "<select id=\"$sInputId\" name=\"attr_$sAttCode\">\n";
-			while ($oRemotePatchPanel = $oRemotePatchPanelSet->Fetch()) {
-				list ($iCapacity, $oNetworkSocketSet) = $oRemotePatchPanel->GetNetworkSocketsWithFreeBackEnd($oRemotePatchPanel->GetKey());
-				if ($iCapacity > 0) {
-					$bEmptyList = false;
-					$iRemotePatchPanel = $oRemotePatchPanel->GetKey();
-					$sRemotePatchPanelName = $oRemotePatchPanel->Get('friendlyname');
-					$sHTMLValue .= "<option value=\"$iRemotePatchPanel\">".$sRemotePatchPanelName."</option>\n";
+		switch ($sOperation) {
+			case 'CreateBackEndNetworkCables':
+				// Find list of potential remote patch panel
+				/** @var \PatchPanel $oObj */
+				$sAttCode = 'patchpanel_id';
+				$sAttLabel = MetaModel::GetLabel('NetworkSocket', $sAttCode);
+				$iKey = $oObj->GetKey();
+				$iOrgId = $oObj->Get('org_id');
+				$oRemotePatchPanelSet = new CMDBObjectSet(DBObjectSearch::FromOQL("SELECT PatchPanel AS p WHERE p.org_id = :org_id AND p.id != :key"), array(), array('org_id' => $iOrgId, 'key' => $iKey));
+				$sInputId = $iFormId.'_'.$sAttCode;
+				if ($oRemotePatchPanelSet->CountExceeds(0)) {
+					$bEmptyList = true;
+					$sHTMLValue = "<select id=\"$sInputId\" name=\"attr_$sAttCode\">\n";
+					while ($oRemotePatchPanel = $oRemotePatchPanelSet->Fetch()) {
+						list ($iCapacity, $oNetworkSocketSet) = $oRemotePatchPanel->GetNetworkSocketsWithFreeBackEnd($oRemotePatchPanel->GetKey());
+						if ($iCapacity > 0) {
+							$bEmptyList = false;
+							$iRemotePatchPanel = $oRemotePatchPanel->GetKey();
+							$sRemotePatchPanelName = $oRemotePatchPanel->Get('friendlyname');
+							$sHTMLValue .= "<option value=\"$iRemotePatchPanel\">".$sRemotePatchPanelName."</option>\n";
+						}
+					}
+					$sHTMLValue .= "</select>";
+					if ($bEmptyList) {
+						$bIssue = true;
+						$sLevel = 'failure';
+						$sMessage = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
+					}
+				} else {
+					$sHTMLValue = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
 				}
-			}
-			$sHTMLValue .= "</select>";
-			if ($bEmptyList) {
+				$val = array(
+					'label' => '<span  >'.$sAttLabel.'</span>',
+					'value' => $sHTMLValue,
+					'input_id' => $sInputId,
+				);
+				$aParams['aPatchPanelVal'] = $val;
+				break;
+
+			default:
 				$bIssue = true;
 				$sLevel = 'failure';
-				$sMessage = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
-			}
-		} else {
-			$sHTMLValue = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
+				$sMessage = Dict::S('UI:CableManagement:Action:OperationNotFound');
+				break;
 		}
-		$val = array(
-			'label' => '<span  >'.$sAttLabel.'</span>',
-			'value' => $sHTMLValue,
-			'input_id' => $sInputId,
-		);
-		$aParams['aPatchPanelVal'] = $val;
 
 		return [$bIssue, $sLevel, $sMessage, $aParams];
 	}
@@ -118,14 +133,15 @@ class CableMgmtController extends Controller
 
 	public function OperationCreateBackEndNetworkCables()
 	{
+		$sOperation = 'CreateBackEndNetworkCables';
 		$iKey = utils::ReadParam('id');
-		list($bIssue, $sLevel, $sMessage, $aParams) = $this->GetParams('PatchPanel', $iKey);
+		list($bIssue, $sLevel, $sMessage, $aParams) = $this->GetParams($sOperation,$iKey);
 		$aParams['bIssue'] = $bIssue;
 		$aParams['sMessage'] = $sMessage;
 		$aParams['sLevel'] = $sLevel;
 		$aParams['sCancelURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=PatchPanel&id='.$iKey;
 
-		$this->m_sOperation = 'CreateBackEndNetworkCables';
+		$this->m_sOperation = $sOperation;
 		$this->DisplayPage($aParams);
 	}
 
@@ -159,6 +175,20 @@ class CableMgmtController extends Controller
 		}
 		$this->DisplayPage($aParams);
 
+	}
+
+	public function OperationListAvailableWirings()
+	{
+		$iKey = utils::ReadParam('id');
+		$aParams = DisplayWiring::DisplayPatchPanelPaths('CrossConnect', $iKey);
+
+		$aParams['Class'] = MetaModel::GetName('CrossConnect');
+
+		$aParams['sCancelURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=CrossConnect&id='.$iKey;
+
+		$this->m_sOperation = 'ListAvailableWirings';
+		$this->AddLinkedStylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-framework/asset/css/teemip-display-tree.css');
+		$this->DisplayPage($aParams);
 	}
 }
 

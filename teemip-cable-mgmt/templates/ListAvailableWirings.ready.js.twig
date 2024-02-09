@@ -1,0 +1,8 @@
+{# @copyright   Copyright (C) 2024 TeemIP #}
+{# @license     http://opensource.org/licenses/AGPL-3.0 #}
+
+$('#tree ul').treeview();
+
+$("#cancel-create").on("click", function(oEvent) {
+window.location.href = '{{ sCancelURL|raw }}';
+});
