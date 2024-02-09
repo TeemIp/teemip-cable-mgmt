@@ -345,7 +345,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Relation:wiring/UpStream+' => 'Verkabelungs-Schema (UpStream)',
 
 	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Netzwerkkabel erstellen',
-	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Verkabelung Wege',
+	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Verkabelungswege',
 
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerkbuchse verbunden',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Ein Patchpanel muss ausgewählt werden, wenn die Netzwerkdose zu einem Rack gehört!',
@@ -364,7 +364,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Das Cross Connect kann nicht ohne primäre und sekundäre Netzwerkdose auf Produktion gesetzt werden!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Wenn eine sekundäre Netzwerkdose festgelegt ist, muss die andere auch festgelegt werden!',
-	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Verkabelung Wege suchen',
-	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'Liste möglicher Verkabelung Wege für der %1$s: %2$s',
-	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Wählen Sie einen Weg aus und aktivieren Sie ihn',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Verkabelungswege suchen',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => '-> Liste der möglichen Verkabelungswege für den %1$s: %2$s',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Einen Weg wählen und aktivieren',
 ));
