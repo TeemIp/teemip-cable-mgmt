@@ -23,7 +23,9 @@ class ComposerStaticInitd11ec4822064d2406238031831ce520b
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'TeemIp\\TeemIp\\Extension\\CableManagement\\Controller\\CableMgmtController' => __DIR__ . '/../..' . '/src/Controller/CableMgmtController.php',
+        'TeemIp\\TeemIp\\Extension\\CableManagement\\Helper\\DisplayWiring' => __DIR__ . '/../..' . '/src/Helper/DisplayWiring.php',
         'TeemIp\\TeemIp\\Extension\\CableManagement\\Hook\\CableMgmtOtherActions' => __DIR__ . '/../..' . '/src/Hook/CableMgmtOtherActions.php',
+        'TeemIp\\TeemIp\\Extension\\CableManagement\\Model\\_CrossConnect' => __DIR__ . '/../..' . '/src/Model/_CrossConnect.php',
         'TeemIp\\TeemIp\\Extension\\CableManagement\\Model\\_NetworkSocket' => __DIR__ . '/../..' . '/src/Model/_NetworkSocket.php',
         'TeemIp\\TeemIp\\Extension\\CableManagement\\Model\\_PatchPanel' => __DIR__ . '/../..' . '/src/Model/_PatchPanel.php',
     );
