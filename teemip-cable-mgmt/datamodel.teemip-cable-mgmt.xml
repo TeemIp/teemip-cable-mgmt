@@ -210,7 +210,7 @@
           </attributes>
         </naming>
         <style>
-          <icon>assets/img/icons8-network-cable.svg</icon>
+          <icon>asset/img/icons8-network-cable.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -334,7 +334,7 @@
           </attributes>
         </naming>
         <style>
-          <icon>assets/img/icons8-fe-network-cable.svg</icon>
+          <icon>asset/img/icons8-fe-network-cable.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -359,9 +359,7 @@
         </field>
         <field id="networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>networksocket2_id</sql>
-          <filter>
-            <![CDATA[SELECT NetworkSocket AS ns2 JOIN NetworkSocket AS ns1 ON ns1.networksocket_id = ns2.id WHERE ns1.id = :this->networksocket1_id]]>
-          </filter>
+          <filter><![CDATA[SELECT NetworkSocket AS ns2 JOIN NetworkSocket AS ns1 ON ns1.networksocket_id = ns2.id WHERE ns1.id = :this->networksocket1_id]]></filter>
           <dependencies>
             <attribute id="networksocket1_id"/>
           </dependencies>
@@ -540,7 +538,7 @@
           </attributes>
         </naming>
         <style>
-          <icon>assets/img/icons8-be-network-cable.svg</icon>
+          <icon>asset/img/icons8-be-network-cable.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -744,7 +742,7 @@
           </attributes>
         </naming>
         <style>
-          <icon>assets/img/icons8-dev-network-cable.svg</icon>
+          <icon>asset/img/icons8-dev-network-cable.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -781,8 +779,7 @@
         <field id="physicalinterface_id" xsi:type="AttributeExternalKey">
           <sql>physicalinterface_id</sql>
           <target_class>PhysicalInterface</target_class>
-          <filter>
-            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
+          <filter><![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
           <dependencies>
             <attribute id="connectableci_id"/>
           </dependencies>
@@ -963,7 +960,7 @@
           </attributes>
         </naming>
         <style>
-          <icon>assets/img/icons8-dir-network-cable.svg</icon>
+          <icon>asset/img/icons8-dir-network-cable.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -989,8 +986,7 @@
         <field id="physicalinterface1_id" xsi:type="AttributeExternalKey">
           <sql>physicalinterface1_id</sql>
           <target_class>PhysicalInterface</target_class>
-          <filter>
-            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci1_id]]></filter>
+          <filter><![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci1_id]]></filter>
           <dependencies>
             <attribute id="connectableci1_id"/>
           </dependencies>
@@ -1014,8 +1010,7 @@
         <field id="physicalinterface2_id" xsi:type="AttributeExternalKey">
           <sql>physicalinterface2_id</sql>
           <target_class>PhysicalInterface</target_class>
-          <filter>
-            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci2_id]]></filter>
+          <filter><![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci2_id]]></filter>
           <dependencies>
             <attribute id="connectableci2_id"/>
           </dependencies>
@@ -1208,7 +1203,7 @@
           <state_attribute>status</state_attribute>
         </fields_semantic>
         <style>
-          <icon>assets/img/icons8-wired-network.svg</icon>
+          <icon>asset/img/icons8-wired-network.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -1323,8 +1318,7 @@
         <field id="physicalinterface_id" xsi:type="AttributeExternalKey">
           <sql>physicalinterface_id</sql>
           <target_class>PhysicalInterface</target_class>
-          <filter>
-            <![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
+          <filter><![CDATA[SELECT PhysicalInterface WHERE connectableci_id = :this->connectableci_id]]></filter>
           <dependencies>
             <attribute id="connectableci_id"/>
           </dependencies>
@@ -1554,7 +1548,7 @@
           </complementary_attributes>
         </naming>
         <style>
-          <icon>assets/img/icons8-toolbar.svg</icon>
+          <icon>asset/img/icons8-toolbar.svg</icon>
         </style>
         <reconciliation>
           <attributes>
@@ -1719,6 +1713,12 @@
             </item>
             <item id="capacity">
               <rank>20</rank>
+            </item>
+            <item id="rack_id">
+              <rank>30</rank>
+            </item>
+            <item id="enclosure_id">
+              <rank>40</rank>
             </item>
           </items>
         </summary>
@@ -2109,7 +2109,7 @@
           <state_attribute>status</state_attribute>
         </fields_semantic>
         <style>
-          <icon>assets/img/icons8-data-transfer.svg</icon>
+          <icon>asset/img/icons8-data-transfer.svg</icon>
         </style>
       </properties>
       <fields>
@@ -2546,7 +2546,7 @@
               <dashlet id="10" xsi:type="DashletHeaderStatic">
                 <rank>10</rank>
                 <title>Menu:TeemIpNetworking:Cabling</title>
-                <icon>teemip-cable-mgmt/assets/img/icons8-dev-network-cable.svg</icon>
+                <icon>teemip-cable-mgmt/asset/img/icons8-dev-network-cable.svg</icon>
               </dashlet>
               <dashlet id="20" xsi:type="DashletBadge">
                 <rank>20</rank>
@@ -2680,7 +2680,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
-				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
+				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		} elseif ($oObject instanceof PhysicalInterface) {
 			if (!$bEditMode) {
@@ -2694,7 +2694,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
-				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
+				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		} elseif ($oObject instanceof ConnectableCI) {
 			if (!$bEditMode) {
@@ -2707,7 +2707,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
-				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/assets/css/hide-wiring-up-action.css');
+				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		}
 	}
