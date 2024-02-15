@@ -10,6 +10,19 @@
 //
 
 //
+// Class: IPConfig
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs' => 'Autorise le câblage vers une aute organisation',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs+' => 'Autorise un paneau de brassage à être connecté à un autre paneau de brassage appartenant à une autre organization pas l\'intermédiaire des câbles back end de ses prises réseau',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:yes' => 'Oui',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:yes+' => '',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:no' => 'Non',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:no+' => '',
+));
+
+//
 // Class: CableType
 //
 

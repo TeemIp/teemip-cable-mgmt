@@ -6,6 +6,7 @@
 
 namespace TeemIp\TeemIp\Extension\CableManagement\Controller;
 
+use cmdbAbstractObject;
 use CMDBObjectSet;
 use Combodo\iTop\Application\TwigBase\Controller\Controller;
 use Combodo\iTop\Service\Router\Router;
@@ -13,9 +14,11 @@ use DBObjectSearch;
 use DBObjectSet;
 use Dict;
 use Exception;
+use IPConfig;
 use MetaModel;
 use TeemIp\TeemIp\Extension\CableManagement\Helper\DisplayWiring;
 use utils;
+use WebPage;
 
 class CableMgmtController extends Controller
 {
@@ -75,8 +78,17 @@ class CableMgmtController extends Controller
 				$sAttCode = 'patchpanel_id';
 				$sAttLabel = MetaModel::GetLabel('NetworkSocket', $sAttCode);
 				$iKey = $oObj->GetKey();
-				$iOrgId = $oObj->Get('org_id');
-				$oRemotePatchPanelSet = new CMDBObjectSet(DBObjectSearch::FromOQL("SELECT PatchPanel AS p WHERE p.org_id = :org_id AND p.id != :key"), array(), array('org_id' => $iOrgId, 'key' => $iKey));
+				$iOrg = $oObj->Get('org_id');
+				$sAllowBackEndNetworkCableToCrossOrgs = IPConfig::GetFromGlobalIPConfig('allow_backendnetworkcable_to_cross_orgs', $iOrg);
+				if ($sAllowBackEndNetworkCableToCrossOrgs == 'yes') {
+					$sOQL = "SELECT PatchPanel AS p WHERE p.id != :key";
+					$aObjectSetParams = ['key' => $iKey];
+
+				} else {
+					$sOQL = "SELECT PatchPanel AS p WHERE p.org_id = :org_id AND p.id != :key";
+					$aObjectSetParams = ['org_id' => $iOrg, 'key' => $iKey];
+				}
+				$oRemotePatchPanelSet = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), $aObjectSetParams);
 				$sInputId = $iFormId.'_'.$sAttCode;
 				if ($oRemotePatchPanelSet->CountExceeds(0)) {
 					$bEmptyList = true;

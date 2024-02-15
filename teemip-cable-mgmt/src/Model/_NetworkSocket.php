@@ -17,6 +17,23 @@ class _NetworkSocket extends NetworkInterface
 	/**
 	 * @inheritdoc
 	 */
+	public function PrefillCreationForm(&$aContextParam)
+	{
+		$iPatchPanelId = $this->Get('patchpanel_id');
+		if ($iPatchPanelId > 0) {
+			$oPatchPanel = MetaModel::GetObject('PatchPanel', $iPatchPanelId, false);
+			if ($oPatchPanel) {
+				$this->Set('rack_id', $oPatchPanel->Get('rack_id'));
+				$this->Set('location_id', $oPatchPanel->Get('location_id'));
+			}
+		}
+
+		parent::PrefillCreationForm($aContextParam);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function ComputeValues(): void
 	{
 		parent::ComputeValues();

@@ -10,6 +10,19 @@
 //
 
 //
+// Class: IPConfig
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs' => 'Allow cabling toward another organizations',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs+' => 'Allow a patch panel to be connected to a remote patch panel belonging to another organization through the backend cables of its network sockets',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:yes' => 'Ja',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:yes+' => '',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:no' => 'Nein',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:no+' => '',
+));
+
+//
 // Class: CableType
 //
 

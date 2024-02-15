@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1">
   <classes>
+    <class id="IPConfig" _delta="must_exist">
+      <fields>
+        <field id="allow_backendnetworkcable_to_cross_orgs" xsi:type="AttributeEnum" _delta="define">
+          <sql>allow_backendnetworkcable_to_cross_orgs</sql>
+          <values>
+            <value id="yes">
+              <code>yes</code>
+            </value>
+            <value id="no">
+              <code>no</code>
+            </value>
+          </values>
+          <default_value>no</default_value>
+          <is_null_allowed>false</is_null_allowed>
+          <display_style>radio_horizontal</display_style>
+        </field>
+      </fields>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col3">
+              <items>
+                <item id="fieldset:Class:IPConfig:otherinfo" _delate="musts_exist">
+                  <rank>50</rank>
+                  <items>
+                    <item id="allow_backendnetworkcable_to_cross_orgs" _delta="define">
+                      <rank>30</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+          </items>
+        </details>
+      </presentation>
+    </class>
     <class id="CableType" _delta="define">
       <parent>Typology</parent>
       <properties>
@@ -1522,6 +1558,29 @@
           </items>
         </summary>
       </presentation>
+    </class>
+    <class id="NetworkInterface" _created_in="itop-config-mgmt" _delta="must_exist">
+      <fields>
+        <field id="operational_status" xsi:type="AttributeMetaEnum" _delta="must_exist">
+          <mappings>
+            <mapping id="NetworkSocket" _delta="define">
+              <attcode>status</attcode>
+              <metavalues>
+                <metavalue id="active">
+                  <values>
+                    <value id="active"/>
+                  </values>
+                </metavalue>
+                <metavalue id="inactive">
+                  <values>
+                    <value id="inactive"/>
+                  </values>
+                </metavalue>
+              </metavalues>
+            </mapping>
+          </mappings>
+        </field>
+      </fields>
     </class>
     <class id="PatchPanel" _delta="define">
       <parent>PhysicalDevice</parent>
