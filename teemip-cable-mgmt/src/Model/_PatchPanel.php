@@ -34,12 +34,17 @@ class _PatchPanel extends PhysicalDevice
 	/**
 	 * Create all NetworkSockets of the PatchPanel
 	 *
-	 * @return void
+	 * @return string
 	 * @throws \ArchivedObjectException
 	 * @throws \CoreException
 	 */
-	public function CreateNetworkSockets(): void
+	public function CreateNetworkSockets(): string
 	{
+		$iLocationId = $this->Get('location_id');
+		if ($iLocationId <= 0) {
+			return 'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets:NoLocationDefined';
+		}
+
 		$iCapacity = $this->Get('capacity');
 		$oNetworkSocketSet = $this->Get('networksockets_list');
 		$iNetworkSocketCount = $oNetworkSocketSet->Count();
@@ -47,7 +52,7 @@ class _PatchPanel extends PhysicalDevice
 			$oNetworkSocket = MetaModel::NewObject('NetworkSocket');
 			$oNetworkSocket->Set('code', $oNetworkSocket->ComputeCode($i, $iCapacity));
 			$oNetworkSocket->Set('status', 'inactive');
-			$oNetworkSocket->Set('location_id', $this->Get('location_id'));
+			$oNetworkSocket->Set('location_id', $iLocationId);
 			$oNetworkSocket->Set('rack_id', $this->Get('rack_id'));
 			$oNetworkSocket->Set('patchpanel_id', $this->GetKey());
 			if (class_exists('InterfaceConnector')) {
@@ -55,6 +60,8 @@ class _PatchPanel extends PhysicalDevice
 			}
 			$oNetworkSocket->DBInsert();
 		}
+
+		return '';
 	}
 
 	/**

@@ -134,11 +134,13 @@ class CableMgmtController extends Controller
 		$iKey = utils::ReadParam('id');
 		/** @var \PatchPanel $oPatchPanel */
 		$oPatchPanel = MetaModel::GetObject('PatchPanel', $iKey);
-		$oPatchPanel->CreateNetworkSockets();
+		$sError = $oPatchPanel->CreateNetworkSockets();
 
+		if ($sError != '') {
+			cmdbAbstractObject::SetSessionMessage('PatchPanel', $iKey, 'create_network_socket', Dict::S($sError), WebPage::ENUM_SESSION_MESSAGE_SEVERITY_ERROR, 0);
+		}
 		$aParams = [];
 		$aParams['sURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=PatchPanel&id='.$iKey;
-
 		$this->m_sOperation = 'CreateNetworkSockets';
 		$this->DisplayPage($aParams);
 	}
