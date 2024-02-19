@@ -1560,6 +1560,9 @@
       </presentation>
     </class>
     <class id="NetworkInterface" _created_in="itop-config-mgmt" _delta="must_exist">
+      <properties>
+        <obsolescence _delta="delete_if_exists"/>
+      </properties>
       <fields>
         <field id="operational_status" xsi:type="AttributeMetaEnum" _delta="must_exist">
           <mappings>
