@@ -103,4 +103,20 @@
 		<valid_flag>false</valid_flag>
 		<category_id>4</category_id>
 	</AuditRule>
+	<AuditCategory alias="AuditCategory" id="5">
+		<name>gestsion des prises réseau</name>
+		<description>Ensemble de règles liées aux prises réseau</description>
+		<definition_set>SELECT NetworkSocket</definition_set>
+	</AuditCategory>
+	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="5">
+		<domain_id>1</domain_id>
+		<category_id>5</category_id>
+	</lnkAuditCategoryToAuditDomain>
+	<AuditRule alias="AuditRule" id="9">
+		<name>Prises réseau actives alors que leur informations frontales et back end ne sont pas compètes</name>
+		<description>List of network sockets that active though their front and back end are not botj connected</description>
+		<query>SELECT NetworkSocket AS ns WHERE ns.status = 'active' AND (ns.backendsocket_id <= 0 OR ((ns.networksocket_id < 0) AND (ns.physicalinterface_id < 0)))</query>
+		<valid_flag>false</valid_flag>
+		<category_id>4</category_id>
+	</AuditRule>
 </Set>
