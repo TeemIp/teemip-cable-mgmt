@@ -1330,9 +1330,22 @@
                 <decoration_classes/>
               </style>
             </value>
+            <value id="ready">
+              <code>ready</code>
+              <style>
+                <main_color>hsla(207, 72.6%, 57.1%, 1)</main_color>
+                <complementary_color>hsla(0, 0%, 100%, 1)</complementary_color>
+                <decoration_classes/>
+              </style>
+            </value>
           </values>
           <sql>status</sql>
-          <default_value>active</default_value>
+          <default_value>inactive</default_value>
+          <dependencies>
+            <attribute id="physicalinterface_id"/>
+            <attribute id="networksocket_id"/>
+            <attribute id="backendsocket_id"/>
+          </dependencies>
           <is_null_allowed>true</is_null_allowed>
           <display_style>radio_horizontal</display_style>
         </field>
@@ -1576,6 +1589,7 @@
                 </metavalue>
                 <metavalue id="inactive">
                   <values>
+                    <value id="ready"/>
                     <value id="inactive"/>
                   </values>
                 </metavalue>

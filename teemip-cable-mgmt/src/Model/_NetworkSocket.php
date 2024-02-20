@@ -14,6 +14,8 @@ use NetworkInterface;
 
 class _NetworkSocket extends NetworkInterface
 {
+	const DEFAULT_CHAR_DELIMITER = '/';
+
 	/**
 	 * @inheritdoc
 	 */
@@ -32,13 +34,13 @@ class _NetworkSocket extends NetworkInterface
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return string
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreException
 	 */
-	public function ComputeValues(): void
+	private function ComputeName(): string
 	{
-		parent::ComputeValues();
-
-		$sDelimiter = ' / ';
+		$sDelimiter = ' '.static::DEFAULT_CHAR_DELIMITER.' ';
 		$sLocationName = $this->Get('location_name');
 		$iRackId = $this->Get('rack_id');
 		if ($iRackId > 0) {
@@ -53,9 +55,59 @@ class _NetworkSocket extends NetworkInterface
 		} else {
 			$sPosition = $sLocationName;
 		}
-		$this->Set('name', $sPosition.$sDelimiter.$this->Get('code'));
+		$sName = $sPosition.$sDelimiter.$this->Get('code');
+		return $sName;
 	}
 
+	/**
+	 * @return string
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreException
+	 */
+	private function ComputeStatus(): string
+	{
+		if ($this->Get('backendsocket_id') > 0) {
+			if (($this->Get('networksocket_id') > 0) || ($this->Get('physicalinterface_id') > 0)) {
+				return 'active';
+			} else {
+				return 'ready';
+			}
+		} else {
+			return 'inactive';
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function ComputeValues(): void
+	{
+		parent::ComputeValues();
+
+		// Set name
+		$this->Set('name', $this->ComputeName());
+
+		// Set status
+		$this->Set('status', $this->ComputeStatus());
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+	{
+		$sFlagsFromParent = parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+
+		switch ($sAttCode) {
+			case 'status':
+				return (OPT_ATT_READONLY | $sFlagsFromParent);
+
+			default:
+				break;
+		}
+
+		return $sFlagsFromParent;
+	}
 	/**
 	 * @inheritdoc
 	 */
