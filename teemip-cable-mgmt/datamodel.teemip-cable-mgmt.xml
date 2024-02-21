@@ -1293,6 +1293,25 @@
         </event_listener>
       </event_listeners>
       <methods>
+        <method id="GetInitialStateAttributeFlags">
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[ public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+	{
+		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons, $sTargetState);
+
+		switch ($sAttCode) {
+			case 'freelinks':
+				return (OPT_ATT_READONLY | $sFlagsFromParent);
+
+			default:
+				break;
+		}
+
+		return $sFlagsFromParent;
+    }]]></code>
+        </method>
         <method id="GetAttributeFlags">
           <comment/>
           <static>false</static>
@@ -1311,6 +1330,24 @@
 		}
 
 		return $sFlagsFromParent;
+    }]]></code>
+        </method>
+        <method id="AfterInsert" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Custom</type>
+          <code><![CDATA[ public function AfterInsert()
+    {
+        // Execute parent function first
+        parent::AfterInsert();
+
+        /** @var ormLinkSet $oPatchPanelsSet */
+		$oPatchPanelsSet = $this->Get('patchpanels_list');
+		if ($oPatchPanelsSet->Count() == 0) {
+			$this->Set('freelinks', $this->Get('capacity'));
+        	$this->DBUpdate();
+        }
     }]]></code>
         </method>
         <method id="OnBreakoutCableChangeComputeFreeLinksByCableMgmt">
