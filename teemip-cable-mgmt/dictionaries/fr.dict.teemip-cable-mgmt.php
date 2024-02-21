@@ -57,6 +57,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable+' => '',
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Informations Générales',
+	'Class:NetworkCable:capacity' => 'Capacités',
 	'Class:NetworkCable:endpoints' => 'Points de Connexion',
 	'Class:NetworkCable/Attribute:finalclass' => 'Classe',
 	'Class:NetworkCable/Attribute:finalclass+' => '',
@@ -161,6 +162,29 @@ Dict::Add('FR FR', 'French', 'Français', array(
 ));
 
 //
+// Class: BreakoutCable
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:BreakoutCable' => 'Câble Breakout',
+	'Class:BreakoutCable+' => 'Câble groupant de multiples liens pour connecter plusieurs prises de différents panneaux de brassage',
+	'Class:BreakoutCable/Attribute:capacity' => 'Capacité',
+	'Class:BreakoutCable/Attribute:capacity+' => 'Nombre total de liens que le câble breakout regroupe',
+	'Class:BreakoutCable/Attribute:freelinks' => 'Liens libres',
+	'Class:BreakoutCable/Attribute:freelinks+' => 'Nombre de liens encore libres dans le câble breakout',
+	'Class:BreakoutCable/Attribute:rack1_id' => 'Rack #1',
+	'Class:BreakoutCable/Attribute:rack1_id+' => 'Rack hébergeant les différents panneaux de brassage sources auxquels le câble est connecté',
+	'Class:BreakoutCable/Attribute:rack1_name' => 'Nom Rack #1',
+	'Class:BreakoutCable/Attribute:rack1_name+' => '',
+	'Class:BreakoutCable/Attribute:rack2_id' => 'Rack #2',
+	'Class:BreakoutCable/Attribute:rack2_id+' => 'Rack hébergeant les différents panneaux de brassage destinations auxquels le câble est connecté',
+	'Class:BreakoutCable/Attribute:rack2_name' => 'Nom Rack #2',
+	'Class:BreakoutCable/Attribute:rack2_name+' => '',
+	'Class:BreakoutCable/Attribute:patchpanels_list' => 'Panneaux de brassage',
+	'Class:BreakoutCable/Attribute:patchpanels_list+' => 'Liste des panneaux de brassage où le câble breakout est connecté',
+));
+
+//
 // Class: NetworkSocket
 //
 
@@ -244,6 +268,25 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste de tous les panneaux de brassage connectés à ce panneau par l\'intermédiaire d\'une prise réseau du panneau',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Back end homologues',
 	'Class:PatchPanel/Tab:backendpanels_list+' => 'Liste de tous les panneaux de brassage connectés à ce panneau par l\'intermédiaire du connecteur back end d\'une prise réseau du panneau',
+));
+
+//
+// Class: lnkBreakoutCableToPatchPanel
+//
+
+Dict::Add('FR FR', 'English', 'English', array(
+	'Class:lnkBreakoutCableToPatchPanel' => 'Lien Câble Breakout / Panneau de Brassage',
+	'Class:lnkBreakoutCableToPatchPanel+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_id' => 'Câble Breakout',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_id+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_label' => 'Etiquette Câble Breakout',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_label+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_id' => 'Panneau de Brassage',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_id+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_name' => 'Nom Panneau de Brassage',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_name+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:usedlinks' => 'Liens utilisés',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:usedlinks+' => '',
 ));
 
 //
@@ -379,6 +422,9 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'Aucun panneau de brassage n\'est en fait disponible pour cette opération !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'existe pas !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'a plus de capacité !',
+
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'Le panneau de brassage est hébergé par aucun des racks que le câble breakout connecte !',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'Il n\'y a pas assez de liens libres dans le câble breakout pour les liens demandés !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Le cross connect ne peut passer en production sans que les deux prises réseau primaires soient renseignées !',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Si une prise réseau secondaire est renseignée, l\'autre doit aussi être renseignée !',

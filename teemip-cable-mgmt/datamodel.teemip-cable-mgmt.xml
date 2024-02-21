@@ -1214,6 +1214,265 @@
         </summary>
       </presentation>
     </class>
+    <class id="BreakoutCable" _delta="define">
+      <parent>NetworkCable</parent>
+      <properties>
+        <category>bizmodel,searchable,configmgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>breakoutcable</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="rack1_name"/>
+            <attribute id="rack2_name"/>
+            <attribute id="label"/>
+          </attributes>
+        </naming>
+        <style>
+          <icon>asset/img/icons8-split.svg</icon>
+        </style>
+        <reconciliation>
+          <attributes>
+            <attribute id="rack1_id"/>
+            <attribute id="rack2_id"/>
+            <attribute id="label"/>
+          </attributes>
+        </reconciliation>
+        <uniqueness_rules/>
+      </properties>
+      <fields>
+        <field id="capacity" xsi:type="AttributeInteger">
+          <sql>capacity</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="freelinks" xsi:type="AttributeInteger">
+          <sql>freelinks</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="rack1_id" xsi:type="AttributeExternalKey">
+          <sql>rack1_id</sql>
+          <target_class>Rack</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="rack1_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>rack1_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="rack2_id" xsi:type="AttributeExternalKey">
+          <sql>rack2_id</sql>
+          <target_class>Rack</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="rack2_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>rack2_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="patchpanels_list" xsi:type="AttributeLinkedSetIndirect">
+          <linked_class>lnkBreakoutCableToPatchPanel</linked_class>
+          <ext_key_to_me>breakoutcable_id</ext_key_to_me>
+          <ext_key_to_remote>patchpanel_id</ext_key_to_remote>
+          <edit_when>on_host_edition</edit_when>
+          <duplicates/>
+          <count_min>0</count_min>
+          <count_max>0</count_max>
+          <with_php_constraint>true</with_php_constraint>
+          <with_php_computation>true</with_php_computation>
+        </field>
+      </fields>
+      <event_listeners>
+        <event_listener id="OnBreakoutCableChangeComputeFreeLinksByCableMgmt">
+          <event>EVENT_DB_LINKS_CHANGED</event>
+          <callback>OnBreakoutCableChangeComputeFreeLinksByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
+      </event_listeners>
+      <methods>
+        <method id="GetAttributeFlags">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[    public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+	{
+		$sFlagsFromParent = parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+
+		switch ($sAttCode) {
+			case 'freelinks':
+				return (OPT_ATT_READONLY | $sFlagsFromParent);
+
+			default:
+				break;
+		}
+
+		return $sFlagsFromParent;
+    }]]></code>
+        </method>
+        <method id="OnBreakoutCableChangeComputeFreeLinksByCableMgmt">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnBreakoutCableChangeComputeFreeLinksByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+    	$iUsedLinks = 0;
+        /** @var ormLinkSet $oPatchPanelsSet */
+		$oPatchPanelsSet = $this->Get('patchpanels_list');
+		foreach ($oPatchPanelsSet as $oLink) {
+			$iUsedLinks += $oLink->Get('usedlinks');
+		}
+		$iFreeLinks = $this->Get('capacity') - $iUsedLinks;
+		$this->Set('freelinks', $iFreeLinks);
+		$this->DBUpdate();
+    }]]></code>
+        </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="col:col1">
+              <rank>10</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:baseinfo">
+                  <rank>10</rank>
+                  <items>
+                    <item id="cabletype_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="cablecategory_id">
+                      <rank>20</rank>
+                    </item>
+                    <item id="length">
+                      <rank>30</rank>
+                    </item>
+                    <item id="label">
+                      <rank>40</rank>
+                    </item>
+                    <item id="comment">
+                      <rank>50</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+            <item id="col:col2">
+              <rank>20</rank>
+              <items>
+                <item id="fieldset:Class:NetworkCable:capacity">
+                  <rank>10</rank>
+                  <items>
+                    <item id="capacity">
+                      <rank>10</rank>
+                    </item>
+                    <item id="freelinks">
+                      <rank>20</rank>
+                    </item>
+                  </items>
+                </item>
+                <item id="fieldset:Class:NetworkCable:endpoints">
+                  <rank>20</rank>
+                  <items>
+                    <item id="rack1_id">
+                      <rank>10</rank>
+                    </item>
+                    <item id="rack2_id">
+                      <rank>30</rank>
+                    </item>
+                  </items>
+                </item>
+              </items>
+            </item>
+            <item id="patchpanels_list">
+              <rank>30</rank>
+            </item>
+          </items>
+        </details>
+        <list>
+          <items>
+            <item id="rack1_id">
+              <rank>10</rank>
+            </item>
+            <item id="rack2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </list>
+        <default_search>
+          <items>
+            <item id="rack1_id">
+              <rank>10</rank>
+            </item>
+            <item id="rack2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </default_search>
+        <search>
+          <items>
+            <item id="rack1_id">
+              <rank>10</rank>
+            </item>
+            <item id="rack2_id">
+              <rank>20</rank>
+            </item>
+            <item id="cabletype_id">
+              <rank>30</rank>
+            </item>
+            <item id="cablecategory_id">
+              <rank>40</rank>
+            </item>
+            <item id="length">
+              <rank>50</rank>
+            </item>
+            <item id="label">
+              <rank>60</rank>
+            </item>
+          </items>
+        </search>
+        <summary>
+          <items>
+            <item id="rack1_id">
+              <rank>10</rank>
+            </item>
+            <item id="rack2_id">
+              <rank>20</rank>
+            </item>
+            <item id="label">
+              <rank>30</rank>
+            </item>
+          </items>
+        </summary>
+      </presentation>
+    </class>
     <class id="NetworkSocket" _delta="define">
       <parent>NetworkInterface</parent>
       <php_parent>
@@ -1682,11 +1941,8 @@
       <presentation>
         <details>
           <items>
-            <item id="networksockets_list">
-              <rank>10</rank>
-            </item>
             <item id="col:col1">
-              <rank>20</rank>
+              <rank>10</rank>
               <items>
                 <item id="fieldset:Class:PatchPanel:baseinfo">
                   <rank>10</rank>
@@ -1714,7 +1970,7 @@
               </items>
             </item>
             <item id="col:col2">
-              <rank>30</rank>
+              <rank>20</rank>
               <items>
                 <item id="fieldset:Class:PatchPanel:rackinfo">
                   <rank>10</rank>
@@ -1728,6 +1984,9 @@
                   </items>
                 </item>
               </items>
+            </item>
+            <item id="networksockets_list">
+              <rank>30</rank>
             </item>
           </items>
         </details>
@@ -2603,6 +2862,136 @@
         </summary>
       </presentation>
     </class>
+    <class id="lnkBreakoutCableToPatchPanel" _delta="define">
+      <parent>cmdbAbstractObject</parent>
+      <properties>
+        <is_link>1</is_link>
+        <category>bizmodel,ipmgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>lnkbreakoutcabletopatchpanel</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="breakoutcable_label"/>
+            <attribute id="patchpanel_name"/>
+          </attributes>
+        </naming>
+        <icon/>
+        <reconciliation>
+          <attributes>
+             <attribute id="breakoutcable_id"/>
+            <attribute id="patchpanel_id"/>
+          </attributes>
+        </reconciliation>
+        <uniqueness_rules>
+          <rule id="no_duplicate">
+            <attributes>
+              <attribute id="breakoutcable_id"/>
+              <attribute id="patchpanel_id"/>
+            </attributes>
+            <filter><![CDATA[]]></filter>
+            <disabled>false</disabled>
+            <is_blocking>true</is_blocking>
+          </rule>
+        </uniqueness_rules>
+      </properties>
+      <fields>
+        <field id="breakoutcable_id" xsi:type="AttributeExternalKey">
+          <sql>breakoutcable_id</sql>
+          <target_class>BreakoutCable</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+          <jointype/>
+        </field>
+        <field id="breakoutcable_label" xsi:type="AttributeExternalField">
+          <extkey_attcode>breakoutcable_id</extkey_attcode>
+          <target_attcode>label</target_attcode>
+        </field>
+        <field id="patchpanel_id" xsi:type="AttributeExternalKey">
+          <sql>patchpanel_id</sql>
+          <target_class>PatchPanel</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+          <jointype/>
+        </field>
+        <field id="patchpanel_name" xsi:type="AttributeExternalField" _delta="define">
+          <extkey_attcode>patchpanel_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="usedlinks" xsi:type="AttributeInteger">
+          <sql>usedlinks</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+      </fields>
+      <methods>
+        <method id="DoCheckToWrite">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function DoCheckToWrite()
+    {
+        parent::DoCheckToWrite();
+
+        $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
+        $iPatchPanelRack = $oPatchPanel->Get('rack_id');
+        $oBreakoutCable = MetaModel::GetObject('BreakoutCable', $this->Get('breakoutcable_id'));
+        if (($iPatchPanelRack != $oBreakoutCable->Get('rack1_id')) && ($iPatchPanelRack != $oBreakoutCable->Get('rack2_id'))) {
+            // The patch panel must be part of one of the breakout cable's racks
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks');
+        }
+        if ($oBreakoutCable->Get('freelinks') < $this->Get('usedlinks')) {
+        	// There is not enough capacity left in the breakout cable
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks');
+        }
+	}]]></code>
+        </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="breakoutcable_id">
+              <rank>10</rank>
+            </item>
+            <item id="patchpanel_id">
+              <rank>20</rank>
+            </item>
+            <item id="usedlinks">
+              <rank>30</rank>
+            </item>
+          </items>
+        </details>
+        <search>
+          <items>
+            <item id="breakoutcable_id">
+              <rank>10</rank>
+            </item>
+            <item id="patchpanel_id">
+              <rank>20</rank>
+            </item>
+            <item id="usedlinks">
+              <rank>30</rank>
+            </item>
+          </items>
+        </search>
+        <list>
+          <items>
+            <item id="breakoutcable_id">
+              <rank>10</rank>
+            </item>
+            <item id="patchpanel_id">
+              <rank>20</rank>
+            </item>
+            <item id="usedlinks">
+              <rank>30</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+    </class>
   </classes>
   <menus>
     <menu id="ConfigManagement:TeemIpNetworking" _delta="must_exist">
@@ -2643,6 +3032,10 @@
               <dashlet id="55" xsi:type="DashletBadge">
                 <rank>55</rank>
                 <class>DirectNetworkCable</class>
+              </dashlet>
+              <dashlet id="57" xsi:type="DashletBadge">
+                <rank>57</rank>
+                <class>BreakoutCable</class>
               </dashlet>
               <dashlet id="60" xsi:type="DashletBadge">
                 <rank>60</rank>
@@ -2724,7 +3117,8 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		           UNION SELECT FrontEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket2_id = ns.id WHERE ns.patchpanel_id = :id
 		           UNION SELECT BackEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.backendsocket1_id = ns.id WHERE ns.patchpanel_id = :id
 		           UNION SELECT BackEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.backendsocket2_id = ns.id WHERE ns.patchpanel_id = :id
-		           UNION SELECT DeviceNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket_id = ns.id WHERE ns.patchpanel_id = :id";
+		           UNION SELECT DeviceNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket_id = ns.id WHERE ns.patchpanel_id = :id
+		           UNION SELECT BreakoutCable AS nc JOIN lnkBreakoutCableToPatchPanel AS l ON l.breakoutcable_id = nc.id WHERE l.patchpanel_id = :id";
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
 		        $sName = Dict::Format('Class:PatchPanel/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:cables_list+');

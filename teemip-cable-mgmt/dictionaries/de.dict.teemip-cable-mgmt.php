@@ -57,6 +57,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable+' => '',
 	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Allgemeine Informationen',
+	'Class:NetworkCable:capacity' => 'Kapazitäten',
 	'Class:NetworkCable:endpoints' => 'Verbindungspunkte',
 	'Class:NetworkCable/Attribute:finalclass' => 'Klasse',
 	'Class:NetworkCable/Attribute:finalclass+' => '',
@@ -161,6 +162,29 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 ));
 
 //
+// Class: BreakoutCable
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:BreakoutCable' => 'Breakout Cable',
+	'Class:BreakoutCable+' => 'Cable that combines multiple links to connect several sockets of different patch panels',
+	'Class:BreakoutCable/Attribute:capacity' => 'Capacity',
+	'Class:BreakoutCable/Attribute:capacity+' => 'Total number of links that the breakout cable is combining',
+	'Class:BreakoutCable/Attribute:freelinks' => 'Free Links',
+	'Class:BreakoutCable/Attribute:freelinks+' => 'Number of links that remain available within the breakout cable',
+	'Class:BreakoutCable/Attribute:rack1_id' => 'Rack #1',
+	'Class:BreakoutCable/Attribute:rack1_id+' => 'Rack hosting the different source patch panels that the cable is connected to',
+	'Class:BreakoutCable/Attribute:rack1_name' => 'Rack #1 name',
+	'Class:BreakoutCable/Attribute:rack1_name+' => '',
+	'Class:BreakoutCable/Attribute:rack2_id' => 'Rack #2',
+	'Class:BreakoutCable/Attribute:rack2_id+' => 'Rack hosting the different destination patch panels that the cable is connected to',
+	'Class:BreakoutCable/Attribute:rack2_name' => 'Rack #2 name',
+	'Class:BreakoutCable/Attribute:rack2_name+' => '',
+	'Class:BreakoutCable/Attribute:patchpanels_list' => 'Patch Panels',
+	'Class:BreakoutCable/Attribute:patchpanels_list+' => 'List of patch panels that the break out cable is connected to',
+));
+
+//
 // Class: NetworkSocket
 //
 
@@ -244,6 +268,26 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste aller Patchpanels verbunden mit dem aktuellen Panel durch die vorderseitige Netzwerkdose der angeschlossenen Dosen',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Nachbar-Anschlüsse der Rückseite des Panels',
 	'Class:PatchPanel/Tab:backendpanels_list+' => 'Liste aller Patchpanels verbunden mit dem aktuellen Panel durch die rückseitige Netzwerkdose der angeschlossenen Dosen',
+));
+
+//
+// Class: lnkBreakoutCableToPatchPanel
+//
+
+Dict::Add('DE DE', 'English', 'English', array(
+	'Class:lnkBreakoutCableToPatchPanel' => 'Link Breakout Cable / Patch Panel',
+	'Class:lnkBreakoutCableToPatchPanel+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Name' => '%1$s / %2$s',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_id' => 'Breakout Cable',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_id+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_label' => 'Breakout Cable Label',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:breakoutcable_label+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_id' => 'Patch Panel',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_id+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_name' => 'Patch Panel name',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:patchpanel_name+' => '',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:usedlinks' => 'Used Links',
+	'Class:lnkBreakoutCableToPatchPanel/Attribute:usedlinks+' => '',
 ));
 
 //
@@ -379,6 +423,9 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'Für diesen Vorgang steht eigentlich kein entferntes Patchpanel zur Verfügung !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Netzwerkkabel (Rückseite) können nicht erstellt werden: entferntes Patchpanel %1$s existiert nicht !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Netzwerkkabel (Rückseite) können nicht erstellt werden: Kapazität des entfernten Patchpanels %1$s ist erschöpft !',
+
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'The patch panel doesn\'t belong to any of the racks that the breakout cable connects!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'There is not enough capacity left in the breakout cable for the required links!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Das Cross Connect kann nicht ohne primäre und sekundäre Netzwerkdose auf Produktion gesetzt werden!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Wenn eine sekundäre Netzwerkdose festgelegt ist, muss die andere auch festgelegt werden!',
