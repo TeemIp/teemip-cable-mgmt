@@ -2946,6 +2946,12 @@
                 </item>
               </items>
             </item>
+            <item id="contacts_list">
+              <rank>30</rank>
+            </item>
+            <item id="documents_list">
+              <rank>40</rank>
+            </item>
           </items>
         </details>
         <list>
