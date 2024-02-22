@@ -75,6 +75,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable/Attribute:label+' => 'Am Kabel angebrachtes Etikett',
 	'Class:NetworkCable/Attribute:comment' => 'Kommentar',
 	'Class:NetworkCable/Attribute:comment+' => '',
+	'Class:NetworkCable/Attribute:documents_list' => 'Dokumente',
+	'Class:NetworkCable/Attribute:documents_list+' => 'Alle Dokumente, die mit diesem Kabel verknüpft sind',
 ));
 
 //

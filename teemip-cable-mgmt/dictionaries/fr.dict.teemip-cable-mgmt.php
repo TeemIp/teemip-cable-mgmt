@@ -75,6 +75,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable/Attribute:label+' => 'Etiquette attachée au câble',
 	'Class:NetworkCable/Attribute:comment' => 'Commentaire',
 	'Class:NetworkCable/Attribute:comment+' => '',
+	'Class:NetworkCable/Attribute:documents_list' => 'Documents',
+	'Class:NetworkCable/Attribute:documents_list+' => 'Tous les documents liés à ce câble réseau',
 ));
 
 //

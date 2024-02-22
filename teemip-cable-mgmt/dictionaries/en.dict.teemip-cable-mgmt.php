@@ -76,6 +76,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkCable/Attribute:label+' => 'Label attached to the cable',
 	'Class:NetworkCable/Attribute:comment' => 'Comment',
 	'Class:NetworkCable/Attribute:comment+' => '',
+	'Class:NetworkCable/Attribute:documents_list' => 'Documents',
+	'Class:NetworkCable/Attribute:documents_list+' => 'All the documents linked to this network cable',
 ));
 
 //
