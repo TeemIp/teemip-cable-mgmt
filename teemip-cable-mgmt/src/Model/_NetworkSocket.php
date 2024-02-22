@@ -94,6 +94,24 @@ class _NetworkSocket extends NetworkInterface
 	/**
 	 * @inheritDoc
 	 */
+	public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+	{
+		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+
+		switch ($sAttCode) {
+			case 'status':
+				return (OPT_ATT_READONLY | $sFlagsFromParent);
+
+			default:
+				break;
+		}
+
+		return $sFlagsFromParent;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
 	{
 		$sFlagsFromParent = parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
@@ -108,6 +126,7 @@ class _NetworkSocket extends NetworkInterface
 
 		return $sFlagsFromParent;
 	}
+
 	/**
 	 * @inheritdoc
 	 */
