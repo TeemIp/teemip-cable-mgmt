@@ -3110,6 +3110,24 @@
         }
 	}]]></code>
         </method>
+        <method id="AfterInsert" _delta="define">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Custom</type>
+          <code><![CDATA[ public function AfterInsert()
+    {
+        // Execute parent function first
+        parent::AfterInsert();
+
+        $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
+        $iCapacity = $oPatchPanel->Get('capacity');
+        if ($iCapacity > 0) {
+        	$this->Set('usedlinks', );
+        	$this->DBUpdate();
+        }
+    }]]></code>
+        </method>
       </methods>
       <presentation>
         <details>
