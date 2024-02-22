@@ -1412,7 +1412,7 @@
           <type>Overload-DBObject</type>
           <code><![CDATA[ public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
 	{
-		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons, $sTargetState);
+		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
 
 		switch ($sAttCode) {
 			case 'freelinks':
