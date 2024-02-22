@@ -1470,13 +1470,21 @@
           <type>EventListener</type>
           <code><![CDATA[    public function OnBreakoutCableChangeComputeFreeLinksByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-    	$iUsedLinks = 0;
+    	$iUsedLinksFromRack1 = 0;
+    	$iUsedLinksFromRack2 = 0;
+    	$iRack1Id = $this->Get('rack1_id');
+    	$iRack2Id = $this->Get('rack2_id');
         /** @var ormLinkSet $oPatchPanelsSet */
 		$oPatchPanelsSet = $this->Get('patchpanels_list');
 		foreach ($oPatchPanelsSet as $oLink) {
-			$iUsedLinks += $oLink->Get('usedlinks');
+			$oPatchPanel = MetaModel::GetObject('PatchPanel', $oLink->Get('patchpanel_id'));
+			if ($oPatchPanel->Get('rack_id') == $iRack1Id) {
+				$iUsedLinksFromRack1 += $oLink->Get('usedlinks');
+			} else {
+				$iUsedLinksFromRack2 += $oLink->Get('usedlinks');
+			}
 		}
-		$iFreeLinks = $this->Get('capacity') - $iUsedLinks;
+		$iFreeLinks = $this->Get('capacity') - max($iUsedLinksFromRack1, $iUsedLinksFromRack2);
 		$this->Set('freelinks', $iFreeLinks);
 		$this->DBUpdate();
     }]]></code>
