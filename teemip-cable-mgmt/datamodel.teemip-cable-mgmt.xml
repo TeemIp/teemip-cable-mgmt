@@ -3129,7 +3129,7 @@
         $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
         $iCapacity = $oPatchPanel->Get('capacity');
         if ($iCapacity > 0) {
-        	$this->Set('usedlinks', );
+        	$this->Set('usedlinks', $iCapacity);
         	$this->DBUpdate();
         }
     }]]></code>
