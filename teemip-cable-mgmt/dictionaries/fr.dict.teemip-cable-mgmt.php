@@ -55,7 +55,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable' => 'Câble Réseau',
 	'Class:NetworkCable+' => '',
-	'Class:NetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:NetworkCable:baseinfo' => 'Informations Générales',
 	'Class:NetworkCable:capacity' => 'Capacités',
 	'Class:NetworkCable:endpoints' => 'Points de Connexion',
@@ -86,7 +85,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:FrontEndNetworkCable' => 'Câble réseau frontal',
 	'Class:FrontEndNetworkCable+' => 'Câble connectant 2 prises réseau par leur interface frontale',
-	'Class:FrontEndNetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:FrontEndNetworkCable/Attribute:networksocket1_id' => 'Prise réseau #1 - Frontal',
 	'Class:FrontEndNetworkCable/Attribute:networksocket1_id+' => 'Première prise réseau connectée au câble via son interface frontale',
 	'Class:FrontEndNetworkCable/Attribute:networksocket1_name' => 'Nom de la prise réseau #1',
@@ -104,7 +102,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:BackEndNetworkCable' => 'Câble réseau back end',
 	'Class:BackEndNetworkCable+' => 'Câble connectant 2 prises réseau par leur interface back end',
-	'Class:BackEndNetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:BackEndNetworkCable/Attribute:backendsocket1_id' => 'Prise réseau #1 - Back end',
 	'Class:BackEndNetworkCable/Attribute:backendsocket1_id+' => 'Première prise réseau connectée au câble via son interface back end',
 	'Class:BackEndNetworkCable/Attribute:backendsocket1_name' => 'Nom de la prise réseau #1',
@@ -122,7 +119,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:DeviceNetworkCable' => 'Câble réseau équipement',
 	'Class:DeviceNetworkCable+' => 'Câble connectant l\interface frontale d\une prise réseau à une interface physique',
-	'Class:DeviceNetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:DeviceNetworkCable/Attribute:networksocket_id' => 'Prise réseau - Frontal',
 	'Class:DeviceNetworkCable/Attribute:networksocket_id+' => 'Prise réseau connectée au câble via son interface frontale',
 	'Class:DeviceNetworkCable/Attribute:networksocket_name' => 'Nom de la prise réseau',
@@ -144,7 +140,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:DirectNetworkCable' => 'Câble réseau direct',
 	'Class:DirectNetworkCable+' => 'Câble connectant les interfaces physiques de deux équipements',
-	'Class:DirectNetworkCable/Name' => '%1$s <-> %2$s',
 	'Class:DirectNetworkCable/Attribute:connectableci1_id' => 'Equipement #1',
 	'Class:DirectNetworkCable/Attribute:connectableci1_id+' => 'Equipement hébergeant l\'interface physique #1 connectée au câble',
 	'Class:DirectNetworkCable/Attribute:connectableci1_name' => 'Nom de l\'équipement #1',
