@@ -114,8 +114,8 @@
 	</lnkAuditCategoryToAuditDomain>
 	<AuditRule alias="AuditRule" id="9">
 		<name>Active network sockets with not all necessary cables</name>
-		<description>List of network sockets that active while their front and back end information is not complete</description>
-		<query>SELECT NetworkSocket AS ns WHERE ns.status = 'active' AND (ns.backendsocket_id <= 0 OR ((ns.networksocket_id < 0) AND (ns.physicalinterface_id < 0)))</query>
+		<description>List of network sockets that are active while their front and back end information is not complete</description>
+		<query><![CDATA[SELECT NetworkSocket AS ns WHERE ns.status = 'active' AND (ns.backendsocket_id <= 0 OR ((ns.networksocket_id < 0) AND (ns.physicalinterface_id < 0)))]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>4</category_id>
 	</AuditRule>
