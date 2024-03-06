@@ -9,9 +9,7 @@ namespace TeemIp\TeemIp\Extension\CableManagement\Controller;
 use cmdbAbstractObject;
 use CMDBObjectSet;
 use Combodo\iTop\Application\TwigBase\Controller\Controller;
-use Combodo\iTop\Service\Router\Router;
 use DBObjectSearch;
-use DBObjectSet;
 use Dict;
 use Exception;
 use IPConfig;
@@ -33,6 +31,10 @@ class CableMgmtController extends Controller
 		$this->CheckAccess();
 	}
 
+	/**
+	 * Returns the list of parameters that should be requested for a given operation
+	 *
+	 */
 	private function GetParams($sOperation, $iKey): array
 	{
 		$aParams = [];
@@ -60,8 +62,8 @@ class CableMgmtController extends Controller
 	}
 
 	/**
-	 * @return array
-	 * @throws \Exception
+	 * Get the list of html fields that should be included in a form for a given operation
+	 *
 	 */
 	private function GetActionFieldsForOperation($sOperation, $oObj): array
 	{
@@ -129,6 +131,10 @@ class CableMgmtController extends Controller
 		return [$bIssue, $sLevel, $sMessage, $aParams];
 	}
 
+	/**
+	 * Create the NetworkSockets of a given PatchPanel
+	 *
+	 */
 	public function OperationCreateNetworkSockets()
 	{
 		$iKey = utils::ReadParam('id');
@@ -145,6 +151,10 @@ class CableMgmtController extends Controller
 		$this->DisplayPage($aParams);
 	}
 
+	/**
+	 * Start operation to create Backend Cables between 2 PatchPanels
+	 *
+	 */
 	public function OperationCreateBackEndNetworkCables()
 	{
 		$sOperation = 'CreateBackEndNetworkCables';
@@ -159,6 +169,10 @@ class CableMgmtController extends Controller
 		$this->DisplayPage($aParams);
 	}
 
+	/**
+	 * Create Backend Cables between 2 PatchPanels
+	 *
+	 */
 	public function OperationDoCreateBackEndNetworkCables()
 	{
 		$sTransactionId = utils::ReadPostedParam('transaction_id', '', 'transaction_id');
@@ -191,6 +205,10 @@ class CableMgmtController extends Controller
 
 	}
 
+	/**
+	 * List available wiring paths between 2 PathPanels
+	 *
+	 */
 	public function OperationListAvailableWirings()
 	{
 		$iKey = utils::ReadParam('id');

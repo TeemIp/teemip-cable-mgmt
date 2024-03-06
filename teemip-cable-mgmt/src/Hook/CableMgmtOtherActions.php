@@ -27,7 +27,9 @@ class CableMgmtOtherActions implements iPopupMenuExtension {
 
 				// Additional actions for PatchPanel
 				if ($oObj instanceof PatchPanel) {
-					// Offer to automatically create the Network Sockets if capacity is defined and if no Network Socket has already been created
+					// Offer to automatically create :
+					//  . the backend cables between the patch panel and a remote patch panel to be specified,
+					//  . the Network Sockets if capacity is defined and if not all Network Sockets have already been created
 					$iCapacity = $oObj->Get('capacity');
 					if (!is_null($iCapacity) && ($iCapacity > 0)) {
 						$oNetworkSocketSet = $oObj->Get('networksockets_list');

@@ -34,9 +34,6 @@ class _PatchPanel extends PhysicalDevice
 	/**
 	 * Create all NetworkSockets of the PatchPanel
 	 *
-	 * @return string
-	 * @throws \ArchivedObjectException
-	 * @throws \CoreException
 	 */
 	public function CreateNetworkSockets(): string
 	{
@@ -65,14 +62,8 @@ class _PatchPanel extends PhysicalDevice
 	}
 
 	/**
-	 * Get the list and count of NetworkSockets with free backend cables in a PatchPanel
-	 * @param $iPatchPanel
-	 * @return array
-	 * @throws \CoreException
-	 * @throws \MissingQueryArgument
-	 * @throws \MySQLException
-	 * @throws \MySQLHasGoneAwayException
-	 * @throws \OQLException
+	 * Get the count and set of NetworkSockets with free backend cables in the PatchPanel
+	 *
 	 */
 	public function GetNetworkSocketsWithFreeBackEnd($iPatchPanel): array
 	{
@@ -96,8 +87,6 @@ class _PatchPanel extends PhysicalDevice
 	/**
 	 * Create Back End Cables between the NetworkSockets of the PatchPanel and the ones of a remote PatchPanel
 	 *
-	 * @param $oPatchPanel
-	 * @return string
 	 */
 	public function CreateBackEndNetworkCables($iRemotePatchPanel): string
 	{

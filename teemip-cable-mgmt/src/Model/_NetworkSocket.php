@@ -34,9 +34,8 @@ class _NetworkSocket extends NetworkInterface
 	}
 
 	/**
-	 * @return string
-	 * @throws \ArchivedObjectException
-	 * @throws \CoreException
+	 * Compute the name that should be given to a NetworkSocket
+	 *
 	 */
 	private function ComputeName(): string
 	{
@@ -60,9 +59,8 @@ class _NetworkSocket extends NetworkInterface
 	}
 
 	/**
-	 * @return string
-	 * @throws \ArchivedObjectException
-	 * @throws \CoreException
+	 * Compute the status of the NetworkSocket
+	 *
 	 */
 	private function ComputeStatus(): string
 	{

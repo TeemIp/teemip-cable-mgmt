@@ -17,13 +17,17 @@ use utils;
  */
 class DisplayWiring
 {
+	/**
+	 * Provides an HTML string that displays that different possible paths between 2 patch panels
+	 *
+	 */
 	static public function DisplayPatchPanelPaths($sClass, $iKey): array
 	{
 		$aParams = [];
 		$bIssue = false;
 		$sLevel = '';
 		$sMessage = '';
-		$iFormId = rand();
+		//$iFormId = rand();
 		switch ($sClass) {
 			case 'CrossConnect':
 				/** @var \CrossConnect $oCrossConnect */
@@ -47,6 +51,10 @@ class DisplayWiring
 		return $aParams;
 	}
 
+	/**
+	 * Get, in array format, the different possible paths between 2 patch panels
+	 *
+	 */
 	static private function GetPatchPanelsTree($iSourcePatchPanel, $iTargetPatchPanel, $aExclusions): array
 	{
 		$aPossibleBranch = [];
@@ -111,6 +119,10 @@ class DisplayWiring
 		return $aPossibleBranch;
 	}
 
+	/**
+	 * Transform the array that provides the different possible paths between 2 patch panels into an HTML representation
+	 *
+	 */
 	static private function GetDisplay($aTree, $sClass): string
 	{
 		$sHtml = '<table style="width:100%"><tr><td colspan="2">';
@@ -122,6 +134,10 @@ class DisplayWiring
 		return $sHtml;
 	}
 
+	/**
+	 * Get a node of the possible paths between 2 patch panels
+	 *
+	 */
 	static private function GetNode($aTree, $sClass, $bInit): string
 	{
 
