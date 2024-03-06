@@ -107,6 +107,22 @@ class _PatchPanel extends PhysicalDevice
 			return Dict::Format('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity', $this->Get('friendlyname'));
 		}
 
+		// Get parameters of breakout cable attached to both the local ($this) and remote patch panel, if any
+		$iCableType = 0;
+		$iCableCategory = 0;
+		$sLength = '';
+		$sLabel = '';
+		$sOQL = "SELECT BreakoutCable AS bc JOIN lnkBreakoutCableToPatchPanel AS l ON l.breakoutcable_id = bc.id WHERE l.patchpanel_id = :pp_id";
+		$oBreakoutCableSet1 = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('pp_id' => $iLocalPatchPanel));
+		$oBreakoutCableSet2 = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('pp_id' => $iRemotePatchPanel));
+		$oBreakoutCableSet = $oBreakoutCableSet1->CreateIntersect($oBreakoutCableSet2);
+		if ($oBreakoutCable = $oBreakoutCableSet->Fetch()) {
+			$iCableType = $oBreakoutCable->Get('cabletype_id');
+			$iCableCategory = $oBreakoutCable->Get('cablecategory_id');
+			$sLength = $oBreakoutCable->Get('length');
+			$sLabel = $oBreakoutCable->Get('label');
+		}
+
 		if ($iLocalCapacity <= $iRemoteCapacity) {
 			$oNetworkSocketSetSmall = $oLocalNetworkSocketSet;
 			$oNetworkSocketSetBig = $oRemoteNetworkSocketSet;
@@ -122,6 +138,10 @@ class _PatchPanel extends PhysicalDevice
 			$oBackEndNetworkCable = MetaModel::NewObject('BackEndNetworkCable');
 			$oBackEndNetworkCable->Set('backendsocket1_id', $oNetworkSocketOfSmall->GetKey());
 			$oBackEndNetworkCable->Set('backendsocket2_id', $oNetworkSocketOfBig->GetKey());
+			$oBackEndNetworkCable->Set('cabletype_id', $iCableType);
+			$oBackEndNetworkCable->Set('cablecategory_id', $iCableCategory);
+			$oBackEndNetworkCable->Set('length', $sLength);
+			$oBackEndNetworkCable->Set('label', $sLabel);
 			$oBackEndNetworkCable->DBInsert();
 		}
 
