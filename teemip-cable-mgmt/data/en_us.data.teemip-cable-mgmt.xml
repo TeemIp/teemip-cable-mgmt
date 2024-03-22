@@ -7,7 +7,7 @@
 	<AuditCategory alias="AuditCategory" id="1">
 		<name>Front end Cable Management</name>
 		<description>Set of audit rules related to front end cables</description>
-		<definition_set>SELECT FrontEndNetworkCable</definition_set>
+		<definition_set><![CDATA[SELECT  FrontEndNetworkCable]]></definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="1">
 		<domain_id>1</domain_id>
@@ -16,23 +16,23 @@
 	<AuditRule alias="AuditRule" id="1">
 		<name>Front end cables not connected on both sides</name>
 		<description>List the front end cables that are not connected at both ends</description>
-		<query>SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = 0) OR (nc.networksocket2_id = 0)</query>
+		<query><![CDATA[SELECT  FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = 0) OR (nc.networksocket2_id = 0)]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>1</category_id>
 	</AuditRule>
 	<AuditRule alias="AuditRule" id="2">
 		<name>Duplicate front end cables</name>
 		<description>List of front end cables that connect network sockets already connected together through a front end cable</description>
-		<query>SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket1_id = ns.id WHERE nc1.id != nc2.id
+		<query><![CDATA[SELECT  FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket1_id = ns.id WHERE nc1.id != nc2.id
 			UNION
-			SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket2_id = ns.id WHERE nc1.id != nc2.id</query>
+			SELECT FrontEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket1_id = ns.id JOIN FrontEndNetworkCable AS nc2 ON nc2.networksocket2_id = ns.id WHERE nc1.id != nc2.id]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>1</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="2">
 		<name>Back end Cable Management</name>
 		<description>Set of audit rules related to back end cables</description>
-		<definition_set>SELECT BackEndNetworkCable</definition_set>
+		<definition_set><![CDATA[SELECT  BackEndNetworkCable]]></definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="2">
 		<domain_id>1</domain_id>
@@ -41,23 +41,23 @@
 	<AuditRule alias="AuditRule" id="3">
 		<name>Back end cables not connected on both sides</name>
 		<description>List the back end cables that are not connected at both ends</description>
-		<query>SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = 0) OR (nc.backendsocket2_id = 0)</query>
+		<query><![CDATA[SELECT  BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = 0) OR (nc.backendsocket2_id = 0)]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>2</category_id>
 	</AuditRule>
 	<AuditRule alias="AuditRule" id="4">
 		<name>Duplicate back end cables</name>
 		<description>List of back end cables that connect network sockets already connected together through a back end cable</description>
-		<query>SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket1_id = ns.id WHERE nc1.id != nc2.id
+		<query><![CDATA[SELECT  BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket1_id = ns.id WHERE nc1.id != nc2.id
 			UNION
-			SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket2_id = ns.id WHERE nc1.id != nc2.id</query>
+			SELECT BackEndNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.backendsocket1_id = ns.id JOIN BackEndNetworkCable AS nc2 ON nc2.backendsocket2_id = ns.id WHERE nc1.id != nc2.id]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>2</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="3">
 		<name>Device Cable Management</name>
 		<description>Set of audit rules related to device cables</description>
-		<definition_set>SELECT DeviceNetworkCable</definition_set>
+		<definition_set><![CDATA[SELECT  DeviceNetworkCable]]></definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="3">
 		<domain_id>1</domain_id>
@@ -66,23 +66,23 @@
 	<AuditRule alias="AuditRule" id="5">
 		<name>Device cables not connected on both sides</name>
 		<description>List of device cables that are not attached to a network socket and to a physical interface</description>
-		<query>SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id = 0) OR (nc.physicalinterface_id = 0) </query>
+		<query><![CDATA[SELECT  DeviceNetworkCable AS nc WHERE (nc.networksocket_id = 0) OR (nc.physicalinterface_id = 0)]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>3</category_id>
 	</AuditRule>
 	<AuditRule alias="AuditRule" id="6">
 		<name>Duplicate device cables</name>
 		<description>List of device cables that connect a physical interface and a network socket already connected together</description>
-		<query>SELECT DeviceNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface_id = pi.id JOIN DeviceNetworkCable AS nc2 ON nc2.physicalinterface_id = pi.id WHERE nc1.id != nc2.id
+		<query><![CDATA[SELECT  DeviceNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface_id = pi.id JOIN DeviceNetworkCable AS nc2 ON nc2.physicalinterface_id = pi.id WHERE nc1.id != nc2.id
 			UNION
-			SELECT DeviceNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket_id = ns.id JOIN DeviceNetworkCable AS nc2 ON nc2.networksocket_id = ns.id WHERE nc1.id != nc2.id</query>
+			SELECT DeviceNetworkCable AS nc1 JOIN NetworkSocket AS ns ON nc1.networksocket_id = ns.id JOIN DeviceNetworkCable AS nc2 ON nc2.networksocket_id = ns.id WHERE nc1.id != nc2.id]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>3</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="4">
 		<name>Direct Cable Management</name>
 		<description>Set of audit rules related to direct cables</description>
-		<definition_set>SELECT DirectNetworkCable</definition_set>
+		<definition_set><![CDATA[SELECT  DirectNetworkCable]]></definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="4">
 		<domain_id>1</domain_id>
@@ -91,22 +91,22 @@
 	<AuditRule alias="AuditRule" id="7">
 		<name>Direct cables not connected on both sides</name>
 		<description>List of direct cables that are not attached at both ends</description>
-		<query>SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id = 0) OR (nc.physicalinterface2_id = 0) </query>
+		<query><![CDATA[SELECT  DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id = 0) OR (nc.physicalinterface2_id = 0)]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>4</category_id>
 	</AuditRule>
 	<AuditRule alias="AuditRule" id="8">
 		<name>Duplicate direct cables</name>
 		<description>List of direct cables that connect physical interfaces already connected together</description>
-		<query>SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface1_id = pi.id WHERE nc1.id != nc2.id
-			UNION SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface2_id = pi.id WHERE nc1.id != nc2.id</query>
+		<query><![CDATA[SELECT  DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface1_id = pi.id WHERE nc1.id != nc2.id
+			UNION SELECT DirectNetworkCable AS nc1 JOIN PhysicalInterface AS pi ON nc1.physicalinterface1_id = pi.id JOIN DirectNetworkCable AS nc2 ON nc2.physicalinterface2_id = pi.id WHERE nc1.id != nc2.id]]></query>
 		<valid_flag>false</valid_flag>
 		<category_id>4</category_id>
 	</AuditRule>
 	<AuditCategory alias="AuditCategory" id="5">
 		<name>Network Socket Management</name>
 		<description>Set of audit rules related to neetwork sockets</description>
-		<definition_set>SELECT NetworkSocket</definition_set>
+		<definition_set><![CDATA[SELECT  NetworkSocket]]></definition_set>
 	</AuditCategory>
 	<lnkAuditCategoryToAuditDomain alias="lnkAuditCategoryToAuditDomain" id="5">
 		<domain_id>1</domain_id>
