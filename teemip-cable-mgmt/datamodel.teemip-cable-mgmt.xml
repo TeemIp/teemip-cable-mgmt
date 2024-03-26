@@ -1444,6 +1444,22 @@
 		return $sFlagsFromParent;
     }]]></code>
         </method>
+        <method id="DoCheckToWrite">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>Overload-DBObject</type>
+          <code><![CDATA[	public function DoCheckToWrite()
+    {
+        parent::DoCheckToWrite();
+
+        $iUsedLinks = $this->ComputeUsedLinks();
+        if ($iUsedLinks > $this->Get('capacity')) {
+            // Number of requested links is greater thand the capacity of the cable
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks');
+        }
+	}]]></code>
+        </method>
         <method id="AfterInsert" _delta="define">
           <comment/>
           <static>false</static>
@@ -1469,23 +1485,37 @@
           <type>EventListener</type>
           <code><![CDATA[    public function OnBreakoutCableChangeComputeFreeLinksByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
     {
+        $iUsedLinks = $this->ComputeUsedLinks();
+        if ($iUsedLinks <= $this->Get('capacity')) {
+    		$this->Set('freelinks', $iUsedLinks);
+    	} else {
+    		IssueLog::Error(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
+    	}
+    }]]></code>
+        </method>
+        <method id="ComputeUsedLinks">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>custom</type>
+          <code><![CDATA[    public function ComputeUsedLinks(): int
+    {
+    	// Compute number of remaining free links
     	$iUsedLinksFromRack1 = 0;
     	$iUsedLinksFromRack2 = 0;
     	$iRack1Id = $this->Get('rack1_id');
     	$iRack2Id = $this->Get('rack2_id');
         /** @var ormLinkSet $oPatchPanelsSet */
 		$oPatchPanelsSet = $this->Get('patchpanels_list');
-		foreach ($oPatchPanelsSet as $oLink) {
-			$oPatchPanel = MetaModel::GetObject('PatchPanel', $oLink->Get('patchpanel_id'));
-			if ($oPatchPanel->Get('rack_id') == $iRack1Id) {
+		while ($oLink = $oPatchPanelsSet->Fetch()) {
+			if ($oLink->Get('patchpanel_rack_id') == $iRack1Id) {
 				$iUsedLinksFromRack1 += $oLink->Get('usedlinks');
 			} else {
 				$iUsedLinksFromRack2 += $oLink->Get('usedlinks');
 			}
 		}
 		$iFreeLinks = $this->Get('capacity') - max($iUsedLinksFromRack1, $iUsedLinksFromRack2);
-		$this->Set('freelinks', $iFreeLinks);
-		$this->DBUpdate();
+		return $iFreeLinks;
     }]]></code>
         </method>
       </methods>
@@ -2171,20 +2201,23 @@
         </details>
         <list>
           <items>
-            <item id="status">
+            <item id="org_id">
               <rank>20</rank>
             </item>
-            <item id="location_id">
+            <item id="status">
               <rank>30</rank>
             </item>
-            <item id="rack_id">
+            <item id="location_id">
               <rank>40</rank>
             </item>
-            <item id="enclosure_id">
+            <item id="rack_id">
               <rank>50</rank>
             </item>
-            <item id="capacity">
+            <item id="enclosure_id">
               <rank>60</rank>
+            </item>
+            <item id="capacity">
+              <rank>70</rank>
             </item>
           </items>
         </list>
@@ -3104,9 +3137,13 @@
           <on_target_delete>DEL_AUTO</on_target_delete>
           <jointype/>
         </field>
-        <field id="patchpanel_name" xsi:type="AttributeExternalField" _delta="define">
+        <field id="patchpanel_name" xsi:type="AttributeExternalField">
           <extkey_attcode>patchpanel_id</extkey_attcode>
           <target_attcode>name</target_attcode>
+        </field>
+        <field id="patchpanel_rack_id" xsi:type="AttributeExternalField">
+          <extkey_attcode>patchpanel_id</extkey_attcode>
+          <target_attcode>rack_id</target_attcode>
         </field>
         <field id="usedlinks" xsi:type="AttributeInteger">
           <sql>usedlinks</sql>
@@ -3129,12 +3166,21 @@
         $oBreakoutCable = MetaModel::GetObject('BreakoutCable', $this->Get('breakoutcable_id'));
         if (($iPatchPanelRack != $oBreakoutCable->Get('rack1_id')) && ($iPatchPanelRack != $oBreakoutCable->Get('rack2_id'))) {
             // The patch panel must be part of one of the breakout cable's racks
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks');
+            $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks', $oPatchPanel->Get('friendlyname'));
+            return;
         }
-        if ($oBreakoutCable->Get('freelinks') < $this->Get('usedlinks')) {
-        	// There is not enough capacity left in the breakout cable
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks');
+
+        $iCurrentUsedLinks = $this->Get('usedlinks');
+        if ($oPatchPanel->Get('capacity') < $iCurrentUsedLinks) {
+            // The patch panel doesn't have enough capacity for the number of used links requested
+            $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity', $oPatchPanel->Get('friendlyname'));
+            return;
         }
+		if ($oBreakoutCable->Get('capacity') < $this->Get('usedlinks')) {
+		    // The breakout cable doesn't have enough capacity for the number of used links requested
+		    $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks');
+		    return;
+		}
 	}]]></code>
         </method>
         <method id="AfterInsert" _delta="define">

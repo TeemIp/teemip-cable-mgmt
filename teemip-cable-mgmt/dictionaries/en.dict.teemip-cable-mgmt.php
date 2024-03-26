@@ -432,8 +432,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Back End cables cannot be created: remote Patch Panel %1$s doesn\'t exist!',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Back End cables cannot be created: remote Patch Panel %1$s doesn\'t have any capacity!',
 
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'The patch panel doesn\'t belong to any of the racks that the breakout cable connects!',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'There is not enough capacity left in the breakout cable for the required links!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'The patch panel %1$s doesn\'t belong to any of the racks that the breakout cable connects!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'The patch panel %1$s doesn\'t have enough capacity for the number of links requested',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'The breakout cable doesn\'t have enough capacity for the number of links requested by the patch panel %1$s!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'There is not enough capacity in the breakout cable for the required links!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'The cross connect cannot move to production without both primary network sockets filled!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'If one secondary network socket is set, the other one must be set as well!',
