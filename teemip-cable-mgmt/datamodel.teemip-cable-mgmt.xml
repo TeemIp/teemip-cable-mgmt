@@ -3374,59 +3374,59 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
 		        $sName = Dict::Format('Class:PatchPanel/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:cables_list+');
-	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
+	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
-		        // Display patch panel connected through the frontend interface of network sockets
+		        // Display patch panels connected through the frontend interface of network sockets
 		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.networksocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
 		        $oPatchPanelSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
 		        $sName = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:frontendpanels_list+');
-	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'frontendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet);
+	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'frontendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet, false);
 
-		        // Display patch panel connected through the backend interface of network sockets
+		        // Display patch panels connected through the backend interface of network sockets
 		        $sOQL = "SELECT PatchPanel AS ppr JOIN NetworkSocket AS nsr ON nsr.patchpanel_id = ppr.id JOIN NetworkSocket AS nsl ON nsl.backendsocket_id = nsr.id WHERE nsl.patchpanel_id = :id";
 		        $oPatchPanelSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
 		        $sName = Dict::Format('Class:PatchPanel/Tab:backendpanels_list');
 		        $sTitle = Dict::Format('Class:PatchPanel/Tab:backendpanels_list+');
-	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet);
+	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet, false);
 		    }
 		} elseif ($oObject instanceof NetworkSocket) {
 			if (!$bEditMode) {
-		        // Display network cable connected to a network socket that belong to the patch panel
+		        // Display network cables connected to the network socket
 		        $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id
 		            UNION SELECT BackEndNetworkCable AS nc WHERE nc.backendsocket1_id = :id OR nc.backendsocket2_id = :id
 		            UNION SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :id AND nc.physicalinterface_id = :physicalinterface_id";
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey(), 'physicalinterface_id' => $oObject->Get('physicalinterface_id')));
 		        $sName = Dict::Format('Class:NetworkSocket/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:NetworkSocket/Tab:cables_list+');
-		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
+		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
 				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		} elseif ($oObject instanceof PhysicalInterface) {
 			if (!$bEditMode) {
-		        // Display network cable connected to a network socket that belong to the patch panel
+		        // Display network cables connected to the interface
 		        $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.connectableci_id = :connectableci_id AND nc.physicalinterface_id = :id
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci_id AND nc.physicalinterface1_id = :id
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci2_id = :connectableci_id AND nc.physicalinterface2_id = :id";
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('connectableci_id' => $oObject->Get('connectableci_id'), 'id' => $oObject->GetKey()));
 		        $sName = Dict::Format('Class:PhysicalInterface/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:PhysicalInterface/Tab:cables_list+');
-		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
+		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
 				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		} elseif ($oObject instanceof ConnectableCI) {
 			if (!$bEditMode) {
-		        // Display network cable connected to a network socket that belong to the patch panel
+		        // Display network cables connected to the CI
 		        $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.connectableci_id = :id
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :id OR nc.connectableci2_id = :id";
 		        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $oObject->GetKey()));
 		        $sName = Dict::Format('Class:NetworkSocket/Tab:cables_list');
 		        $sTitle = Dict::Format('Class:NetworkSocket/Tab:cables_list+');
-		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet);
+		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
 				$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
