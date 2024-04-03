@@ -117,6 +117,6 @@
 		<description>List of network sockets that active though their front and back end are not botj connected</description>
 		<query><![CDATA[SELECT NetworkSocket AS ns WHERE ns.status = 'active' AND (ns.backendsocket_id <= 0 OR ((ns.networksocket_id < 0) AND (ns.physicalinterface_id < 0)))]]></query>
 		<valid_flag>false</valid_flag>
-		<category_id>4</category_id>
+		<category_id>5</category_id>
 	</AuditRule>
 </Set>
