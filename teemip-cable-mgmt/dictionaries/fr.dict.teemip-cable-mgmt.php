@@ -434,4 +434,7 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Rechercher des chemins de câblage',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'Liste des chemins de câblage possibles pour le %1$s: %2$s',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Sélectionez et activez un chemin',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxRackLevelIsTooShort' => 'Le nombre maximum de racks à traverser (%1$s) ne peut être plus petit que 1 !',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow' => 'Le nombre d\'offres attendues (%1$s) ne peut être plus petit que 1 !',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NumberOfOffers' => '%1$s chemins trouvés sur %2$s demandés ',
 ));

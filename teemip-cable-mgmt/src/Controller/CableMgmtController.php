@@ -212,7 +212,8 @@ class CableMgmtController extends Controller
 	public function OperationListAvailableWirings()
 	{
 		$iKey = utils::ReadParam('id');
-		$aParams = DisplayWiring::DisplayPatchPanelPaths('CrossConnect', $iKey);
+		$oDisplayWiring = new DisplayWiring();
+		$aParams = $oDisplayWiring->DisplayPatchPanelPaths('CrossConnect', $iKey);
 
 		$aParams['Class'] = MetaModel::GetName('CrossConnect');
 

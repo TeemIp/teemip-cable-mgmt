@@ -8,6 +8,7 @@ namespace TeemIp\TeemIp\Extension\CableManagement\Helper;
 
 use CMDBObjectSet;
 use DBObjectSearch;
+use Dict;
 use MetaModel;
 use utils;
 
@@ -16,11 +17,46 @@ use utils;
  */
 class DisplayWiring
 {
+	const MODULE_CODE = 'teemip-cable-mgmt';
+	const FUNCTION_CODE = 'display_wiring_paths';
+	const FUNCTION_SETTING_MAX_RACK_LEVELS= 'max_rack_levels_to_cross';
+	const FUNCTION_SETTING_MAX_OFFERS = 'max_offers_to_display';
+
+	const DEFAULT_FUNCTION_SETTING_MAX_RACK_LEVELS = 5;
+	const DEFAULT_FUNCTION_SETTING_MAX_OFFERS = 32;
+
+	protected $aDefaultSettings = array();
+
 	/**
-	 * Provides an HTML string that displays that different possible paths between 2 patch panels
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		$this->aDefaultSettings = array(
+			static::FUNCTION_SETTING_MAX_RACK_LEVELS => static::DEFAULT_FUNCTION_SETTING_MAX_RACK_LEVELS,
+			static::FUNCTION_SETTING_MAX_OFFERS => static::DEFAULT_FUNCTION_SETTING_MAX_OFFERS,
+		);
+	}
+
+	/**
+	 * Read module settings and return parameters required for the process to run
+	 *
+	 * @return array
+	 */
+	private function GetSetting(): array
+	{
+		$aFunctionSettings = MetaModel::GetModuleSetting(static::MODULE_CODE, static::FUNCTION_CODE, $this->aDefaultSettings);
+		return [
+			$aFunctionSettings[static::FUNCTION_SETTING_MAX_RACK_LEVELS],
+			$aFunctionSettings[static::FUNCTION_SETTING_MAX_OFFERS]
+		];
+	}
+
+	/**
+	 * Provides an HTML string that displays the different possible paths between 2 patch panels
 	 *
 	 */
-	static public function DisplayPatchPanelPaths($sClass, $iKey): array
+	public function DisplayPatchPanelPaths($sClass, $iKey): array
 	{
 		$aParams = [];
 		$bIssue = false;
@@ -33,8 +69,15 @@ class DisplayWiring
 				$oCrossConnect = MetaModel::GetObject('CrossConnect', $iKey);
 				$iSourcePatchPanel = $oCrossConnect->Get('patchpanel_id');
 				$iRemotePatchPanel = $oCrossConnect->Get('remote_patchpanel_id');
-				$aTree = DisplayWiring::GetPatchPanelsTree($iSourcePatchPanel, $iRemotePatchPanel, [$iSourcePatchPanel]);
-				$sHtml = DisplayWiring::GetDisplay($aTree,'CrossConnect');
+				list ($iMaxRackLevels, $iMaxOffers) = $this->GetSetting();
+				if ($iMaxRackLevels < 1) {
+					$sHtml = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxRackLevelIsTooShort', $iMaxRackLevels);
+				} elseif ($iMaxOffers < 1) {
+					$sHtml = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow', $iMaxOffers);
+				} else {
+					list ($aTree, $iMaxOffersRemaining) = $this->GetPatchPanelsTree($iSourcePatchPanel, $iRemotePatchPanel, [$iSourcePatchPanel], $iMaxRackLevels, $iMaxOffers);
+					$sHtml = $this->GetDisplay($aTree, $iMaxOffers, $iMaxOffersRemaining, 'CrossConnect');
+				}
 				$aParams['ClassName'] = $oCrossConnect->Get('friendlyname');
 				$aParams['sHtml'] = $sHtml;
 
@@ -53,18 +96,24 @@ class DisplayWiring
 	/**
 	 * Get, in array format, the different possible paths between 2 patch panels
 	 *
+	 * @param $iSourcePatchPanel: PatchPanel where to start the path research from
+	 * @param $iTargetPatchPanel: PatchPanel where to end the research
+	 * @param $aExclusions: List of PatchPanels that should be excluded form the search
+	 * @param $iMaxRackLevels: Max number of racks that should be crossed the cable path
+	 * @param $iMaxOffers: Max number of offers to make
+	 * @return array:
 	 */
-	static private function GetPatchPanelsTree($iSourcePatchPanel, $iTargetPatchPanel, $aExclusions): array
+	private function GetPatchPanelsTree($iSourcePatchPanel, $iTargetPatchPanel, $aExclusions, $iMaxRackLevels, $iMaxOffers): array
 	{
 		$aPossibleBranch = [];
 		/** @var \PatchPanel $oTargetPatchPanel */
 		$oTargetPatchPanel = MetaModel::GetObject('PatchPanel', $iTargetPatchPanel, false);
 		$iTargetRackId = $oTargetPatchPanel->Get('rack_id');
 
-		// Get network sockets with a backend connection and no front end connection
+		// Get network sockets of SourcePatchPanel with a backend connection and no front end connection
 		$sOQL = "SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :pp_id AND ns.backendsocket_id > 0 AND ns.networksocket_id = 0 AND ns.connectableci_id = 0";
 		$oNetworkSocketSet= new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('pp_id' => $iSourcePatchPanel));
-		while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
+		while (($oNetworkSocket = $oNetworkSocketSet->Fetch()) && ($iMaxOffers > 0)) {
 			/** @var \NetworkSocket $oRemoteNetworkSocket */
 			$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $oNetworkSocket->Get('backendsocket_id'), false);
 			if (!is_null($oRemoteNetworkSocket)) {
@@ -87,23 +136,27 @@ class DisplayWiring
 						if ($iRemotePatchPanelId == $iTargetPatchPanel) {
 							// Patch panel is reached => wiring path is valid
 							$aBranch['end_branch'] = true;
+							$iMaxOffers--;
 						} else {
 							// We didn't end on the right patch panel
 							continue;
 						}
 					} else {
 						// Target rack is not reached
-						$aBranch['end_branch'] = false;
 						$aBranch['next_pps'] = [];
-						$aNextExclusions = array_merge($aExclusions, [$iRemotePatchPanelId]);
+						if ($iMaxRackLevels != 0) {
+							// Max number of racks to cross is not exceeded
+							$aBranch['end_branch'] = false;
+							$aNextExclusions = array_merge($aExclusions, [$iRemotePatchPanelId]);
 
-						// Find other patch panels in the rack and follow the path
-						$sOQL = "SELECT PatchPanel AS pp WHERE pp.rack_id = :rack_id AND pp.id != :pp_id";
-						$oPatchPanelToDiscoverSet= new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('rack_id' => $iRemoteRackId,'pp_id' => $iRemotePatchPanelId));
-						while ($oPatchPanelToDiscover = $oPatchPanelToDiscoverSet->Fetch()) {
-							$aBranchToDiscover = DisplayWiring::GetPatchPanelsTree($oPatchPanelToDiscover->GetKey(), $iTargetPatchPanel, $aNextExclusions);
-							if (!empty($aBranchToDiscover)) {
-								$aBranch['next_pps'][] = $aBranchToDiscover;
+							// Find other patch panels in the rack and follow the path
+							$sOQL = "SELECT PatchPanel AS pp WHERE pp.rack_id = :rack_id AND pp.id != :pp_id";
+							$oPatchPanelToDiscoverSet = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('rack_id' => $iRemoteRackId, 'pp_id' => $iRemotePatchPanelId));
+							while ($oPatchPanelToDiscover = $oPatchPanelToDiscoverSet->Fetch()) {
+								list ($aBranchToDiscover, $iMaxOffers) = $this->GetPatchPanelsTree($oPatchPanelToDiscover->GetKey(), $iTargetPatchPanel, $aNextExclusions, $iMaxRackLevels - 1, $iMaxOffers);
+								if (!empty($aBranchToDiscover)) {
+									$aBranch['next_pps'][] = $aBranchToDiscover;
+								}
 							}
 						}
 						if (empty($aBranch['next_pps'])) {
@@ -115,18 +168,20 @@ class DisplayWiring
 			}
 
 		}
-		return $aPossibleBranch;
+		return [$aPossibleBranch, $iMaxOffers];
 	}
 
 	/**
 	 * Transform the array that provides the different possible paths between 2 patch panels into an HTML representation
 	 *
 	 */
-	static private function GetDisplay($aTree, $sClass): string
+	private function GetDisplay($aTree, $iMaxOffers, $iMaxOffersRemaining, $sClass): string
 	{
 		$sHtml = '<table style="width:100%"><tr><td colspan="2">';
 		$sHtml .= '<div style="vertical-align:top;" id="tree">';
-		$sHtml .= DisplayWiring::GetNode($aTree, $sClass, true);
+		$sHtml .= '<ul><li>';
+		$sHtml .= '<b>'.Dict::Format('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NumberOfOffers', ($iMaxOffers - $iMaxOffersRemaining), $iMaxOffers).'</b>';
+		$sHtml .= $this->GetNode($aTree, $sClass, true);
 		$sHtml .= '</td></tr></table>';
 		$sHtml .= '</div></div>';
 
@@ -137,11 +192,11 @@ class DisplayWiring
 	 * Get a node of the possible paths between 2 patch panels
 	 *
 	 */
-	static private function GetNode($aTree, $sClass, $bInit): string
+	private function GetNode($aTree, $sClass, $bInit): string
 	{
 
-		$sHtml = '<ul><li>';
 		if (!$bInit) {
+			$sHtml = '<ul><li>';
 			$sHtml .= '&nbsp;&nbsp;-->>&nbsp;&nbsp;';
 			$sFECicon = utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/img/icons8-fe-network-cable-16.png';
 			$sHtml .= '<img src="'.$sFECicon.'" alt="Front End Cable" style="vertical-align:middle">&nbsp;';
@@ -179,7 +234,7 @@ class DisplayWiring
 
 			if ($aBranch['end_branch'] == false) {
 				foreach ($aBranch['next_pps'] as $aChildBranch) {
-					$sHtml .= DisplayWiring::GetNode($aChildBranch, $sClass, false);
+					$sHtml .= $this->GetNode($aChildBranch, $sClass, false);
 				}
 			}
 			$sHtml .= '</li>';

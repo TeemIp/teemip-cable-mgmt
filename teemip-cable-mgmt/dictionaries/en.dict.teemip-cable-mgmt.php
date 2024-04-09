@@ -442,4 +442,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings' => 'Find wiring paths',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Title' => 'List of possible wiring paths for %1$s: %2$s',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Select and activate a path',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxRackLevelIsTooShort' => 'The required maximum number of racks to cross (%1$s) cannot be lower than 1!',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow' => 'The number of expected offers (%1$s) canot be lower than 1!',
+	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NumberOfOffers' => '%1$s paths found out of %2$s requested from ',
 ));
