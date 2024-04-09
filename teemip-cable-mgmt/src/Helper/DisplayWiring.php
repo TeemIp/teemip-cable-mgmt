@@ -18,7 +18,7 @@ use utils;
 class DisplayWiring
 {
 	const MODULE_CODE = 'teemip-cable-mgmt';
-	const FUNCTION_CODE = 'display_wiring_paths';
+	const FUNCTION_CODE = 'find_wiring_paths';
 	const FUNCTION_SETTING_MAX_RACK_LEVELS= 'max_rack_levels_to_cross';
 	const FUNCTION_SETTING_MAX_OFFERS = 'max_offers_to_display';
 
