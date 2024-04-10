@@ -41,24 +41,36 @@ class _CrossConnect extends FunctionalCI
 	}
 
 	/**
+	 * Update given NetworkSocket when attached to or detached from Cross Connect
+	 * @param $iNetworkSocket
+	 * @return void
+	 */
+	private function UpdateNetworkSocket($iNetworkSocket): void
+	{
+		if ($iNetworkSocket > 0) {
+			$iKey = $this->GetKey();
+			/** @var \NetworkSocket $oNetworkSocket */
+			$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocket);
+			if (!is_null($oNetworkSocket)) {
+				$oNetworkSocket->Set('crossconnect_id', $iKey);
+				$oNetworkSocket->ComputeValues();
+				$oNetworkSocket->DBUpdate();
+			}
+		}
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	protected function AfterInsert(): void
 	{
 		parent::AfterInsert();
 
-		// Set status of attached network sockets to active
+		// Update attached network sockets
 		$aNetworkSocketAttributes = static::DEFAULT_NETWORKSOCKET_ATTRIBUTES;
 		foreach ($aNetworkSocketAttributes AS $sAtt) {
 			$iNetworkSocketKey = $this->Get($sAtt);
-			if ($iNetworkSocketKey > 0) {
-				/** @var \NetworkSocket $oNetworkSocket */
-				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocketKey);
-				if (!is_null($oNetworkSocket)) {
-					$oNetworkSocket->Set('status', 'active');
-					$oNetworkSocket->DBUpdate();
-				}
-			}
+			$this->UpdateNetworkSocket($iNetworkSocketKey);
 		}
 	}
 
@@ -74,67 +86,23 @@ class _CrossConnect extends FunctionalCI
 		// Update status of network sockets if any of these have changed
 		$aNetworkSocketAttributes = static::DEFAULT_NETWORKSOCKET_ATTRIBUTES;
 		foreach ($aNetworkSocketAttributes AS $sAtt) {
-			if (array_key_exists('$sAtt', $aChanges) ) {
+			if (array_key_exists($sAtt, $aChanges) ) {
 				// Newly attached network sockets are set to active
 				$iNetworkSocketKey = $this->Get($sAtt);
-				if ($iNetworkSocketKey > 0) {
-					/** @var \NetworkSocket $oNetworkSocket */
-					$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocketKey);
-					if (!is_null($oNetworkSocket)) {
-						$oNetworkSocket->Set('status', 'active');
-						$oNetworkSocket->DBUpdate();
-					}
-				}
+				$this->UpdateNetworkSocket($iNetworkSocketKey);
 
 				// Detached network sockets are set to inactive
 				$iNetworkSocketKey = $aChanges[$sAtt];
-				if ($iNetworkSocketKey > 0) {
-					/** @var \NetworkSocket $oNetworkSocket */
-					$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocketKey);
-					if (!is_null($oNetworkSocket)) {
-						$oNetworkSocket->Set('status', 'inactive');
-						$oNetworkSocket->DBUpdate();
-					}
-				}
+				$this->UpdateNetworkSocket($iNetworkSocketKey);
 			}
 		}
 
 		// Update status of network sockets if status has changed
 		if (array_key_exists('status', $aChanges)){
-			switch ($this->Get('status')) {
-				case 'production':
-					foreach ($aNetworkSocketAttributes AS $sAtt) {
-						// Make sure attached network sockets are set to active
-						$iNetworkSocketKey = $this->Get($sAtt);
-						if ($iNetworkSocketKey > 0) {
-							/** @var \NetworkSocket $oNetworkSocket */
-							$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocketKey);
-							if (!is_null($oNetworkSocket)) {
-								$oNetworkSocket->Set('status', 'active');
-								$oNetworkSocket->DBUpdate();
-							}
-						}
-					}
-					break;
-
-				case 'cancellation':
-				case 'obsolete':
-					foreach ($aNetworkSocketAttributes AS $sAtt) {
-						// Make sure attached network sockets are set to inactive
-						$iNetworkSocketKey = $this->Get($sAtt);
-						if ($iNetworkSocketKey > 0) {
-							/** @var \NetworkSocket $oNetworkSocket */
-							$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocketKey);
-							if (!is_null($oNetworkSocket)) {
-								$oNetworkSocket->Set('status', 'inactive');
-								$oNetworkSocket->DBUpdate();
-							}
-						}
-					}
-					break;
-
-				default:
-					break;
+			foreach ($aNetworkSocketAttributes AS $sAtt) {
+				// Make sure attached network sockets are set to active
+				$iNetworkSocketKey = $this->Get($sAtt);
+				$this->UpdateNetworkSocket($iNetworkSocketKey);
 			}
 		}
 
@@ -151,14 +119,7 @@ class _CrossConnect extends FunctionalCI
 		$aNetworkSocketAttributes = static::DEFAULT_NETWORKSOCKET_ATTRIBUTES;
 		foreach ($aNetworkSocketAttributes AS $sAtt) {
 			$iNetworkSocketKey = $this->Get($sAtt);
-			if ($iNetworkSocketKey > 0) {
-				/** @var \NetworkSocket $oNetworkSocket */
-				$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocketKey);
-				if (!is_null($oNetworkSocket)) {
-					$oNetworkSocket->Set('status', 'inactive');
-					$oNetworkSocket->DBUpdate();
-				}
-			}
+			$this->UpdateNetworkSocket($iNetworkSocketKey);
 		}
 	}
 
@@ -186,6 +147,24 @@ class _CrossConnect extends FunctionalCI
 			$oAppContext = new ApplicationContext();
 			$oPage->AddSubBlock($oGraph->DisplayFilterBox($oPage, $aResults));
 			$oGraph->DisplayGraph($oPage, 'wiring', $oAppContext, [], 'CrossConnect', $this->GetKey(), $sContextKey, array('this' => $this));
+		}
+	}
+
+
+	/**
+	 * Defines if the CrossConnect is active or not
+	 *
+	 * @return bool
+	 */
+	public function IsActive(): bool
+	{
+		switch ($this->Get('status')) {
+			case 'construction':
+			case 'production':
+				return true;
+
+			default:
+				return false;
 		}
 	}
 

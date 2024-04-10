@@ -67,12 +67,20 @@ class _NetworkSocket extends NetworkInterface
 		if ($this->Get('backendsocket_id') > 0) {
 			if (($this->Get('networksocket_id') > 0) || ($this->Get('physicalinterface_id') > 0)) {
 				return 'active';
-			} else {
-				return 'ready';
 			}
-		} else {
-			return 'inactive';
+
+			$iCrossConnect = $this->Get('crossconnect_id');
+			if ($iCrossConnect > 0) {
+				$oCrossConnect = MetaModel::GetObject('CrossConnect', $iCrossConnect);
+				if ($oCrossConnect && $oCrossConnect->IsActive()) {
+					return 'active';
+				}
+			}
+
+			return 'ready';
 		}
+
+		return 'inactive';
 	}
 
 	/**
@@ -98,6 +106,7 @@ class _NetworkSocket extends NetworkInterface
 
 		switch ($sAttCode) {
 			case 'status':
+			case 'crossconnect_id':
 				return (OPT_ATT_READONLY | $sFlagsFromParent);
 
 			default:
@@ -116,6 +125,7 @@ class _NetworkSocket extends NetworkInterface
 
 		switch ($sAttCode) {
 			case 'status':
+			case 'crossconnect_id':
 				return (OPT_ATT_READONLY | $sFlagsFromParent);
 
 			default:
@@ -140,15 +150,21 @@ class _NetworkSocket extends NetworkInterface
 			}
 		}
 
-		// Network socket cannot be connected to both a remote network socket and a connectableCI
+		// Network socket cannot be connected to both a remote network socket, a connectable CI or a Cross Connect
+		$iConnectableCI = $this->Get('connectableci_id');
 		$iRemoteNetworkSocket = $this->Get('networksocket_id');
-		if ($iRemoteNetworkSocket > 0) {
-			if ($this->Get('connectableci_id') > 0) {
-				$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
-			}
-			if (($this->Get('backendsocket_id') == $iRemoteNetworkSocket)) {
-				$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
-			}
+		$CrossConnect = $this->Get('crossconnect_id');
+		if (($iConnectableCI > 0) && ($iRemoteNetworkSocket > 0)) {
+			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
+		}
+		if (($iConnectableCI > 0) && ($CrossConnect > 0)) {
+			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect');
+		}
+		if (($iRemoteNetworkSocket > 0) && ($CrossConnect > 0)) {
+			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect');
+		}
+		if (($iRemoteNetworkSocket > 0) && ($this->Get('backendsocket_id') == $iRemoteNetworkSocket)) {
+			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
 		}
 	}
 

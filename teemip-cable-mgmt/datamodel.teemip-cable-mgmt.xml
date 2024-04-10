@@ -1844,6 +1844,18 @@
           <extkey_attcode>networksocket_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="crossconnect_id" xsi:type="AttributeExternalKey">
+          <sql>crossconnect_id</sql>
+          <target_class>CrossConnect</target_class>
+          <filter/>
+          <dependencies/>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="crossconnect_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>crossconnect_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
         <field id="backendsocket_id" xsi:type="AttributeExternalKey">
           <sql>backendsocket_id</sql>
           <target_class>NetworkSocket</target_class>
@@ -1943,6 +1955,9 @@
                     <item id="networksocket_id">
                       <rank>40</rank>
                     </item>
+                    <item id="crossconnect_id">
+                      <rank>50</rank>
+                    </item>
                   </items>
                 </item>
                 <item id="fieldset:Class:NetworkSocket:backendinfo">
@@ -1971,8 +1986,11 @@
             <item id="networksocket_id">
               <rank>40</rank>
             </item>
-            <item id="backendsocket_id">
+            <item id="crossconnect_id">
               <rank>50</rank>
+            </item>
+            <item id="backendsocket_id">
+              <rank>60</rank>
             </item>
           </items>
         </list>
@@ -1993,11 +2011,14 @@
             <item id="networksocket_id">
               <rank>50</rank>
             </item>
-            <item id="backendsocket_id">
+            <item id="crossconnect_id">
               <rank>60</rank>
             </item>
-            <item id="location_org_id">
+            <item id="backendsocket_id">
               <rank>70</rank>
+            </item>
+            <item id="location_org_id">
+              <rank>80</rank>
             </item>
           </items>
         </default_search>
@@ -2025,8 +2046,11 @@
             <item id="networksocket_id">
               <rank>30</rank>
             </item>
-            <item id="backendsocket_id">
+            <item id="crossconnect_id">
               <rank>40</rank>
+            </item>
+            <item id="backendsocket_id">
+              <rank>50</rank>
             </item>
           </items>
         </summary>
