@@ -201,6 +201,8 @@ class DisplayWiring
 			$sFECicon = utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/img/icons8-fe-network-cable-16.png';
 			$sHtml .= '<img src="'.$sFECicon.'" alt="Front End Cable" style="vertical-align:middle">&nbsp;';
 			$sHtml .= '&nbsp;&nbsp;-->>&nbsp;&nbsp;';
+		} else {
+			$sHtml ='';
 		}
 
 		/** @var \PatchPanel $oSourcePatchPanel */
