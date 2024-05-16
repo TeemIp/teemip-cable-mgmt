@@ -160,9 +160,9 @@ class _NetworkSocket extends NetworkInterface
 		if (($iConnectableCI > 0) && ($CrossConnect > 0)) {
 			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect');
 		}
-		if (($iRemoteNetworkSocket > 0) && ($CrossConnect > 0)) {
-			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect');
-		}
+		//if (($iRemoteNetworkSocket > 0) && ($CrossConnect > 0)) {
+		//	$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect');
+		//}
 		if (($iRemoteNetworkSocket > 0) && ($this->Get('backendsocket_id') == $iRemoteNetworkSocket)) {
 			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
 		}
@@ -189,6 +189,13 @@ class _NetworkSocket extends NetworkInterface
 			$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
 			if ($oRemoteNetworkSocket) {
 				$oRemoteNetworkSocket->Set('networksocket_id', $this->GetKey());
+
+				// Attach remote network socket to the same cross connect, if any
+				$CrossConnect = $this->Get('crossconnect_id');
+				if ($CrossConnect > 0) {
+					$oRemoteNetworkSocket->Set('crossconnect_id', $CrossConnect);
+				}
+
 				$oRemoteNetworkSocket->DBUpdate();
 			}
 		}
@@ -199,6 +206,15 @@ class _NetworkSocket extends NetworkInterface
 			if ($oRemoteBackendSocket) {
 				$oRemoteBackendSocket->Set('backendsocket_id', $this->GetKey());
 				$oRemoteBackendSocket->DBUpdate();
+			}
+		}
+
+		// Update patch panel capacities
+		if ($this->Get('patchpanel_id') > 0) {
+			$oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
+			if ($oPatchPanel) {
+				$oPatchPanel->ComputeValues();
+				$oPatchPanel->DBUpdate();
 			}
 		}
 	}
@@ -279,6 +295,11 @@ class _NetworkSocket extends NetworkInterface
 					$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
 					if ($oRemoteNetworkSocket) {
 						$oRemoteNetworkSocket->Set('networksocket_id', $this->GetKey());
+						// Attach remote network socket to the same cross connect, if any
+						$CrossConnect = $this->Get('crossconnect_id');
+						if ($CrossConnect > 0) {
+							$oRemoteNetworkSocket->Set('crossconnect_id', $CrossConnect);
+						}
 						$oRemoteNetworkSocket->DBUpdate();
 					}
 				} else {
@@ -293,6 +314,7 @@ class _NetworkSocket extends NetworkInterface
 					$oOldRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $aChanges['networksocket_id'], false);
 					if ($oOldRemoteNetworkSocket && ($oOldRemoteNetworkSocket->Get('networksocket_id') == $this->GetKey())) {
 						$oOldRemoteNetworkSocket->Set('networksocket_id', 0);
+						$oOldRemoteNetworkSocket->Set('crossconnect_id', 0);
 						$oOldRemoteNetworkSocket->DBUpdate();
 					}
 				}
@@ -340,6 +362,39 @@ class _NetworkSocket extends NetworkInterface
 				}
 			}
 		}
+
+		// PatchPanel has changed
+		if (array_key_exists('patchpanel_id', $aChanges)) {
+			// Update patch panel capacities
+			if ($this->Get('patchpanel_id') > 0) {
+				$oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
+				if ($oPatchPanel) {
+					$oPatchPanel->ComputeValues();
+					$oPatchPanel->DBUpdate();
+				}
+			}
+
+			// Update old patch panel capacities
+			if ($aChanges['patchpanel_id'] > 0) {
+				$oOldPatchPanel = MetaModel::GetObject('PatchPanel', $aChanges['patchpanel_id'], false);
+				if ($oOldPatchPanel) {
+					$oOldPatchPanel->ComputeValues();
+					$oOldPatchPanel->DBUpdate();
+				}
+			}
+		}
+
+		// Status has changed
+		if (array_key_exists('status', $aChanges)) {
+			// Update patch panel capacities
+			if ($this->Get('patchpanel_id') > 0) {
+				$oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
+				if ($oPatchPanel) {
+					$oPatchPanel->ComputeValues();
+					$oPatchPanel->DBUpdate();
+				}
+			}
+		}
 	}
 
 	/**
@@ -363,6 +418,7 @@ class _NetworkSocket extends NetworkInterface
 			$oRemoteNetworkSocket = MetaModel::GetObject('NetworkSocket', $this->Get('networksocket_id'), false);
 			if ($oRemoteNetworkSocket) {
 				$oRemoteNetworkSocket->Set('networksocket_id', 0);
+				$oRemoteNetworkSocket->Set('crossconnect_id', 0);
 				$oRemoteNetworkSocket->DBUpdate();
 			}
 		}
@@ -373,6 +429,15 @@ class _NetworkSocket extends NetworkInterface
 			if ($oRemoteBackendSocket) {
 				$oRemoteBackendSocket->Set('backendsocket_id', 0);
 				$oRemoteBackendSocket->DBUpdate();
+			}
+		}
+
+		// Update patch panel capacities
+		if ($this->Get('patchpanel_id') > 0) {
+			$oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
+			if ($oPatchPanel) {
+				$oPatchPanel->ComputeValues();
+				$oPatchPanel->DBUpdate();
 			}
 		}
 	}
