@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2023 TeemIp
+ * @copyright   Copyright (C) 2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -265,6 +265,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PatchPanel/Attribute:enclosure_name+' => '',
 	'Class:PatchPanel/Attribute:capacity' => 'Capacité',
 	'Class:PatchPanel/Attribute:capacity+' => 'Nombre de prises réseau du panneau de brassage',
+	'Class:PatchPanel/Attribute:free_sockets' => 'Prises libres',
+	'Class:PatchPanel/Attribute:free_sockets+' => 'Nombre de prises réseau dispobibles sur le panneau: non encore créées, inactives ou prêtes',
+	'Class:PatchPanel/Attribute:ready_sockets' => 'Prises prêtes',
+	'Class:PatchPanel/Attribute:ready_sockets+' => 'Nombre de prises réseau \'prêtes\' sur le panneau',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Prises réseau',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'Liste de toutes les prises réseau du panneau de brassage',
 	'Class:PatchPanel/Tab:cables_list' => 'Câbles',

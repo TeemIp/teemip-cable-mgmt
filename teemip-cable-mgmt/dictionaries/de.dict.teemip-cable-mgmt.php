@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2023 TeemIp
+ * @copyright   Copyright (C) 2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -265,6 +265,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel/Attribute:enclosure_name+' => '',
 	'Class:PatchPanel/Attribute:capacity' => 'Kapazität',
 	'Class:PatchPanel/Attribute:capacity+' => 'Anzahl der Netzwerkdosen am Patchpanel',
+	'Class:PatchPanel/Attribute:free_sockets' => 'Free sockets',
+	'Class:PatchPanel/Attribute:free_sockets+' => 'Number of network sockets still available on the panel: not created yes, inactive or ready',
+	'Class:PatchPanel/Attribute:ready_sockets' => 'Ready sockets',
+	'Class:PatchPanel/Attribute:ready_sockets+' => 'Number of network sockets with status \'ready\'',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Netzwerkdosen',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'Liste aller Netzwerkdosen des Patchpanels',
 	'Class:PatchPanel/Tab:cables_list' => 'Kabel',
@@ -431,6 +435,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Netzwerkkabel (Rückseite) können nicht erstellt werden: Kapazität des entfernten Patchpanels %1$s ist erschöpft !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'Das Patchpanel gehört zu keinem der Racks, die das Breakout-Kabel verbindet!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'Im Patchpanel %1$s ist nicht mehr genügend Kapazität für die benötigten Links vorhanden!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'The breakout cable doesn\'t have enough capacity for the number of links requested by the patch panel %1$s!',
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'Im Breakout-Kabel ist nicht mehr genügend Kapazität für die benötigten Links vorhanden!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Das Cross Connect kann nicht ohne primäre und sekundäre Netzwerkdose auf Produktion gesetzt werden!',

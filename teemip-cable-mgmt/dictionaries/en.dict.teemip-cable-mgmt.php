@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2023 TeemIp
+ * @copyright   Copyright (C) 2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -271,7 +271,11 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel/Attribute:enclosure_name' => 'Enclosure name',
 	'Class:PatchPanel/Attribute:enclosure_name+' => '',
 	'Class:PatchPanel/Attribute:capacity' => 'Capacity',
-	'Class:PatchPanel/Attribute:capacity+' => 'Number of network socket on the panel',
+	'Class:PatchPanel/Attribute:capacity+' => 'Number of network sockets that the panel can host',
+	'Class:PatchPanel/Attribute:free_sockets' => 'Free sockets',
+	'Class:PatchPanel/Attribute:free_sockets+' => 'Number of network sockets still available on the panel: not created yes, inactive or ready',
+	'Class:PatchPanel/Attribute:ready_sockets' => 'Ready sockets',
+	'Class:PatchPanel/Attribute:ready_sockets+' => 'Number of network sockets with status \'ready\'',
 	'Class:PatchPanel/Attribute:networksockets_list' => 'Network sockets',
 	'Class:PatchPanel/Attribute:networksockets_list+' => 'List of all network sockets of the patch panel',
 	'Class:PatchPanel/Tab:cables_list' => 'Cables',
