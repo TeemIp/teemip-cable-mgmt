@@ -1487,7 +1487,7 @@
     {
         $iUsedLinks = $this->ComputeUsedLinks();
         if ($iUsedLinks <= $this->Get('capacity')) {
-    		$this->Set('freelinks', $iUsedLinks);
+    		$this->Set('freelinks', $this->Get('capacity') - $iUsedLinks);
     	} else {
     		IssueLog::Error(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
     	}
@@ -1514,8 +1514,7 @@
 				$iUsedLinksFromRack2 += $oLink->Get('usedlinks');
 			}
 		}
-		$iFreeLinks = $this->Get('capacity') - max($iUsedLinksFromRack1, $iUsedLinksFromRack2);
-		return $iFreeLinks;
+		return max($iUsedLinksFromRack1, $iUsedLinksFromRack2);
     }]]></code>
         </method>
       </methods>
@@ -2147,10 +2146,20 @@
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
         </field>
+        <field id="free_sockets" xsi:type="AttributeInteger">
+          <sql>free_sockets</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
+        <field id="ready_sockets" xsi:type="AttributeInteger">
+          <sql>ready_sockets</sql>
+          <default_value/>
+          <is_null_allowed>true</is_null_allowed>
+        </field>
         <field id="networksockets_list" xsi:type="AttributeLinkedSet">
           <linked_class>NetworkSocket</linked_class>
           <ext_key_to_me>patchpanel_id</ext_key_to_me>
-          <edit_mode>add_remove</edit_mode>
+          <edit_mode>actions</edit_mode>
           <count_min>0</count_min>
           <count_max>0</count_max>
           <duplicates/>
@@ -2191,6 +2200,12 @@
                     </item>
                     <item id="capacity">
                       <rank>50</rank>
+                    </item>
+                    <item id="free_sockets">
+                      <rank>55</rank>
+                    </item>
+                    <item id="ready_sockets">
+                      <rank>56</rank>
                     </item>
                     <item id="external_ref">
                       <rank>65</rank>
@@ -2242,6 +2257,12 @@
             </item>
             <item id="capacity">
               <rank>70</rank>
+            </item>
+            <item id="free_sockets">
+              <rank>80</rank>
+            </item>
+            <item id="ready_sockets">
+              <rank>90</rank>
             </item>
           </items>
         </list>
@@ -2842,7 +2863,7 @@
         </field>
         <field id="remote_location_id" xsi:type="AttributeExternalKey">
           <sql>remote_location_id</sql>
-          <filter><![CDATA[SELECT Location AS l WHERE l.org_id = :this->org_id]]></filter>
+          <filter><![CDATA[SELECT Location AS l WHERE l.org_id = :this->remote_org_id]]></filter>
           <dependencies>
             <attribute id="remote_org_id"/>
           </dependencies>
