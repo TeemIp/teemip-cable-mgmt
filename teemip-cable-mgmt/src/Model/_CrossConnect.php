@@ -8,12 +8,10 @@ namespace TeemIp\TeemIp\Extension\CableManagement\Model;
 
 use ApplicationContext;
 use Combodo\iTop\Application\Helper\WebResourcesHelper;
-use Combodo\iTop\Application\UI\Base\Layout\TabContainer\Tab\AjaxTab;
 use Dict;
 use DisplayableGraph;
 use FunctionalCI;
 use MetaModel;
-use utils;
 use WebPage;
 
 class _CrossConnect extends FunctionalCI
