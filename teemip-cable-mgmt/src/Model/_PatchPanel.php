@@ -32,6 +32,68 @@ class _PatchPanel extends PhysicalDevice
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function ComputeValues(): void
+	{
+		parent::ComputeValues();
+
+		// Set capacities
+		$iReadySockets = 0;
+		$oNetworkSocketsSet = $this->Get('networksockets_list');
+		$iFreeSockets = $this->Get('capacity') - $oNetworkSocketsSet->Count();
+		while ($oNetworkSocket = $oNetworkSocketsSet->Fetch()) {
+			$sStatus = $oNetworkSocket->Get('status');
+			if ($sStatus == 'ready') {
+				$iReadySockets++;
+			}
+			if ($sStatus != 'active') {
+				$iFreeSockets++;
+			}
+		}
+		$this->Set('free_sockets', $iFreeSockets);
+		$this->Set('ready_sockets', $iReadySockets);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+	{
+		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+
+		switch ($sAttCode) {
+			case 'free_sockets':
+			case 'ready_sockets':
+				return (OPT_ATT_READONLY | $sFlagsFromParent);
+
+			default:
+				break;
+		}
+
+		return $sFlagsFromParent;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+	{
+		$sFlagsFromParent = parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+
+		switch ($sAttCode) {
+			case 'free_sockets':
+			case 'ready_sockets':
+				return (OPT_ATT_READONLY | $sFlagsFromParent);
+
+			default:
+				break;
+		}
+
+		return $sFlagsFromParent;
+	}
+
+	/**
 	 * Create all NetworkSockets of the PatchPanel
 	 *
 	 */
