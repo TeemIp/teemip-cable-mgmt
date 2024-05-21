@@ -234,7 +234,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:networksocket_name' => 'Netzwerkdose Name',
 	'Class:NetworkSocket/Attribute:networksocket_name+' => '',
 	'Class:NetworkSocket/Attribute:crossconnect_id' => 'Cross Connect',
-	'Class:NetworkSocket/Attribute:crossconnect_id+' => 'Das Cross Connect geht über die Netzwerkbuchse. Dieses Attribut kann nicht gleichzeitig mit den Geräte- oder Netzwerkdose gefüllt werden',
+	'Class:NetworkSocket/Attribute:crossconnect_id+' => 'Das Cross Connect geht über die Netzwerkbuchse. Dieses Attribut kann nicht gleichzeitig mit den Geräte-Feld gefüllt werden',
 	'Class:NetworkSocket/Attribute:crossconnect_name' => 'Cross Connect Name',
 	'Class:NetworkSocket/Attribute:crossconnect_name+' => '',
 	'Class:NetworkSocket/Attribute:backendsocket_id' => 'Rückseitige Netzwerkdose',
