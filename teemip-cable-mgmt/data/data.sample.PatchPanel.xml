@@ -6,6 +6,7 @@
 		<business_criticity>low</business_criticity>
 		<move2production></move2production>
 		<serialnumber></serialnumber>
+		<location_id>2</location_id>
 		<status>production</status>
 		<brand_id>0</brand_id>
 		<model_id>0</model_id>
@@ -31,7 +32,7 @@
 		<rack_id>142</rack_id>
 		<capacity>48</capacity>
 	</PatchPanel>
-		<PatchPanel alias="PatchPanel" id="203">
+	<PatchPanel alias="PatchPanel" id="203">
 		<name>PP 3</name>
 		<org_id>2</org_id>
 		<business_criticity>low</business_criticity>
