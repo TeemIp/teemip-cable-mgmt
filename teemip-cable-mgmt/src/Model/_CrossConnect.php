@@ -8,6 +8,7 @@ namespace TeemIp\TeemIp\Extension\CableManagement\Model;
 
 use ApplicationContext;
 use Combodo\iTop\Application\Helper\WebResourcesHelper;
+use Combodo\iTop\Service\Events\EventData;
 use Dict;
 use DisplayableGraph;
 use FunctionalCI;
@@ -39,11 +40,39 @@ class _CrossConnect extends FunctionalCI
 	}
 
 	/**
-	 * Update given NetworkSocket when attached to or detached from Cross Connect
+	 * Update given NetworkSocket status
+	 *
 	 * @param $iNetworkSocket
 	 * @return void
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreCannotSaveObjectException
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
 	 */
-	private function UpdateNetworkSocket($iNetworkSocket): void
+	private function UpdateNetworkSocketStatus($iNetworkSocket): void
+	{
+		if ($iNetworkSocket > 0) {
+			$iKey = $this->GetKey();
+			/** @var \NetworkSocket $oNetworkSocket */
+			$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocket);
+			if (!is_null($oNetworkSocket)) {
+				$oNetworkSocket->ComputeValues();
+				$oNetworkSocket->DBUpdate();
+			}
+		}
+	}
+
+	/**
+	 * Set CrossConnect to given NetworkSocket
+	 *
+	 * @param $iNetworkSocket
+	 * @return void
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreCannotSaveObjectException
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 */
+	private function SetCrossConnectToNetworkSocket($iNetworkSocket): void
 	{
 		if ($iNetworkSocket > 0) {
 			$iKey = $this->GetKey();
@@ -58,67 +87,93 @@ class _CrossConnect extends FunctionalCI
 	}
 
 	/**
-	 * @inheritdoc
+	 * Reset CrossConnect to given NetworkSocket
+	 *
+	 * @param $iNetworkSocket
+	 * @return void
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreCannotSaveObjectException
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
 	 */
-	protected function AfterInsert(): void
+	private function ResetCrossConnectToNetworkSocket($iNetworkSocket): void
 	{
-		parent::AfterInsert();
-
-		// Update attached network sockets
-		$aNetworkSocketAttributes = static::DEFAULT_NETWORKSOCKET_ATTRIBUTES;
-		foreach ($aNetworkSocketAttributes AS $sAtt) {
-			$iNetworkSocketKey = $this->Get($sAtt);
-			$this->UpdateNetworkSocket($iNetworkSocketKey);
+		if ($iNetworkSocket > 0) {
+			/** @var \NetworkSocket $oNetworkSocket */
+			$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocket);
+			if (!is_null($oNetworkSocket)) {
+				$oNetworkSocket->Set('crossconnect_id', 0);
+				$oNetworkSocket->ComputeValues();
+				$oNetworkSocket->DBUpdate();
+			}
 		}
 	}
 
 	/**
-	 * @inheritdoc
+	 * Handle write eventon CrossConnects
+	 *
+	 * @param EventData $oEventData
+	 * @return void
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreCannotSaveObjectException
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
 	 */
-	protected function AfterUpdate(): void
+	public function OnCrossConnectAfterWriteRequestedByCableMgmt(EventData $oEventData): void
 	{
-		parent::AfterUpdate();
-
-		$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
-
-		// Update status of network sockets if any of these have changed
+		$aEventData = $oEventData->GetEventData();
 		$aNetworkSocketAttributes = static::DEFAULT_NETWORKSOCKET_ATTRIBUTES;
-		foreach ($aNetworkSocketAttributes AS $sAtt) {
-			if (array_key_exists($sAtt, $aChanges) ) {
-				// Newly attached network sockets are set to active
-				$iNetworkSocketKey = $this->Get($sAtt);
-				$this->UpdateNetworkSocket($iNetworkSocketKey);
-
-				// Detached network sockets are set to inactive
-				$iNetworkSocketKey = $aChanges[$sAtt];
-				$this->UpdateNetworkSocket($iNetworkSocketKey);
-			}
-		}
-
-		// Update status of network sockets if status has changed
-		if (array_key_exists('status', $aChanges)){
+		if ($aEventData['is_new']) {
+			// We are in the AfterInsert situation
 			foreach ($aNetworkSocketAttributes AS $sAtt) {
-				// Make sure attached network sockets are set to active
-				$iNetworkSocketKey = $this->Get($sAtt);
-				$this->UpdateNetworkSocket($iNetworkSocketKey);
+				$iNetworkSocket = $this->Get($sAtt);
+				// Attach CrossConnect to NetworkSocket
+				$this->SetCrossConnectToNetworkSocket($iNetworkSocket);
+			}
+		} else {
+			// We are in the AfterUpdate situation
+			$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+			foreach ($aNetworkSocketAttributes AS $sAtt) {
+				if (array_key_exists($sAtt, $aChanges)) {
+					// Newly attached network sockets are set to active
+					$iNetworkSocket = $this->Get($sAtt);
+					$this->SetCrossConnectToNetworkSocket($iNetworkSocket);
+
+					// Detached network sockets are set to inactive
+					$iNetworkSocket = $aChanges[$sAtt];
+					$this->ResetCrossConnectToNetworkSocket($iNetworkSocket);
+				}
+			}
+
+			// Update status of network sockets if status has changed
+			if (array_key_exists('status', $aChanges)){
+				foreach ($aNetworkSocketAttributes AS $sAtt) {
+					// Recompute status of NetworkSocket
+					$iNetworkSocket = $this->Get($sAtt);
+					$this->UpdateNetworkSocketStatus($iNetworkSocket);
+				}
 			}
 		}
-
 	}
 
 	/**
-	 * @inheritdoc
+	 * Handle delete event on CrossConnects
+	 *
+	 * @param EventData $oEventData
+	 * @return void
+	 * @throws \ArchivedObjectException
+	 * @throws \CoreCannotSaveObjectException
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
 	 */
-	protected function AfterDelete(): void
+	public function OnCrossConnectAfterDeleteRequestedByCableMgmt(EventData $oEventData): void
 	{
-		parent::AfterDelete();
-
-		// Set status of detached network sockets to inactive
 		$aNetworkSocketAttributes = static::DEFAULT_NETWORKSOCKET_ATTRIBUTES;
 		foreach ($aNetworkSocketAttributes AS $sAtt) {
-			$iNetworkSocketKey = $this->Get($sAtt);
-			$this->UpdateNetworkSocket($iNetworkSocketKey);
+			$iNetworkSocket = $this->Get($sAtt);
+			$this->ResetCrossConnectToNetworkSocket($iNetworkSocket);
 		}
+
 	}
 
 	/**

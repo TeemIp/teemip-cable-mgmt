@@ -2940,6 +2940,18 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnCrossConnectAfterWriteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnCrossConnectAfterWriteRequestedByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
+        <event_listener id="OnCrossConnectAfterDeleteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_DELETE</event>
+          <callback>OnCrossConnectAfterDeleteRequestedByCableMgmt</callback>
+          <rank>100</rank>
+        </event_listener>
+      </event_listeners>
       <relations>
         <relation id="wiring" _delta="define">
           <neighbours>
