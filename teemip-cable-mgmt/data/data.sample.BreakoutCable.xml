@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<BreakoutCable alias="BreakoutCable" id="251">
+		<cabletype_id>271</cabletype_id>
+		<cablecategory_id>272</cablecategory_id>
+		<length>90</length>
+		<label>LWL 10587</label>
+		<comment></comment>
+		<capacity>64</capacity>
+		<freelinks>48</freelinks>
+		<rack1_id>141</rack1_id>
+		<rack2_id>143</rack2_id>
+	</BreakoutCable>
+</Set>

@@ -46,6 +46,8 @@ SetupWebPage::AddModule(
 			'data/data.sample.BackEndNetworkCable.xml',
 			'data/data.sample.FrontEndNetworkCable.xml',
 			'data/data.sample.DirectNetworkCable.xml',
+			'data/data.sample.BreakoutCable.xml',
+			'data/data.sample.lnkBreakoutCableToPatchPanel.xml',
 			'data/data.sample.PhysicalInterface.xml'
 		),
 

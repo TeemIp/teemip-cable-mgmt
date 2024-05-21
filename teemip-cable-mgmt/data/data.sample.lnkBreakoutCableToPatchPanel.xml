@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Set>
+	<lnkBreakoutCableToPatchPanel alias="lnkBreakoutCableToPatchPanel" id="291">
+		<breakoutcable_id>251</breakoutcable_id>
+		<patchpanel_id>201</patchpanel_id>
+		<usedlinks>12</usedlinks>
+	</lnkBreakoutCableToPatchPanel>
+	<lnkBreakoutCableToPatchPanel alias="lnkBreakoutCableToPatchPanel" id="292">
+		<breakoutcable_id>251</breakoutcable_id>
+		<patchpanel_id>203</patchpanel_id>
+		<usedlinks>12</usedlinks>
+	</lnkBreakoutCableToPatchPanel>
+</Set>
