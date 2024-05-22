@@ -3517,7 +3517,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 	 * @inheritdoc
 	 */
 	public function GetHilightClass($oObject) {
-		return 0;
+		return HILIGHT_CLASS_NONE;
 	}
 
 	/**
