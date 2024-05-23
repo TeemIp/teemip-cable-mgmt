@@ -6,7 +6,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-bridge-datacenter-view-extended-cable/1.2.0-beta',
+	'teemip-bridge-datacenter-view-extended-cable/1.2.0',
 	array(
 		// Identification
 		//
@@ -16,8 +16,8 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'teemip-cable-mgmt/1.1.0',
-			'molkobain-datacenter-view-extended/1.8.2||teemip-cable-mgmt/1.1.0',
+			'teemip-cable-mgmt/1.3.0',
+			'molkobain-datacenter-view-extended/1.8.2||teemip-cable-mgmt/1.3.0',
 		),
 		'mandatory' => false,
 		'visible' => false,
