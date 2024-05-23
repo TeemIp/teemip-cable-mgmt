@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ @copyright   Copyright (C) 2010-2024 TeemIp
-  ~ @license     http://opensource.org/licenses/AGPL-3.0
-  -->
-
 <itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1" load="strict">
   <classes>
     <class id="IPConfig" _delta="must_exist">
