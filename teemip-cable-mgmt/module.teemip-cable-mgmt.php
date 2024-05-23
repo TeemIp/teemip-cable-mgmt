@@ -7,7 +7,7 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-cable-mgmt/1.3.0-beta',
+	'teemip-cable-mgmt/1.3.0',
 	array(
 		// Identification
 		//
@@ -30,6 +30,8 @@ SetupWebPage::AddModule(
 		//
 		'datamodel' => array(
 			'vendor/autoload.php',
+			'src/Controller/CableMgmtController.php',
+			'src/Helper/DisplayWiring.php',
 			'src/Hook/CableMgmtOtherActions.php',
 			'model.teemip-cable-mgmt.php',
 		),
