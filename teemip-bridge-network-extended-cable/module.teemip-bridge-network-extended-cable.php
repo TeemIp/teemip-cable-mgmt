@@ -6,7 +6,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-bridge-network-extended-cable/1.1.1-beta',
+	'teemip-bridge-network-extended-cable/1.1.1',
 	array(
 		// Identification
 		//
@@ -16,8 +16,8 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'teemip-cable-mgmt/1.1.0',
-			'teemip-network-mgmt-extended/3.1.0||teemip-cable-mgmt/1.1.0',
+			'teemip-cable-mgmt/1.3.0',
+			'teemip-network-mgmt-extended/3.1.0||teemip-cable-mgmt/1.3.0',
 		),
 		'mandatory' => false,
 		'visible' => false,
