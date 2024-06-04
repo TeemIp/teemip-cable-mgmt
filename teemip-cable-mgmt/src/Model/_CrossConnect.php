@@ -52,7 +52,6 @@ class _CrossConnect extends FunctionalCI
 	private function UpdateNetworkSocketStatus($iNetworkSocket): void
 	{
 		if ($iNetworkSocket > 0) {
-			$iKey = $this->GetKey();
 			/** @var \NetworkSocket $oNetworkSocket */
 			$oNetworkSocket = MetaModel::GetObject('NetworkSocket', $iNetworkSocket);
 			if (!is_null($oNetworkSocket)) {
