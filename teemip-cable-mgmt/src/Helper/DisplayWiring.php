@@ -234,7 +234,7 @@ class DisplayWiring
 			$oIntermediateNetworkSocket = MetaModel::GetObject('NetworkSocket', $aBranch['remote_ns']);
 			$sHtml .= '<img src="'.$sNSIcon.'" alt="'.$oIntermediateNetworkSocket->Get('friendlyname').'" style="vertical-align:middle">&nbsp;'.$oIntermediateNetworkSocket->GetHyperlink();
 
-			if ($aBranch['end_branch'] == false) {
+			if (!$aBranch['end_branch']) {
 				foreach ($aBranch['next_pps'] as $aChildBranch) {
 					$sHtml .= $this->GetNode($aChildBranch, $sClass, false);
 				}

@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2022 TeemIp
+ * @copyright   Copyright (C) 2010-2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -130,7 +130,7 @@ if (!class_exists('CableManagementInstaller')) {
 					$sLang = str_replace(' ', '_', strtolower($oConfiguration->GetDefaultLanguage()));
 				}
 
-				$sFileName = dirname(__FILE__)."/data/{$sLang}.data.teemip-cable-mgmt.xml";
+				$sFileName = dirname(__FILE__)."/data/".$sLang.".data.teemip-cable-mgmt.xml";
 				SetupLog::Info("Searching file: $sFileName");
 				if (!file_exists($sFileName)) {
 					$sFileName = dirname(__FILE__)."/data/en_us.data.teemip-cable-mgmt.xml";
