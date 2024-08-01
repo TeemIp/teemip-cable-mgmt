@@ -3416,7 +3416,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 	 */
 	public function OnDisplayRelations($oObject, WebPage $oPage, $bEditMode = false) {
 		if ($oObject instanceof PatchPanel) {
-		    if (!$bEditMode) {
+            if ($oObject->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
 		        // Display network cables connected to a network socket that belong to the patch panel
 		        $sOQL = "SELECT FrontEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket1_id = ns.id WHERE ns.patchpanel_id = :id
 		           UNION SELECT FrontEndNetworkCable AS nc JOIN NetworkSocket AS ns ON nc.networksocket2_id = ns.id WHERE ns.patchpanel_id = :id
@@ -3444,7 +3444,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 	            TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'backendpanels_list', 'PatchPanel', $sTitle, '', $oPatchPanelSet, false);
 		    }
 		} elseif ($oObject instanceof NetworkSocket) {
-			if (!$bEditMode) {
+            if ($oObject->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
 		        // Display network cables connected to the network socket
 		        $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE nc.networksocket1_id = :id OR nc.networksocket2_id = :id
 		            UNION SELECT BackEndNetworkCable AS nc WHERE nc.backendsocket1_id = :id OR nc.backendsocket2_id = :id
@@ -3462,7 +3462,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 				}
 			}
 		} elseif ($oObject instanceof PhysicalInterface) {
-			if (!$bEditMode) {
+            if ($oObject->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
 		        // Display network cables connected to the interface
 		        $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.connectableci_id = :connectableci_id AND nc.physicalinterface_id = :id
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci_id AND nc.physicalinterface1_id = :id
@@ -3480,7 +3480,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 				}
 			}
 		} elseif ($oObject instanceof ConnectableCI) {
-			if (!$bEditMode) {
+            if ($oObject->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
 		        // Display network cables connected to the CI
 		        $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.connectableci_id = :id
 		        	UNION SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :id OR nc.connectableci2_id = :id";
