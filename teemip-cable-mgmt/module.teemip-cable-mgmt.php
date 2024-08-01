@@ -7,7 +7,7 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-cable-mgmt/1.3.0',
+	'teemip-cable-mgmt/1.3.1-dev',
 	array(
 		// Identification
 		//
