@@ -3455,11 +3455,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
-				if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.2', '<')) {
-				    $oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
-				} else {
-				    $oPage->LinkStylesheetFromModule('teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
-				}
+			    $oPage->LinkStylesheetFromModule('teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		} elseif ($oObject instanceof PhysicalInterface) {
             if ($oObject->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
@@ -3473,11 +3469,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
-				if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.2', '<')) {
-				    $oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
-				} else {
-				    $oPage->LinkStylesheetFromModule('teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
-				}
+			    $oPage->LinkStylesheetFromModule('teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		} elseif ($oObject instanceof ConnectableCI) {
             if ($oObject->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
@@ -3490,11 +3482,7 @@ class TeemIpCableMgmt implements iApplicationUIExtension
 		        TeemIp\TeemIp\Extension\Framework\Helper\IPUtils::DisplayTabContent($oPage, $sName, 'networkcables_list', 'NetworkCable', $sTitle, '', $oNetworkCableSet, false);
 
 				// Remove menu Relation:wiring/UpStream that is equivalent to Relation:wiring/DownStream
-				if (version_compare(ITOP_DESIGN_LATEST_VERSION, '3.2', '<')) {
-				    $oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
-				} else {
-				    $oPage->LinkStylesheetFromModule('teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
-				}
+			    $oPage->LinkStylesheetFromModule('teemip-cable-mgmt/asset/css/hide-wiring-up-action.css');
 			}
 		}
 	}
