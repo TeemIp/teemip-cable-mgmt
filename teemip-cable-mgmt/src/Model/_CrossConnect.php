@@ -7,6 +7,7 @@
 namespace TeemIp\TeemIp\Extension\CableManagement\Model;
 
 use ApplicationContext;
+use cmdbAbstractObject;
 use Combodo\iTop\Application\Helper\WebResourcesHelper;
 use Combodo\iTop\Service\Events\EventData;
 use Combodo\iTop\Application\WebPage\WebPage;
@@ -183,7 +184,7 @@ class _CrossConnect extends FunctionalCI
 		// Execute parent function first
 		parent::DisplayBareRelations($oPage, $bEditMode);
 
-        if ($this->GetDisplayMode() == static::ENUM_DISPLAY_MODE_VIEW) {
+        if ($this->GetDisplayMode() == cmdbAbstractObject::ENUM_DISPLAY_MODE_VIEW) {
 			// Display the wiring graph
 			$sName = Dict::S('Class:CrossConnect/Tab:wiring');
 			$sTitle = Dict::S('Class:CrossConnect/Tab:wiring+');
