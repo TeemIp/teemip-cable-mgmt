@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2024 TeemIp
+ * @copyright   Copyright (C) 2010-2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -424,12 +424,14 @@ Dict::Add('EN US', 'English', 'English', array(
 	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Create Back End Cables',
 	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Wiring paths',
 
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'A cable is already connecting the same network sockets!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'A patch panel needs to be selected when the network socket belongs to a rack!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'A network socket cannot be connected to BOTH an interface and another network socket!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect' => 'A network socket cannot be connected to BOTH an interface and a cross connect!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect' => 'A network socket cannot be connected to BOTH a network socket and a cross connect!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
+    'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'A cable is already connecting the same device or socket!',
+    'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'A cable is already connecting the same physical interfaces!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
 

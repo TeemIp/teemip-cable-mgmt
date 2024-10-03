@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2024 TeemIp
+ * @copyright   Copyright (C) 2010-2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -416,12 +416,14 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Créer les câbles Back End',
 	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Chemins de câblage',
 
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Un cable connectant les mêmes prises réseau existe déja !',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Un câble connectant les mêmes prises réseau existe déja !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Un panneau de brassage doit être sélectionné quand la prise appartient à un rack !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Une prise réseau ne peut pas être connectée A LA FOIS à une interface réseau et une autre prise réseau !',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect' => 'Une prise réseau ne peut pas être connectée A LA FOIS à une interface réseau et un cross connect!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect' => 'Une prise réseau ne peut pas être connectée A LA FOIS à une prise réseau et un cross connect!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Une prise réseau ne peut pas être connectée à la même prise distante à travers ses 2 connecteurs de prise réseau et de prise arrière !',
+    'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'Un câble connectant les mêmes équipement ou prise réseau existe déjà !',
+    'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'Un câble connectant les mêmes interfaces physiques existe déjà !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Une interface physique ne peut pas être connectée à une prise réseau et à un matériel distant !',
 

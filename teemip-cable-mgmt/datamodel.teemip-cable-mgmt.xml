@@ -944,14 +944,14 @@
         parent::DoCheckToWrite();
 
         if ($this->IsNew()) {
-            $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :networksocket_id AND nc.connectableci_id = :connectableci_id";
+            $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :networksocket_id OR nc.physicalinterface_id = :physicalinterface_id";
         } else {
-            $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :networksocket_id AND nc.connectableci_id = :connectableci_id AND nc.id != :id";
+            $sOQL = "SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id = :networksocket_id OR nc.physicalinterface_id = :physicalinterface_id) AND nc.id != :id";
         }
-        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('networksocket_id' => $this->Get('networksocket_id'), 'connectableci_id' => $this->Get('connectableci_id'), 'id' =>$this->GetKey()));
+        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('networksocket_id' => $this->Get('networksocket_id'), 'physicalinterface_id' => $this->Get('physicalinterface_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the slected network socket and CI
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate');
         }
 	}]]></code>
         </method>
@@ -1178,14 +1178,14 @@
         parent::DoCheckToWrite();
 
         if ($this->IsNew()) {
-            $sOQL = "SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci1_id AND nc.connectableci2_id = :connectableci2_id";
+            $sOQL = "SELECT DirectNetworkCable AS nc WHERE nc.physicalinterface1_id = :pi1_id OR nc.physicalinterface2_id = :pi1_id OR nc.physicalinterface1_id = :pi2_id OR nc.physicalinterface2_id = :pi2_id";
         } else {
-            $sOQL = "SELECT DirectNetworkCable AS nc WHERE nc.connectableci1_id = :connectableci1_id AND nc.connectableci2_id = :connectableci2_id AND nc.id != :id";
+            $sOQL = "SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id = :pi1_id OR nc.physicalinterface2_id = :pi1_id OR nc.physicalinterface1_id = :pi2_id OR nc.physicalinterface2_id = :pi2_id) AND nc.id != :id";
         }
-        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('connectableci1_id' => $this->Get('connectableci1_id'), 'connectableci2_id' => $this->Get('connectableci2_id'), 'id' =>$this->GetKey()));
+        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('pi1_id' => $this->Get('physicalinterface1_id'), 'pi2_id' => $this->Get('physicalinterface2_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the 2 selected network sockets
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate');
         }
 	}]]></code>
         </method>

@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2024 TeemIp
+ * @copyright   Copyright (C) 2010-2024 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -416,12 +416,14 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'teemip-cable-mgmt/Operation:CreateBackEndNetworkCables/Title' => 'Netzwerkkabel erstellen',
 	'teemip-cable-mgmt/Operation:ListAvailableWirings/Title' => 'Verkabelungswege',
 
-	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerkbuchse verbunden',
+	'UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate' => 'Ein Kabel ist bereits mit den gleichen Netzwerkbuchse verbunden!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel' => 'Ein Patchpanel muss ausgewählt werden, wenn die Netzwerkdose zu einem Rack gehört!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket' => 'Eine Netzwerkdose kann nicht mit beidem, einem Interface und einer anderen Netzwerkdose, verbunden sein!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect' => 'Ein Netzwerkdose kann nicht SOWOHL an eine Interface als auch an einen Cross-Connect angeschlossen werden!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect' => 'Eine Netzwerkdose kann nicht SOWOHL mit einer anderen Netzwerkdose als auch mit einem Cross-Connect verbunden werden!',
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerkdose kann nicht mit der selben entfernten Netzwerkdose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
+    'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'Ein Kabel, das dasselbe Gerät odre dieselbe Netzwerkbuchse verbindet, existiert bereits!',
+    'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'Ein Kabel, das dieselben physischen Schnittstellen verbindet, existiert bereits!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerkdose und einem entfernten Gerät verbunden werden!',
 
