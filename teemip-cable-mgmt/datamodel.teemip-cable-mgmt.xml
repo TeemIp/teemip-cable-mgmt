@@ -1398,10 +1398,20 @@
         </field>
       </fields>
       <event_listeners>
-        <event_listener id="OnBreakoutCableChangeComputeFreeLinksByCableMgmt">
+        <event_listener id="OnBreakoutCableAfterWriteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnBreakoutCableAfterWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnBreakoutCableCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnBreakoutCableCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnBreakoutCableLinksChangedRequestedByCableMgmt">
           <event>EVENT_DB_LINKS_CHANGED</event>
-          <callback>OnBreakoutCableChangeComputeFreeLinksByCableMgmt</callback>
-          <rank>100</rank>
+          <callback>OnBreakoutCableLinksChangedRequestedByCableMgmt</callback>
+          <rank>10</rank>
         </event_listener>
       </event_listeners>
       <methods>
@@ -1444,52 +1454,45 @@
 		return $sFlagsFromParent;
     }]]></code>
         </method>
-        <method id="DoCheckToWrite">
-          <comment/>
-          <static>false</static>
-          <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function DoCheckToWrite()
-    {
-        parent::DoCheckToWrite();
-
-        $iUsedLinks = $this->ComputeUsedLinks();
-        if ($iUsedLinks > $this->Get('capacity')) {
-            // Number of requested links is greater thand the capacity of the cable
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks');
-        }
-	}]]></code>
-        </method>
-        <method id="AfterInsert" _delta="define">
-          <comment/>
-          <static>false</static>
-          <access>public</access>
-          <type>Custom</type>
-          <code><![CDATA[ public function AfterInsert()
-    {
-        // Execute parent function first
-        parent::AfterInsert();
-
-        /** @var ormLinkSet $oPatchPanelsSet */
-		$oPatchPanelsSet = $this->Get('patchpanels_list');
-		if ($oPatchPanelsSet->Count() == 0) {
-			$this->Set('freelinks', $this->Get('capacity'));
-        	$this->DBUpdate();
-        }
-    }]]></code>
-        </method>
-        <method id="OnBreakoutCableChangeComputeFreeLinksByCableMgmt">
+        <method id="OnBreakoutCableAfterWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnBreakoutCableChangeComputeFreeLinksByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[ public function OnBreakoutCableAfterWriteRequestedByCableMgmt()
     {
         $iUsedLinks = $this->ComputeUsedLinks();
         if ($iUsedLinks <= $this->Get('capacity')) {
     		$this->Set('freelinks', $this->Get('capacity') - $iUsedLinks);
     	} else {
-    		IssueLog::Error(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
+    		$this->Set('freelinks', 0);
+    	}
+    }]]></code>
+        </method>
+        <method id="OnBreakoutCableCheckToWriteRequestedByCableMgmt">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnBreakoutCableCheckToWriteRequestedByCableMgmt()
+    {
+        $iUsedLinks = $this->ComputeUsedLinks();
+        if ($iUsedLinks > $this->Get('capacity')) {
+            // Number of requested links is greater thand the capacity of the cable
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
+        }
+	}]]></code>
+        </method>
+        <method id="OnBreakoutCableLinksChangedRequestedByCableMgmt">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnBreakoutCableLinksChangedRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $iUsedLinks = $this->ComputeUsedLinks();
+        if ($iUsedLinks <= $this->Get('capacity')) {
+    		$this->Set('freelinks', $this->Get('capacity') - $iUsedLinks);
     	}
     }]]></code>
         </method>
@@ -2363,9 +2366,9 @@
         </field>
       </fields>
       <event_listeners>
-        <event_listener id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
+        <event_listener id="OnPhysicalInterfaceCheckToWriteRequestedByCableMgmt" _delta="define">
           <event>EVENT_DB_CHECK_TO_WRITE</event>
-          <callback>OnPhysicalInterfaceCheckToWriteByCableMgmt</callback>
+          <callback>OnPhysicalInterfaceCheckToWriteRequestedByCableMgmt</callback>
           <rank>100</rank>
         </event_listener>
         <event_listener id="OnPhysicalInterfaceAfterWriteRequestedByCableMgmt" _delta="define">
@@ -2380,12 +2383,12 @@
         </event_listener>
       </event_listeners>
       <methods>
-        <method id="OnPhysicalInterfaceCheckToWriteByCableMgmt" _delta="define">
+        <method id="OnPhysicalInterfaceCheckToWriteRequestedByCableMgmt" _delta="define">
           <comment/>
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnPhysicalInterfaceCheckToWriteByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnPhysicalInterfaceCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
     {
 		// Check that networksocket_id and remote_connectableci_id are not set at the same time
 		if (($this->Get('networksocket_id') != 0) && ($this->Get('remote_connectableci_id') != 0)) {
@@ -2944,12 +2947,12 @@
         <event_listener id="OnCrossConnectAfterWriteRequestedByCableMgmt">
           <event>EVENT_DB_AFTER_WRITE</event>
           <callback>OnCrossConnectAfterWriteRequestedByCableMgmt</callback>
-          <rank>100</rank>
+          <rank>10</rank>
         </event_listener>
         <event_listener id="OnCrossConnectAfterDeleteRequestedByCableMgmt">
           <event>EVENT_DB_AFTER_DELETE</event>
           <callback>OnCrossConnectAfterDeleteRequestedByCableMgmt</callback>
-          <rank>100</rank>
+          <rank>10</rank>
         </event_listener>
       </event_listeners>
       <relations>
@@ -3236,21 +3239,23 @@
 		}
 	}]]></code>
         </method>
-        <method id="AfterInsert" _delta="define">
+        <method id="AfterInsert">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Custom</type>
+          <type>Overload-DBObject</type>
           <code><![CDATA[ public function AfterInsert()
     {
         // Execute parent function first
         parent::AfterInsert();
 
-        $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
-        $iCapacity = $oPatchPanel->Get('capacity');
-        if ($iCapacity > 0) {
-        	$this->Set('usedlinks', $iCapacity);
-        	$this->DBUpdate();
+        if (is_null($this->Get('usedlinks'))) {
+            $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
+            $iCapacity = $oPatchPanel->Get('capacity');
+            if ($iCapacity > 0) {
+                $this->Set('usedlinks', $iCapacity);
+                $this->DBUpdate();
+        	}
         }
     }]]></code>
         </method>
