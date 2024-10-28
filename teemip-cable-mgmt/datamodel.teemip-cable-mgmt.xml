@@ -1389,7 +1389,7 @@
           <linked_class>lnkBreakoutCableToPatchPanel</linked_class>
           <ext_key_to_me>breakoutcable_id</ext_key_to_me>
           <ext_key_to_remote>patchpanel_id</ext_key_to_remote>
-          <edit_when>on_host_edition</edit_when>
+          <edit_when>on_host_display</edit_when>
           <duplicates/>
           <count_min>0</count_min>
           <count_max>0</count_max>
