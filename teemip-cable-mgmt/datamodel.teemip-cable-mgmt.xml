@@ -526,7 +526,7 @@
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $this->Get('networksocket1_id'), 'ns2_id' => $this->Get('networksocket2_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the 2 selected network sockets
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate'));
         }
 	}]]></code>
         </method>
@@ -733,7 +733,7 @@
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $this->Get('backendsocket1_id'), 'ns2_id' => $this->Get('backendsocket2_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the 2 selected network sockets
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate');
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate'));
         }
 	}]]></code>
         </method>
@@ -951,7 +951,7 @@
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('networksocket_id' => $this->Get('networksocket_id'), 'physicalinterface_id' => $this->Get('physicalinterface_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the slected network socket and CI
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate');
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate'));
         }
 	}]]></code>
         </method>
@@ -1185,7 +1185,7 @@
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('pi1_id' => $this->Get('physicalinterface1_id'), 'pi2_id' => $this->Get('physicalinterface2_id'), 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             // A cable already connects the 2 selected network sockets
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate');
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate'));
         }
 	}]]></code>
         </method>
@@ -2389,7 +2389,7 @@
     {
 		// Check that networksocket_id and remote_connectableci_id are not set at the same time
 		if (($this->Get('networksocket_id') != 0) && ($this->Get('remote_connectableci_id') != 0)) {
-            $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed');
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed'));
 		}
     }]]></code>
         </method>
@@ -3219,19 +3219,19 @@
         $oBreakoutCable = MetaModel::GetObject('BreakoutCable', $this->Get('breakoutcable_id'));
         if (($iPatchPanelRack != $oBreakoutCable->Get('rack1_id')) && ($iPatchPanelRack != $oBreakoutCable->Get('rack2_id'))) {
             // The patch panel must be part of one of the breakout cable's racks
-            $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks', $oPatchPanel->Get('friendlyname'));
+            $this->AddCheckIssue(Dict::Format('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks', $oPatchPanel->Get('friendlyname')));
             return;
         }
 
         $iCurrentUsedLinks = $this->Get('usedlinks');
         if ($oPatchPanel->Get('capacity') < $iCurrentUsedLinks) {
             // The patch panel doesn't have enough capacity for the number of used links requested
-            $this->m_aCheckIssues[] = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity', $oPatchPanel->Get('friendlyname'));
+            $this->AddCheckIssue(Dict::Format('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity', $oPatchPanel->Get('friendlyname')));
             return;
         }
 		if ($oBreakoutCable->Get('capacity') < $this->Get('usedlinks')) {
 		    // The breakout cable doesn't have enough capacity for the number of used links requested
-		    $this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks');
+		    $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
 		    return;
 		}
 	}]]></code>
