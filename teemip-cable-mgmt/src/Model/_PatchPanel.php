@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -117,6 +117,10 @@ class _PatchPanel extends PhysicalDevice
 			if (class_exists('InterfaceConnector')) {
 				$oNetworkSocket->Set('interfaceconnector_id', $this->Get('interfaceconnector_id'));
 			}
+            // For the case where the datamodel has been changed and org_id is a mandatory attribute of the class NetworkSocket
+            if (in_array('org_id', MetaModel::GetAttributesList('NetworkSocket'))) {
+                $oNetworkSocket->Set('org_id', $this->Get('org_id'));
+            }
 			$oNetworkSocket->DBInsert();
 		}
 
