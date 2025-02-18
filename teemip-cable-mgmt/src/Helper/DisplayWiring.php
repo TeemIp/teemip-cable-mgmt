@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -76,7 +76,14 @@ class DisplayWiring
 					$sHtml = Dict::Format('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow', $iMaxOffers);
 				} else {
 					list ($aTree, $iMaxOffersRemaining) = $this->GetPatchPanelsTree($iSourcePatchPanel, $iRemotePatchPanel, [$iSourcePatchPanel], $iMaxRackLevels, $iMaxOffers);
-					$sHtml = $this->GetDisplay($aTree, $iMaxOffers, $iMaxOffersRemaining, 'CrossConnect');
+                    if (empty($aTree)) {
+                        $bIssue = true;
+                        $sLevel = 'warning';
+                        $sMessage = Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NoPathFound');
+                        $sHtml = '';
+                    } else {
+                        $sHtml = $this->GetDisplay($aTree, $iMaxOffers, $iMaxOffersRemaining, 'CrossConnect');
+                    }
 				}
 				$aParams['ClassName'] = $oCrossConnect->Get('friendlyname');
 				$aParams['sHtml'] = $sHtml;

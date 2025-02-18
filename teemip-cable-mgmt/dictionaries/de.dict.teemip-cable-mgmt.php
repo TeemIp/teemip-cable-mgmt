@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -448,5 +448,6 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Einen Weg wählen und aktivieren',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxRackLevelIsTooShort' => 'Die erforderliche maximale Anzahl der zu überquerenden Racks (%1$s) darf nicht kleiner als 1 sein!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow' => 'Die Anzahl der erwarteten Angebote darf nicht kleiner als 1 sein!',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NoPathFound' => 'Es wurde kein Weg gefunden, um die 2 Patch Panels zu verbinden!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NumberOfOffers' => '%1$s Pfade von %2$s angeforderten Pfaden ',
 ));

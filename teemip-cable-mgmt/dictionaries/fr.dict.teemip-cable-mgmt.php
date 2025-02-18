@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -448,5 +448,6 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:Helper' => 'Sélectionez et activez un chemin',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxRackLevelIsTooShort' => 'Le nombre maximum de racks à traverser (%1$s) ne peut être plus petit que 1 !',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow' => 'Le nombre d\'offres attendues (%1$s) ne peut être plus petit que 1 !',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NoPathFound' => 'Aucun chemin n\'a été trouvé pour connecter les 2 paneaux de brassage',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NumberOfOffers' => '%1$s chemins trouvés sur %2$s demandés ',
 ));
