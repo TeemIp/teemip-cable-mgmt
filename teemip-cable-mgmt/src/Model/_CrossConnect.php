@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -31,11 +31,11 @@ class _CrossConnect extends FunctionalCI
 		if ($this->Get('status') == 'production') {
 			if (($this->Get('networksocket1_id') == 0) || ($this->Get('remote_networksocket1_id') == 0)) {
 				// A cross connect cannot be in production without its 2 main sockets configured
-				$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled');
+				$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled'));
 			}
 			if ((($this->Get('networksocket2_id') > 0) && ($this->Get('remote_networksocket2_id') == 0)) || (($this->Get('networksocket2_id') == 0) && ($this->Get('remote_networksocket2_id') > 0))) {
 				// A cross connect cannot be in production without its both secondary sockets in the same state (configured or not configured)
-				$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled');
+				$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled'));
 			}
 		}
 	}

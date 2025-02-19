@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -146,7 +146,7 @@ class _NetworkSocket extends NetworkInterface
 		$iRack = $this->Get('rack_id');
 		if ($iRack > 0) {
 			if ($this->Get('patchpanel_id') <= 0) {
-				$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel');
+				$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToRackButNotToPatchPanel'));
 			}
 		}
 
@@ -155,16 +155,16 @@ class _NetworkSocket extends NetworkInterface
 		$iRemoteNetworkSocket = $this->Get('networksocket_id');
 		$CrossConnect = $this->Get('crossconnect_id');
 		if (($iConnectableCI > 0) && ($iRemoteNetworkSocket > 0)) {
-			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket');
+			$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndSocket'));
 		}
 		if (($iConnectableCI > 0) && ($CrossConnect > 0)) {
-			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect');
+			$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToDeviceAndCrossConnect'));
 		}
 		//if (($iRemoteNetworkSocket > 0) && ($CrossConnect > 0)) {
-		//	$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect');
+		//	$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToSocketAndCrossConnect');
 		//}
 		if (($iRemoteNetworkSocket > 0) && ($this->Get('backendsocket_id') == $iRemoteNetworkSocket)) {
-			$this->m_aCheckIssues[] = Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket');
+			$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket'));
 		}
 	}
 
