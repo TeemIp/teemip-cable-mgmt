@@ -306,7 +306,7 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'Class:CrossConnect' => 'Cross Connect',
 	'Class:CrossConnect+' => 'Câblage nécessaire pour établir un lien direct entre 2 unités distinctes',
 	'Class:CrossConnect:baseinfo' => 'Informations Générales',
-	'Class:CrossConnect:localinfo' => 'Informations sur l\Unité Locale',
+	'Class:CrossConnect:localinfo' => 'Informations sur l\'Unité Locale',
 	'Class:CrossConnect:remoteinfo' => 'Informations sur l\'Unité Homologue',
 	'Class:CrossConnect/Tab:wiring' => 'Câblage',
 	'Class:CrossConnect/Tab:wiring+' => 'Affiche le câblage entre les paneaux de brassage du local et de son homologue',
