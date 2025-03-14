@@ -508,17 +508,23 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnFrontEndNetworkCableCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnFrontEndNetworkCableCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <methods>
-        <method id="DoCheckToWrite">
+        <method id="OnFrontEndNetworkCableCheckToWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function DoCheckToWrite()
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnFrontEndNetworkCableCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
-        parent::DoCheckToWrite();
-
-        if ($this->IsNew()) {
+        $aEventData = $oEventData->GetEventData();
+        if ($aEventData['is_new']) {
             $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = :ns1_id AND nc.networksocket2_id = :ns2_id) OR (nc.networksocket1_id = :ns2_id AND nc.networksocket2_id = :ns1_id)";
         } else {
             $sOQL = "SELECT FrontEndNetworkCable AS nc WHERE (nc.networksocket1_id = :ns1_id AND nc.networksocket2_id = :ns2_id AND nc.id != :id) OR (nc.networksocket1_id = :ns2_id AND nc.networksocket2_id = :ns1_id AND nc.id != :id)";
@@ -715,24 +721,32 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnBackEndNetworkCableCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnBackEndNetworkCableCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <methods>
-        <method id="DoCheckToWrite">
+        <method id="OnBackEndNetworkCableCheckToWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function DoCheckToWrite()
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnBackEndNetworkCableCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
-        parent::DoCheckToWrite();
-
-        if ($this->IsNew()) {
+        $aEventData = $oEventData->GetEventData();
+        $iBackendSocket1 = $this->Get('backendsocket1_id');
+        $iBackendSocket2 = $this->Get('backendsocket2_id');
+        // Check if another cable already connects the 2 selected network sockets
+        if ($aEventData['is_new']) {
             $sOQL = "SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = :ns1_id AND nc.backendsocket2_id = :ns2_id) OR (nc.backendsocket1_id = :ns2_id AND nc.backendsocket2_id = :ns1_id)";
         } else {
             $sOQL = "SELECT BackEndNetworkCable AS nc WHERE (nc.backendsocket1_id = :ns1_id AND nc.backendsocket2_id = :ns2_id AND nc.id != :id) OR (nc.backendsocket1_id = :ns2_id AND nc.backendsocket2_id = :ns1_id AND nc.id != :id)";
         }
-        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $this->Get('backendsocket1_id'), 'ns2_id' => $this->Get('backendsocket2_id'), 'id' =>$this->GetKey()));
+        $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $iBackendSocket1, 'ns2_id' => $iBackendSocket2, 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
-            // A cable already connects the 2 selected network sockets
             $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate'));
         }
 	}]]></code>
@@ -933,17 +947,23 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnDeviceNetworkCableCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnDeviceNetworkCableCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <methods>
-        <method id="DoCheckToWrite">
+        <method id="OnDeviceNetworkCableCheckToWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function DoCheckToWrite()
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnDeviceNetworkCableCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
-        parent::DoCheckToWrite();
-
-        if ($this->IsNew()) {
+        $aEventData = $oEventData->GetEventData();
+        if ($aEventData['is_new']) {
             $sOQL = "SELECT DeviceNetworkCable AS nc WHERE nc.networksocket_id = :networksocket_id OR nc.physicalinterface_id = :physicalinterface_id";
         } else {
             $sOQL = "SELECT DeviceNetworkCable AS nc WHERE (nc.networksocket_id = :networksocket_id OR nc.physicalinterface_id = :physicalinterface_id) AND nc.id != :id";
@@ -1167,17 +1187,23 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnDirectNetworkCableCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnDirectNetworkCableCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <methods>
-        <method id="DoCheckToWrite">
+        <method id="OnDirectNetworkCableCheckToWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function DoCheckToWrite()
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnDirectNetworkCableCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
-        parent::DoCheckToWrite();
-
-        if ($this->IsNew()) {
+        $aEventData = $oEventData->GetEventData();
+        if ($aEventData['is_new']) {
             $sOQL = "SELECT DirectNetworkCable AS nc WHERE nc.physicalinterface1_id = :pi1_id OR nc.physicalinterface2_id = :pi1_id OR nc.physicalinterface1_id = :pi2_id OR nc.physicalinterface2_id = :pi2_id";
         } else {
             $sOQL = "SELECT DirectNetworkCable AS nc WHERE (nc.physicalinterface1_id = :pi1_id OR nc.physicalinterface2_id = :pi1_id OR nc.physicalinterface1_id = :pi2_id OR nc.physicalinterface2_id = :pi2_id) AND nc.id != :id";
@@ -1398,14 +1424,19 @@
         </field>
       </fields>
       <event_listeners>
-        <event_listener id="OnBreakoutCableAfterWriteRequestedByCableMgmt">
-          <event>EVENT_DB_AFTER_WRITE</event>
-          <callback>OnBreakoutCableAfterWriteRequestedByCableMgmt</callback>
+        <event_listener id="OnBreakoutCableSetAttributesFlagsRequestedByCableMgmt">
+          <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+          <callback>OnBreakoutCableSetAttributesFlagsRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
         <event_listener id="OnBreakoutCableCheckToWriteRequestedByCableMgmt">
           <event>EVENT_DB_CHECK_TO_WRITE</event>
           <callback>OnBreakoutCableCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnBreakoutCableAfterWriteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnBreakoutCableAfterWriteRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
         <event_listener id="OnBreakoutCableLinksChangedRequestedByCableMgmt">
@@ -1415,51 +1446,39 @@
         </event_listener>
       </event_listeners>
       <methods>
-        <method id="GetInitialStateAttributeFlags">
+        <method id="OnBreakoutCableSetAttributesFlagsRequestedByCableMgmt">
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[ public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+          <type>EventListener</type>
+          <code><![CDATA[ public function OnBreakoutCableSetAttributesFlagsRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
 	{
-		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-
-		switch ($sAttCode) {
-			case 'freelinks':
-				return (OPT_ATT_READONLY | $sFlagsFromParent);
-
-			default:
-				break;
-		}
-
-		return $sFlagsFromParent;
+        $this->AddAttributeFlags('freelinks', OPT_ATT_READONLY);
     }]]></code>
         </method>
-        <method id="GetAttributeFlags">
+        <method id="OnBreakoutCableCheckToWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[    public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-	{
-		$sFlagsFromParent = parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnBreakoutCableCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
+    {
+        // Make sure patch panels belong to the right racks
+        // Check is done at the lnk level
 
-		switch ($sAttCode) {
-			case 'freelinks':
-				return (OPT_ATT_READONLY | $sFlagsFromParent);
-
-			default:
-				break;
-		}
-
-		return $sFlagsFromParent;
-    }]]></code>
+        // Check capacity is coherent
+        $iUsedLinks = $this->ComputeUsedLinks();
+        if ($iUsedLinks > $this->Get('capacity')) {
+            // Number of requested links is greater than the capacity of the cable
+            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity'));
+        }
+	}]]></code>
         </method>
         <method id="OnBreakoutCableAfterWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[ public function OnBreakoutCableAfterWriteRequestedByCableMgmt()
+          <code><![CDATA[ public function OnBreakoutCableAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $iUsedLinks = $this->ComputeUsedLinks();
         if ($iUsedLinks <= $this->Get('capacity')) {
@@ -1469,26 +1488,12 @@
     	}
     }]]></code>
         </method>
-        <method id="OnBreakoutCableCheckToWriteRequestedByCableMgmt">
-          <comment/>
-          <static>false</static>
-          <access>public</access>
-          <type>EventListener</type>
-          <code><![CDATA[	public function OnBreakoutCableCheckToWriteRequestedByCableMgmt()
-    {
-        $iUsedLinks = $this->ComputeUsedLinks();
-        if ($iUsedLinks > $this->Get('capacity')) {
-            // Number of requested links is greater thand the capacity of the cable
-            $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
-        }
-	}]]></code>
-        </method>
         <method id="OnBreakoutCableLinksChangedRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnBreakoutCableLinksChangedRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnBreakoutCableLinksChangedRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $iUsedLinks = $this->ComputeUsedLinks();
         if ($iUsedLinks <= $this->Get('capacity')) {
@@ -1871,6 +1876,33 @@
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnNetworkSocketComputeValuesRequestedByCableMgmt">
+          <event>EVENT_DB_COMPUTE_VALUES</event>
+          <callback>OnNetworkSocketComputeValuesRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnNetworkSocketSetAttributesFlagsRequestedByCableMgmt">
+          <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+          <callback>OnNetworkSocketSetAttributesFlagsRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnNetworkSocketCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnNetworkSocketCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnNetworkSocketAfterWriteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnNetworkSocketAfterWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnNetworkSocketAfterDeleteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_DELETE</event>
+          <callback>OnBNetworkSocketLinksChangedRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <relations>
         <relation id="wiring">
           <neighbours>
@@ -2179,6 +2211,23 @@
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnPatchPanelComputeValuesRequestedByCableMgmt">
+          <event>EVENT_DB_COMPUTE_VALUES</event>
+          <callback>OnPatchPanelComputeValuesRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnPatchPanelSetAttributesFlagsRequestedByCableMgmt">
+          <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+          <callback>OnPatchPanelSetAttributesFlagsRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnPatchPanelAfterWriteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnPatchPanelAfterWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <methods/>
       <presentation>
         <details>
@@ -2388,7 +2437,7 @@
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnPhysicalInterfaceCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnPhysicalInterfaceCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
 		// Check that networksocket_id and remote_connectableci_id are not set at the same time
 		if (($this->Get('networksocket_id') != 0) && ($this->Get('remote_connectableci_id') != 0)) {
@@ -2401,7 +2450,7 @@
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnPhysicalInterfaceAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnPhysicalInterfaceAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $aEventData = $oEventData->GetEventData();
         if ($aEventData['is_new']) {
@@ -2510,7 +2559,7 @@
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnPhysicalInterfaceAfterDeleteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnPhysicalInterfaceAfterDeleteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
 		if ($this->Get('networksocket_id') > 0) {
 			// Reset physical interface at remote network socket
@@ -2615,7 +2664,7 @@
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnRackAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnRackAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $aEventData = $oEventData->GetEventData();
         if (!$aEventData['is_new']) {
@@ -2658,7 +2707,7 @@
           <static>false</static>
           <access>public</access>
           <type>EventListener</type>
-          <code><![CDATA[    public function OnLocationAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData)
+          <code><![CDATA[    public function OnLocationAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $aEventData = $oEventData->GetEventData();
         if (!$aEventData['is_new']) {
@@ -2944,6 +2993,11 @@
         </field>
       </fields>
       <event_listeners>
+        <event_listener id="OnCrossConnectCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnCrossConnectCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
         <event_listener id="OnCrossConnectAfterWriteRequestedByCableMgmt">
           <event>EVENT_DB_AFTER_WRITE</event>
           <callback>OnCrossConnectAfterWriteRequestedByCableMgmt</callback>
@@ -3207,16 +3261,26 @@
           <is_null_allowed>true</is_null_allowed>
         </field>
       </fields>
+      <event_listeners>
+        <event_listener id="OnlnkBreakoutCableToPatchPanelCheckToWriteRequestedByCableMgmt">
+          <event>EVENT_DB_CHECK_TO_WRITE</event>
+          <callback>OnlnkBreakoutCableToPatchPanelCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnlnkBreakoutCableToPatchPanelAfterWriteRequestedByCableMgmt">
+          <event>EVENT_DB_AFTER_WRITE</event>
+          <callback>OnlnkBreakoutCableToPatchPanelAfterWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
       <methods>
-        <method id="DoCheckToWrite">
+        <method id="OnlnkBreakoutCableToPatchPanelCheckToWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function DoCheckToWrite()
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnlnkBreakoutCableToPatchPanelCheckToWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
-        parent::DoCheckToWrite();
-
         $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
         $iPatchPanelRack = $oPatchPanel->Get('rack_id');
         $oBreakoutCable = MetaModel::GetObject('BreakoutCable', $this->Get('breakoutcable_id'));
@@ -3234,28 +3298,28 @@
         }
 		if ($oBreakoutCable->Get('capacity') < $this->Get('usedlinks')) {
 		    // The breakout cable doesn't have enough capacity for the number of used links requested
-		    $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks'));
+		    $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity'));
 		    return;
 		}
 	}]]></code>
         </method>
-        <method id="AfterInsert">
+        <method id="OnlnkBreakoutCableToPatchPanelAfterWriteRequestedByCableMgmt">
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[ public function AfterInsert()
+          <type>EventListener</type>
+          <code><![CDATA[	public function OnlnkBreakoutCableToPatchPanelAfterWriteRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
-        // Execute parent function first
-        parent::AfterInsert();
-
-        if (is_null($this->Get('usedlinks'))) {
-            $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
-            $iCapacity = $oPatchPanel->Get('capacity');
-            if ($iCapacity > 0) {
-                $this->Set('usedlinks', $iCapacity);
-                $this->DBUpdate();
-        	}
+        $aEventData = $oEventData->GetEventData();
+        if (!$aEventData['is_new']) {
+          if (is_null($this->Get('usedlinks'))) {
+              $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'));
+              $iCapacity = $oPatchPanel->Get('capacity');
+              if ($iCapacity > 0) {
+                  $this->Set('usedlinks', $iCapacity);
+                  $this->DBUpdate();
+              }
+          }
         }
     }]]></code>
         </method>
