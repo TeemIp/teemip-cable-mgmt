@@ -720,6 +720,21 @@
           <extkey_attcode>backendsocket2_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="breakoutcable_id" xsi:type="AttributeExternalKey">
+          <sql>breakoutcable_id</sql>
+          <target_class>BreakoutCable</target_class>
+          <filter/>
+          <dependencies>
+            <attribute id="backendsocket1_id"/>
+            <attribute id="backendsocket2_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="breakoutcable_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>breakoutcable_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
       </fields>
       <event_listeners>
         <event_listener id="OnBackEndNetworkCableCheckToWriteRequestedByCableMgmt">
@@ -748,6 +763,33 @@
         $oNetworkCableSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns1_id' => $iBackendSocket1, 'ns2_id' => $iBackendSocket2, 'id' =>$this->GetKey()));
         if ($oNetworkCableSet->CountExceeds(0)) {
             $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:NetworkCable:Duplicate'));
+        }
+
+        // Make sure the breakout cable connects the right patch panels
+        $iBreakoutCable = $this->Get('breakoutcable_id');
+        if ($iBreakoutCable > 0) {
+            $sOQL = "SELECT PatchPanel AS pp JOIN lnkBreakoutCableToPatchPanel AS l ON l.patchpanel_id = pp.id WHERE l.breakoutcable_id = :bo_id";
+            $oPatchPanelUsedByBreakoutCableSet = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('bo_id' => $iBreakoutCable));
+            $oNetworkSocket1 = MetaModel::GetObject('NetworkSocket', $iBackendSocket1);
+            $iPatchPanel1 = $oNetworkSocket1->Get('patchpanel_id');
+            $oNetworkSocket2 = MetaModel::GetObject('NetworkSocket', $iBackendSocket2);
+            $iPatchPanel2 = $oNetworkSocket2->Get('patchpanel_id');
+            $bPatchPanel1IsUsedByBOC = false;
+            $bPatchPanel2IsUsedByBOC = false;
+            while ($oPatchPanelUsedByBreakoutCable = $oPatchPanelUsedByBreakoutCableSet->Fetch()) {
+                $iPatchPanelUsedByBreakoutCable = $oPatchPanelUsedByBreakoutCable->GetKey();
+                if ($iPatchPanelUsedByBreakoutCable == $iPatchPanel1) {
+                    $bPatchPanel1IsUsedByBOC = true;
+                }
+                if ($iPatchPanelUsedByBreakoutCable == $iPatchPanel2) {
+                    $bPatchPanel2IsUsedByBOC = true;
+                }
+            }
+            if (!$bPatchPanel1IsUsedByBOC && !$bPatchPanel2IsUsedByBOC) {
+                $this->AddCheckIssue(Dict::Format('UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable1', $this->Get('friendlyname')));
+            } elseif (!$bPatchPanel1IsUsedByBOC || !$bPatchPanel2IsUsedByBOC) {
+                $this->AddCheckIssue(Dict::Format('UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable2', $this->Get('friendlyname')));
+            }
         }
 	}]]></code>
         </method>
@@ -794,6 +836,14 @@
                     </item>
                   </items>
                 </item>
+                <item id="fieldset:Class:NetworkCable:membership">
+                  <rank>20</rank>
+                  <items>
+                    <item id="breakoutcable_id">
+                      <rank>10</rank>
+                    </item>
+                  </items>
+                </item>
               </items>
             </item>
             <item id="documents_list">
@@ -821,6 +871,9 @@
             <item id="label">
               <rank>60</rank>
             </item>
+            <item id="breakoutcable_id">
+              <rank>70</rank>
+            </item>
           </items>
         </list>
         <default_search>
@@ -843,6 +896,9 @@
             <item id="label">
               <rank>60</rank>
             </item>
+            <item id="breakoutcable_id">
+              <rank>70</rank>
+            </item>
           </items>
         </default_search>
         <search>
@@ -864,6 +920,9 @@
             </item>
             <item id="label">
               <rank>60</rank>
+            </item>
+            <item id="breakoutcable_id">
+              <rank>70</rank>
             </item>
           </items>
         </search>
@@ -1421,6 +1480,18 @@
           <count_max>0</count_max>
           <with_php_constraint>true</with_php_constraint>
           <with_php_computation>true</with_php_computation>
+          <dependencies>
+            <attribute id="rack1_id"/>
+            <attribute id="rack2_id"/>
+          </dependencies>
+        </field>
+        <field id="backendnetworkcable_list" xsi:type="AttributeLinkedSet">
+          <linked_class>BackEndNetworkCable</linked_class>
+          <ext_key_to_me>breakoutcable_id</ext_key_to_me>
+          <edit_mode>none</edit_mode>
+          <count_min>0</count_min>
+          <count_max>0</count_max>
+          <duplicates/>
         </field>
       </fields>
       <event_listeners>
@@ -1586,6 +1657,9 @@
             </item>
             <item id="patchpanels_list">
               <rank>40</rank>
+            </item>
+            <item id="backendnetworkcable_list">
+              <rank>50</rank>
             </item>
           </items>
         </details>
