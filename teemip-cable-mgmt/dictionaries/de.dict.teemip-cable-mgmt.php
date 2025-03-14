@@ -58,6 +58,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkCable:baseinfo' => 'Allgemeine Informationen',
 	'Class:NetworkCable:capacity' => 'Kapazitäten',
 	'Class:NetworkCable:endpoints' => 'Verbindungspunkte',
+    'Class:NetworkCable:membership' => 'Zugehörigkeit',
 	'Class:NetworkCable/Attribute:finalclass' => 'Klasse',
 	'Class:NetworkCable/Attribute:finalclass+' => '',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Kabel-Typ',
@@ -110,6 +111,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Zweite Netzwerkdose (Rückseite), mit welcher das Kabel verbunden ist',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Name Netzwerkdose #2',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id' => 'Breakout cable',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id+' => 'Breakout cable that the backend network cable belongs to',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name' => 'Breakout cable name',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name+' => '',
 ));
 
 //
@@ -179,6 +184,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:BreakoutCable/Attribute:rack2_name+' => '',
 	'Class:BreakoutCable/Attribute:patchpanels_list' => 'Patchpanels',
 	'Class:BreakoutCable/Attribute:patchpanels_list+' => 'Liste der Patchpanels, wo das Breakout-Kabel angeschlossen ist',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list' => 'Back End Network Cables',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list+' => 'List of back end network cables that are part of the breakout cable',
 ));
 
 //
@@ -424,6 +431,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerkdose kann nicht mit der selben entfernten Netzwerkdose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
     'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'Ein Kabel, das dasselbe Gerät odre dieselbe Netzwerkbuchse verbindet, existiert bereits!',
     'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'Ein Kabel, das dieselben physischen Schnittstellen verbindet, existiert bereits!',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable1' => 'The breakout cable is not connected to any of the patch panels used by the backend cable %1$s!',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable2' => 'The breakout cable is not connected to all the patch panels used by the backend cable %1$s!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerkdose und einem entfernten Gerät verbunden werden!',
 
@@ -436,10 +445,9 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Netzwerkkabel (Rückseite) können nicht erstellt werden: entferntes Patchpanel %1$s existiert nicht !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Netzwerkkabel (Rückseite) können nicht erstellt werden: Kapazität des entfernten Patchpanels %1$s ist erschöpft !',
 
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'Das Patchpanel gehört zu keinem der Racks, die das Breakout-Kabel verbindet!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'Das Patchpanel %1$s gehört zu keinem der Racks, die das Breakout-Kabel verbindet!',
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'Im Patchpanel %1$s ist nicht mehr genügend Kapazität für die benötigten Links vorhanden!',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'Das Breakout-Kabel verfügt nicht über genügend Kapazität für die vom Patchpanel %1$s angeforderte Anzahl von Verbindungen!',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'Im Breakout-Kabel ist nicht mehr genügend Kapazität für die benötigten Links vorhanden!',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'Im Breakout-Kabel ist nicht mehr genügend Kapazität für die benötigten Links vorhanden!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Das Cross Connect kann nicht ohne primäre und sekundäre Netzwerkdose auf Produktion gesetzt werden!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Wenn eine sekundäre Netzwerkdose festgelegt ist, muss die andere auch festgelegt werden!',

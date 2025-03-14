@@ -58,6 +58,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkCable:baseinfo' => 'Informations Générales',
 	'Class:NetworkCable:capacity' => 'Capacités',
 	'Class:NetworkCable:endpoints' => 'Points de Connexion',
+    'Class:NetworkCable:membership' => 'Appartenance',
 	'Class:NetworkCable/Attribute:finalclass' => 'Classe',
 	'Class:NetworkCable/Attribute:finalclass+' => '',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Type de câble',
@@ -110,6 +111,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Seconde prise réseau connectée au câble via son interface back end',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Nom de la prise réseau #2',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id' => 'Câble Breakout',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id+' => 'Câble breakout auquel appartient le câble réseau back end',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name' => 'Nom du câble breakout',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name+' => '',
 ));
 
 //
@@ -179,6 +184,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:BreakoutCable/Attribute:rack2_name+' => '',
 	'Class:BreakoutCable/Attribute:patchpanels_list' => 'Panneaux de brassage',
 	'Class:BreakoutCable/Attribute:patchpanels_list+' => 'Liste des panneaux de brassage où le câble breakout est connecté',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list' => 'Câbles réseaux back end',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list+' => 'Liste des câbles de réseaux back end faisant partie du câble breakout',
 ));
 
 //
@@ -424,6 +431,8 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Une prise réseau ne peut pas être connectée à la même prise distante à travers ses 2 connecteurs de prise réseau et de prise arrière !',
     'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'Un câble connectant les mêmes équipement ou prise réseau existe déjà !',
     'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'Un câble connectant les mêmes interfaces physiques existe déjà !',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable1' => 'Le câble breakout n\'est connecté à aucun panneau de brassage utilisé par le câble back end %1$s !',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable2' => 'Le câble breakout n\'est pas connecté à tous les panneaux de bassage utilisés par le câble back end %1$s !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Une interface physique ne peut pas être connectée à une prise réseau et à un matériel distant !',
 
@@ -437,9 +446,8 @@ Dict::Add('FR FR', 'English', 'English', array(
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'a plus de capacité !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'Le panneau de brassage %1$s est hébergé par aucun des racks que le câble breakout connecte !',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'Le panneau de brassage %1$s a une capacité trop faible pour le nombre de liens demandés!',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'Le câble breakout a une capacité trop faible pour le nombre de liens demandés par le panneau de brassage %1$s!',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'Il n\'y a pas assez de liens dans le câble breakout pour les liens demandés !',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'Le panneau de brassage %1$s a une capacité trop faible pour le nombre de liens demandés !',
+	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'Le câble breakout a une capacité trop faible pour le nombre de liens demandés !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'Le cross connect ne peut passer en production sans que les deux prises réseau primaires soient renseignées !',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'Si une prise réseau secondaire est renseignée, l\'autre doit aussi être renseignée !',

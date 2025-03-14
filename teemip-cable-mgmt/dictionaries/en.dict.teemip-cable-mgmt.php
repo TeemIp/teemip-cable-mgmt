@@ -60,6 +60,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkCable:baseinfo' => 'General Information',
 	'Class:NetworkCable:capacity' => 'Capacities',
 	'Class:NetworkCable:endpoints' => 'Connecting Points',
+    'Class:NetworkCable:membership' => 'Membership',
 	'Class:NetworkCable/Attribute:finalclass' => 'Class',
 	'Class:NetworkCable/Attribute:finalclass+' => '',
 	'Class:NetworkCable/Attribute:cabletype_id' => 'Cable type',
@@ -114,6 +115,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Second network socket back end that the cable is connected to',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Network socket #2 name',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id' => 'Breakout cable',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id+' => 'Breakout cable that the backend network cable belongs to',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name' => 'Breakout cable name',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name+' => '',
 ));
 
 //
@@ -186,6 +191,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:BreakoutCable/Attribute:rack2_name+' => '',
 	'Class:BreakoutCable/Attribute:patchpanels_list' => 'Patch Panels',
 	'Class:BreakoutCable/Attribute:patchpanels_list+' => 'List of patch panels that the break out cable is connected to',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list' => 'Back End Network Cables',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list+' => 'List of back end network cables that are part of the breakout cable',
 ));
 
 //
@@ -432,6 +439,8 @@ Dict::Add('EN US', 'English', 'English', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'A network socket cannot be connected to the same remote socket through both its network socket and back end socket connectors!',
     'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'A cable is already connecting the same device or socket!',
     'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'A cable is already connecting the same physical interfaces!',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable1' => 'The breakout cable is not connected to any of the patch panels used by the backend cable %1$s!',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable2' => 'The breakout cable is not connected to all the patch panels used by the backend cable %1$s!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'A physical interface cannot be connected to both a network socket and a remote device!',
 
@@ -446,8 +455,7 @@ Dict::Add('EN US', 'English', 'English', array(
 
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'The patch panel %1$s doesn\'t belong to any of the racks that the breakout cable connects!',
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'The patch panel %1$s doesn\'t have enough capacity for the number of links requested',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'The breakout cable doesn\'t have enough capacity for the number of links requested by the patch panel %1$s!',
-	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:NotEnoughCapacityInBreakoutCableRacks' => 'There is not enough capacity in the breakout cable for the required links!',
+    'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:BreakoutCableNotEnoughCapacity' => 'There is not enough capacity in the breakout cable for the required links!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled' => 'The cross connect cannot move to production without both primary network sockets filled!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled' => 'If one secondary network socket is set, the other one must be set as well!',
