@@ -7,6 +7,7 @@
 namespace TeemIp\TeemIp\Extension\CableManagement\Model;
 
 use CMDBObjectSet;
+use Combodo\iTop\Service\Events\EventData;
 use DBObjectSearch;
 use Dict;
 use MetaModel;
@@ -14,30 +15,37 @@ use PhysicalDevice;
 
 class _PatchPanel extends PhysicalDevice
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function AfterUpdate(): void
-	{
-		$aChanges = $this->ListPreviousValuesForUpdatedAttributes();
-		if (array_key_exists('name', $aChanges)) {
-			// Propagate name change to impacted network socket
-			$sOQL = "SELECT NetworkSocket WHERE patchpanel_id = :id";
-			$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
-			while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
-				$oNetworkSocket->ComputeValues();
-				$oNetworkSocket->DBUpdate();
-			}
-		}
-	}
+    /**
+     * Handle write event on PatchPanel
+     *
+     * @param EventData $oEventData
+     * @return void
+     */
+    public function OnPatchPanelAfterWriteRequestedByCableMgmt(EventData $oEventData): void
+    {
+        $aEventData = $oEventData->GetEventData();
+        if (!$aEventData['is_new']) {
+            $aChanges = $this->ListPreviousValuesForUpdatedAttributes();
+            if (array_key_exists('name', $aChanges)) {
+                // Propagate name change to impacted network socket
+                $sOQL = "SELECT NetworkSocket WHERE patchpanel_id = :id";
+                $oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
+                while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
+                    $oNetworkSocket->ComputeValues();
+                    $oNetworkSocket->DBUpdate();
+                }
+            }
+        }
+    }
 
 	/**
-	 * @inheritdoc
-	 */
-	public function ComputeValues(): void
+     * Compute value event on PatchPanel
+     *
+     * @param EventData $oEventData
+     * @return void
+     */
+	public function OnPatchPanelComputeValuesRequestedByCableMgmt(EventData $oEventData): void
 	{
-		parent::ComputeValues();
-
 		// Set capacities
 		$iReadySockets = 0;
 		$oNetworkSocketsSet = $this->Get('networksockets_list');
@@ -56,41 +64,15 @@ class _PatchPanel extends PhysicalDevice
 	}
 
 	/**
-	 * @inheritDoc
-	 */
-	public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+     * Set attribute flags event on PatchPanel
+     *
+     * @param EventData $oEventData
+     * @return void
+     */
+	public function OnPatchPanelSetAttributesFlagsRequestedByCableMgmt(EventData $oEventData): void
 	{
-		$sFlagsFromParent = parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-
-		switch ($sAttCode) {
-			case 'free_sockets':
-			case 'ready_sockets':
-				return (OPT_ATT_READONLY | $sFlagsFromParent);
-
-			default:
-				break;
-		}
-
-		return $sFlagsFromParent;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-	{
-		$sFlagsFromParent = parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-
-		switch ($sAttCode) {
-			case 'free_sockets':
-			case 'ready_sockets':
-				return (OPT_ATT_READONLY | $sFlagsFromParent);
-
-			default:
-				break;
-		}
-
-		return $sFlagsFromParent;
+        $this->AddAttributeFlags('free_sockets', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('ready_sockets', OPT_ATT_READONLY);
 	}
 
 	/**

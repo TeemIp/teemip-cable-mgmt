@@ -22,25 +22,6 @@ class _CrossConnect extends FunctionalCI
 	const DEFAULT_GROUPING_THRESHOLD = 5;
 
 	/**
-	 * @inheritdoc
-	 */
-	public function DoCheckToWrite()
-	{
-		parent::DoCheckToWrite();
-
-		if ($this->Get('status') == 'production') {
-			if (($this->Get('networksocket1_id') == 0) || ($this->Get('remote_networksocket1_id') == 0)) {
-				// A cross connect cannot be in production without its 2 main sockets configured
-				$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled'));
-			}
-			if ((($this->Get('networksocket2_id') > 0) && ($this->Get('remote_networksocket2_id') == 0)) || (($this->Get('networksocket2_id') == 0) && ($this->Get('remote_networksocket2_id') > 0))) {
-				// A cross connect cannot be in production without its both secondary sockets in the same state (configured or not configured)
-				$this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled'));
-			}
-		}
-	}
-
-	/**
 	 * Update given NetworkSocket status
 	 *
 	 * @param $iNetworkSocket
@@ -109,15 +90,31 @@ class _CrossConnect extends FunctionalCI
 		}
 	}
 
-	/**
-	 * Handle write eventon CrossConnects
+    /**
+     * Handle Check to write event on CrossConnects
+     *
+     * @param EventData $oEventData
+     * @return void
+     */
+    public function OnCrossConnectCheckToWriteRequestedByCableMgmt(EventData $oEventData): void
+    {
+        if ($this->Get('status') == 'production') {
+            if (($this->Get('networksocket1_id') == 0) || ($this->Get('remote_networksocket1_id') == 0)) {
+                // A cross connect cannot be in production without its 2 main sockets configured
+                $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothMainSocketsFilled'));
+            }
+            if ((($this->Get('networksocket2_id') > 0) && ($this->Get('remote_networksocket2_id') == 0)) || (($this->Get('networksocket2_id') == 0) && ($this->Get('remote_networksocket2_id') > 0))) {
+                // A cross connect cannot be in production without its both secondary sockets in the same state (configured or not configured)
+                $this->AddCheckIssue(Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:ProductionWithoutBothSecondarySocketsFilled'));
+            }
+        }
+    }
+
+    /**
+	 * Handle write event on CrossConnects
 	 *
 	 * @param EventData $oEventData
 	 * @return void
-	 * @throws \ArchivedObjectException
-	 * @throws \CoreCannotSaveObjectException
-	 * @throws \CoreException
-	 * @throws \CoreUnexpectedValue
 	 */
 	public function OnCrossConnectAfterWriteRequestedByCableMgmt(EventData $oEventData): void
 	{
@@ -161,10 +158,6 @@ class _CrossConnect extends FunctionalCI
 	 *
 	 * @param EventData $oEventData
 	 * @return void
-	 * @throws \ArchivedObjectException
-	 * @throws \CoreCannotSaveObjectException
-	 * @throws \CoreException
-	 * @throws \CoreUnexpectedValue
 	 */
 	public function OnCrossConnectAfterDeleteRequestedByCableMgmt(EventData $oEventData): void
 	{
