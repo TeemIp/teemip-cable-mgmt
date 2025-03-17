@@ -1949,6 +1949,20 @@
           <extkey_attcode>backendsocket_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="cablecategory_id" xsi:type="AttributeExternalKey">
+          <sql>cablecategory_id</sql>
+          <filter/>
+          <dependencies>
+            <attribute id="cabletype_id"/>
+          </dependencies>
+          <target_class>CableCategory</target_class>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="cablecategory_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>cablecategory_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
       </fields>
       <event_listeners>
         <event_listener id="OnNetworkSocketComputeValuesRequestedByCableMgmt">
@@ -2054,6 +2068,9 @@
                 <item id="fieldset:Class:NetworkSocket:frontendinfo">
                   <rank>10</rank>
                   <items>
+                    <item id="cablecategory_id">
+                      <rank>15</rank>
+                    </item>
                     <item id="connectableci_id">
                       <rank>20</rank>
                     </item>
@@ -2284,6 +2301,20 @@
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
+        <field id="cablecategory_id" xsi:type="AttributeExternalKey">
+          <sql>cablecategory_id</sql>
+          <filter/>
+          <dependencies>
+            <attribute id="cabletype_id"/>
+          </dependencies>
+          <target_class>CableCategory</target_class>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="cablecategory_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>cablecategory_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
       </fields>
       <event_listeners>
         <event_listener id="OnPatchPanelComputeValuesRequestedByCableMgmt">
@@ -2324,20 +2355,28 @@
                     <item id="location_id">
                       <rank>40</rank>
                     </item>
-                    <item id="capacity">
+                    <item id="external_ref">
                       <rank>50</rank>
                     </item>
+                    <item id="description">
+                      <rank>60</rank>
+                    </item>
+                  </items>
+                </item>
+                <item id="fieldset:Class:PatchPanel:connectivity">
+                  <rank>20</rank>
+                  <items>
+                    <item id="capacity">
+                      <rank>10</rank>
+                    </item>
                     <item id="free_sockets">
-                      <rank>55</rank>
+                      <rank>20</rank>
                     </item>
                     <item id="ready_sockets">
-                      <rank>56</rank>
+                      <rank>30</rank>
                     </item>
-                    <item id="external_ref">
-                      <rank>65</rank>
-                    </item>
-                    <item id="description">
-                      <rank>70</rank>
+                    <item id="cablecategory_id">
+                      <rank>50</rank>
                     </item>
                   </items>
                 </item>

@@ -20,10 +20,10 @@
           <items>
             <item id="col:col1" _delta="must_exist">
               <items>
-                <item id="fieldset:Class:PatchPanel:baseinfo" _delta="must_exist">
+                <item id="fieldset:Class:PatchPanel:connectivity" _delta="must_exist">
                   <items>
                     <item id="interfaceconnector_id" _delta="define">
-                      <rank>60</rank>
+                      <rank>40</rank>
                     </item>
                   </items>
                 </item>

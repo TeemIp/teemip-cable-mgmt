@@ -248,6 +248,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Prise réseau distante connectée à la prise réseau via le câblage de back end',
 	'Class:NetworkSocket/Tab:cables_list' => 'Câbles',
 	'Class:NetworkSocket/Tab:cables_list+' => 'Liste de tous les câbles connectés à une prise réseau hébergée par ce panneau de brassage',
+    'Class:NetworkSocket/Attribute:cablecategory_id' => 'Categorie de câble',
+    'Class:NetworkSocket/Attribute:cablecategory_id+' => 'Categorie de câble à utiliser avec la prise réseau',
+    'Class:NetworkSocket/Attribute:cablecategory_name' => 'Nom de la categorie de câble',
+    'Class:NetworkSocket/Attribute:cablecategory_name+' => '',
 ));
 
 //
@@ -258,7 +262,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PatchPanel' => 'Panneau de brassage',
 	'Class:PatchPanel+' => '',
 	'Class:PatchPanel:baseinfo' => 'Informations Générales',
-	'Class:PatchPanel:moreinfo' => 'Informations Complémentaires',
+    'Class:PatchPanel:connectivity' => 'Connectivité',
 	'Class:PatchPanel:rackinfo' => 'Informations liées au Rack',
 	'Class:PatchPanel/Attribute:external_ref' => 'Référence externe',
 	'Class:PatchPanel/Attribute:external_ref+' => 'Référence du panneau de brassage pour une organisation tierce',
@@ -284,6 +288,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste de tous les panneaux de brassage connectés à ce panneau par l\'intermédiaire d\'une prise réseau du panneau',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Back end homologues',
 	'Class:PatchPanel/Tab:backendpanels_list+' => 'Liste de tous les panneaux de brassage connectés à ce panneau par l\'intermédiaire du connecteur back end d\'une prise réseau du panneau',
+    'Class:PatchPanel/Attribute:cablecategory_id' => 'Categorie de câble',
+    'Class:PatchPanel/Attribute:cablecategory_id+' => 'Categorie de câble à utiliser avec le panneau de brassage',
+    'Class:PatchPanel/Attribute:cablecategory_name' => 'Nom de la categorie de câble',
+    'Class:PatchPanel/Attribute:cablecategory_name+' => '',
 ));
 
 //

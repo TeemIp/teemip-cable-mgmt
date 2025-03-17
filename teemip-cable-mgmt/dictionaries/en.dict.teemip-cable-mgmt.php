@@ -255,6 +255,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Remote network socket connected through back end cables',
 	'Class:NetworkSocket/Tab:cables_list' => 'Cables',
 	'Class:NetworkSocket/Tab:cables_list+' => 'List of all cables connected to the network socket',
+    'Class:NetworkSocket/Attribute:cablecategory_id' => 'Cable category',
+    'Class:NetworkSocket/Attribute:cablecategory_id+' => 'Cable category to be used with the network socket',
+    'Class:NetworkSocket/Attribute:cablecategory_name' => 'Cable category name',
+    'Class:NetworkSocket/Attribute:cablecategory_name+' => '',
 ));
 
 //
@@ -265,7 +269,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel' => 'Patch Panel',
 	'Class:PatchPanel+' => '',
 	'Class:PatchPanel:baseinfo' => 'General Information',
-	'Class:PatchPanel:moreinfo' => 'More Information',
+	'Class:PatchPanel:connectivity' => 'Connectivity',
 	'Class:PatchPanel:rackinfo' => 'Rack Information',
 	'Class:PatchPanel/Attribute:external_ref' => 'External reference',
 	'Class:PatchPanel/Attribute:external_ref+' => 'Reference that may be relevant for a third party',
@@ -291,6 +295,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'List of all patch panels connected to the current one through the network socket of its hosted sockets',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Peer back end panels',
 	'Class:PatchPanel/Tab:backendpanels_list+' => 'List of all patch panels connected to the current one through the back end network socket of its hosted sockets',
+    'Class:PatchPanel/Attribute:cablecategory_id' => 'Cable category',
+    'Class:PatchPanel/Attribute:cablecategory_id+' => 'Main cable category to be used with the patch panel',
+    'Class:PatchPanel/Attribute:cablecategory_name' => 'Cable category name',
+    'Class:PatchPanel/Attribute:cablecategory_name+' => '',
 ));
 
 //

@@ -248,6 +248,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:backendsocket_id+' => 'Entfernte Netzwerkdose, welche durch rückseitiges Kabel verbunden ist',
 	'Class:NetworkSocket/Tab:cables_list' => 'Kabel',
 	'Class:NetworkSocket/Tab:cables_list+' => 'Liste aller Kabel, welche mit der Netzwerk-Doese verbunden sind',
+    'Class:NetworkSocket/Attribute:cablecategory_id' => 'Kabel-Kategorie',
+    'Class:NetworkSocket/Attribute:cablecategory_id+' => 'Cable category to be used with the network socket',
+    'Class:NetworkSocket/Attribute:cablecategory_name' => 'Name Kabel-Kategorie',
+    'Class:NetworkSocket/Attribute:cablecategory_name+' => '',
 ));
 
 //
@@ -258,7 +262,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel' => 'Patchpanel',
 	'Class:PatchPanel+' => '',
 	'Class:PatchPanel:baseinfo' => 'Allgemeine Informationen',
-	'Class:PatchPanel:moreinfo' => 'Mehr Informationen',
+    'Class:PatchPanel:connectivity' => 'Verbindung',
 	'Class:PatchPanel:rackinfo' => 'Rack Informationen',
 	'Class:PatchPanel/Attribute:external_ref' => 'Externe Referenz',
 	'Class:PatchPanel/Attribute:external_ref+' => 'Referenz, die für Dritte relevant sein kann',
@@ -284,6 +288,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel/Tab:frontendpanels_list+' => 'Liste aller Patchpanels verbunden mit dem aktuellen Panel durch die vorderseitige Netzwerkdose der angeschlossenen Dosen',
 	'Class:PatchPanel/Tab:backendpanels_list' => 'Nachbar-Anschlüsse der Rückseite des Panels',
 	'Class:PatchPanel/Tab:backendpanels_list+' => 'Liste aller Patchpanels verbunden mit dem aktuellen Panel durch die rückseitige Netzwerkdose der angeschlossenen Dosen',
+    'Class:PatchPanel/Attribute:cablecategory_id' => 'Kabel-Kategorie',
+    'Class:PatchPanel/Attribute:cablecategory_id+' => 'Main cable category to be used with the patch panel',
+    'Class:PatchPanel/Attribute:cablecategory_name' => 'Name Kabel-Kategorie',
+    'Class:PatchPanel/Attribute:cablecategory_name+' => '',
 ));
 
 //
