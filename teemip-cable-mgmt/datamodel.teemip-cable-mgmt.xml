@@ -3026,6 +3026,34 @@
           <extkey_attcode>networksocket2_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
+        <field id="connectableci_id" xsi:type="AttributeExternalKey">
+          <sql>connectableci_id</sql>
+          <target_class>ConnectableCI</target_class>
+          <filter><![CDATA[SELECT ConnectableCI AS cc WHERE cc.location_id = :this->location_id]]></filter>
+          <dependencies>
+            <attribute id="location_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="connectableci_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>connectableci_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="physicalinterface_id" xsi:type="AttributeExternalKey">
+          <sql>physicalinterface_id</sql>
+          <target_class>PhysicalInterface</target_class>
+          <filter><![CDATA[SELECT PhysicalInterface AS pi WHERE pi.connectableci_id = :this->connectableci_id]]></filter>
+          <dependencies>
+            <attribute id="connectableci_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="physicalinterface_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>physicalinterface_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
         <field id="remote_location_id" xsi:type="AttributeExternalKey">
           <sql>remote_location_id</sql>
           <filter><![CDATA[SELECT Location AS l WHERE l.org_id = :this->remote_org_id]]></filter>
@@ -3102,6 +3130,34 @@
         </field>
         <field id="remote_networksocket2_name" xsi:type="AttributeExternalField">
           <extkey_attcode>remote_networksocket2_id</extkey_attcode>
+          <target_attcode>friendlyname</target_attcode>
+        </field>
+        <field id="remote_connectableci_id" xsi:type="AttributeExternalKey">
+          <sql>remote_connectableci_id</sql>
+          <target_class>ConnectableCI</target_class>
+          <filter><![CDATA[SELECT ConnectableCI AS cc WHERE cc.location_id = :this->remote_location_id]]></filter>
+          <dependencies>
+            <attribute id="remote_location_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_connectableci_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_connectableci_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="remote_physicalinterface_id" xsi:type="AttributeExternalKey">
+          <sql>remote_physicalinterface_id</sql>
+          <target_class>PhysicalInterface</target_class>
+          <filter><![CDATA[SELECT PhysicalInterface AS pi WHERE pi.connectableci_id = :this->remote_connectableci_id]]></filter>
+          <dependencies>
+            <attribute id="remote_connectableci_id"/>
+          </dependencies>
+          <is_null_allowed>true</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="remote_physicalinterface_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>remote_physicalinterface_id</extkey_attcode>
           <target_attcode>friendlyname</target_attcode>
         </field>
       </fields>
@@ -3191,7 +3247,7 @@
                     <item id="rack_id">
                       <rank>20</rank>
                     </item>
-                     <item id="patchpanel_id">
+                    <item id="patchpanel_id">
                       <rank>30</rank>
                     </item>
                     <item id="networksocket1_id">
@@ -3199,6 +3255,12 @@
                     </item>
                     <item id="networksocket2_id">
                       <rank>50</rank>
+                    </item>
+                    <item id="connectableci_id">
+                      <rank>60</rank>
+                    </item>
+                    <item id="physicalinterface_id">
+                      <rank>70</rank>
                     </item>
                   </items>
                 </item>
@@ -3210,7 +3272,7 @@
                     <item id="remote_rack_id">
                       <rank>20</rank>
                     </item>
-                     <item id="remote_patchpanel_id">
+                    <item id="remote_patchpanel_id">
                       <rank>30</rank>
                     </item>
                     <item id="remote_networksocket1_id">
@@ -3218,6 +3280,12 @@
                     </item>
                     <item id="remote_networksocket2_id">
                       <rank>50</rank>
+                    </item>
+                    <item id="remote_connectableci_id">
+                      <rank>60</rank>
+                    </item>
+                    <item id="remote_physicalinterface_id">
+                      <rank>70</rank>
                     </item>
                   </items>
                 </item>
