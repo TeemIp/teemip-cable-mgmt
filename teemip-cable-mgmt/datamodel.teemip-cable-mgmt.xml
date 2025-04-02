@@ -305,7 +305,43 @@
           <duplicates/>
         </field>
       </fields>
-      <methods/>
+      <event_listeners>
+        <event_listener id="OnNetworkCableComputeValuesRequestedByCableMgmt">
+          <event>EVENT_DB_COMPUTE_VALUES</event>
+          <callback>OnNetworkCableComputeValuesRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+      </event_listeners>
+      <methods>
+        <method id="OnNetworkCableComputeValuesRequestedByCableMgmt">
+          <comment/>
+          <static>false</static>
+          <access>public</access>
+          <type>EventListener</type>
+          <code><![CDATA[    public function OnNetworkCableComputeValuesRequestedByCableMgmt(Combodo\iTop\Service\Events\EventData $oEventData): void
+    {
+        $aEventData = $oEventData->GetEventData();
+		$this->SetLabel($aEventData['is_new']);
+    }]]></code>
+        </method>
+        <method id="SetLabel" _delta="define">
+          <comment>/**
+            *
+            * Compute the label of a NetworkCable
+            */
+          </comment>
+          <static>false</static>
+          <access>public</access>
+          <type>custom</type>
+          <code><![CDATA[    public function SetLabel($bIsNew): void
+	{
+	    // This is the method to update here or to overload at child classes level to set specific labels to network cables
+	    // Ex: compute label at creation or update and record it
+	    //$sLabel = <your computing result>
+		//$this->Set('label', $sLabel);
+    }]]></code>
+        </method>
+      </methods>
       <presentation>
         <details/>
         <list>
