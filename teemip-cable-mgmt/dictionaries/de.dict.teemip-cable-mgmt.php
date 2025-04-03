@@ -462,6 +462,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Netzwerkdose erstellen',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets:NoLocationDefined' => 'Es können keine Netzwerksteckdosen erstellt werden, da auf dem Patchpanel kein Standort konfiguriert ist !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets:NoCapacity' => 'Netzwerkdose können nicht erstellt werden, da keine Kapazität mehr vorhanden ist!',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Netzwerkkabel (Rückseite) erstellen',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Netzwerkkabel (Rückseite) für das Patchpanel xx: %1$s erstellen',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Wählen Sie ein Remote-Patch-Panel und die Anzahl der zu erstellenden Kabel aus',
