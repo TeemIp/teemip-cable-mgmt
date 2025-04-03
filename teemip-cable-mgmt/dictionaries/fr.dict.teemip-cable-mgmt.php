@@ -462,12 +462,16 @@ Dict::Add('FR FR', 'English', 'English', array(
 
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets' => 'Créer les prises réseau',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets:NoLocationDefined' => 'Les prises réseau ne peuvent pas être crées car aucun lieu n\'est configuré au niveau du paneau de brassage !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets:NoCapacity' => 'Network sockets cannot be created because there is no capacity left!',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables' => 'Créer les câbles back end',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Title' => 'Crée les câbles réseau back end pour le panneau de brassage : %1$s',
-	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Sélectionnez un panneau de brassage',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper' => 'Sélectionnez un panneau de brassage et le nombre de câbles à créer',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Quantity' => 'Nombre',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable' => 'Aucun panneau de brassage n\'est en fait disponible pour cette opération !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelExists' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'existe pas !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCreationRequested' => 'Aucune creation de câble bacek end n\'a été demandée !',
 	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s n\'a plus de capacité !',
+	'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NotEnoughCapacity' => 'Les câbles réseau back end n\'ont pu être créés : le panneau de brassage distant %1$s a moins de capacité (%2$s) que ce qui est demandé (%3$s) !',
 
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotInBreakoutCableRacks' => 'Le panneau de brassage %1$s est hébergé par aucun des racks que le câble breakout connecte !',
 	'UI:CableManagement:Action:CreateOrUpdate:lnkBreakoutCableToPatchPanel:PatchPanelNotEnoughCapacity' => 'Le panneau de brassage %1$s a une capacité trop faible pour le nombre de liens demandés !',

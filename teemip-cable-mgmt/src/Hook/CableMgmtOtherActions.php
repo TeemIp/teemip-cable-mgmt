@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -32,14 +32,15 @@ class CableMgmtOtherActions implements iPopupMenuExtension {
 					//  . the Network Sockets if capacity is defined and if not all Network Sockets have already been created
 					$iCapacity = $oObj->Get('capacity');
 					if (!is_null($iCapacity) && ($iCapacity > 0)) {
-						$oNetworkSocketSet = $oObj->Get('networksockets_list');
-						$iNetworkSocketCount = $oNetworkSocketSet->Count();
 						$id = $oObj->GetKey();
+						list ($iCapacityForBackEndCables, $oNetworkSocketSet) = $oObj->GetNetworkSocketsWithFreeBackEnd($id);
 						$aResult[] = new SeparatorPopupMenuItem();
-						if ($iNetworkSocketCount > 0) {
+						if ($iCapacityForBackEndCables > 0) {
 							$sMenu = 'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables';
 							$aResult[] = new URLPopupMenuItem($sMenu, Dict::S($sMenu), utils::GetAbsoluteUrlAppRoot()."pages/UI.php?route=cable_mgmt.create_back_end_network_cables&id=$id");
 						}
+						$oNetworkSocketSet = $oObj->Get('networksockets_list');
+						$iNetworkSocketCount = $oNetworkSocketSet->Count();
 						if ($iNetworkSocketCount < $iCapacity) {
 							$sMenu = 'UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets';
 							$aResult[] = new URLPopupMenuItem($sMenu, Dict::S($sMenu), utils::GetAbsoluteUrlAppRoot()."pages/UI.php?route=cable_mgmt.create_network_sockets&id=$id");

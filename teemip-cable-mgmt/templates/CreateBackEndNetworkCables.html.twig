@@ -27,6 +27,9 @@
                 {% UIFieldSet Standard {'sLegend':'UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Helper'|dict_s} %}
 
                     {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}
+                        {% UIField Small {'sLabel':aQuantityVal['label']} %}
+                            <input id="{{ aQuantityVal['input_id'] }}" type="number" min="1" max="{{ aQuantityVal['value'] }}" size="3" name="{{ aQuantityVal['name'] }}" value="{{ aQuantityVal['value'] }}"/>
+                        {% EndUIField %}
                         {% UIField Small {'sLabel':aPatchPanelVal['label'], 'sValueHtml':aPatchPanelVal['value']} %}{% EndUIField %}
                     {% EndUIContentBlock %}
                     {% UIContentBlock Standard {'aContainerClasses':['ibo-field']} %}

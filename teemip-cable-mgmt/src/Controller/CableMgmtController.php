@@ -1,6 +1,6 @@
 <?php
 /*
- * @copyright   Copyright (C) 2010-2024 TeemIp
+ * @copyright   Copyright (C) 2010-2025 TeemIp
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 
@@ -75,11 +75,22 @@ class CableMgmtController extends Controller
 
 		switch ($sOperation) {
 			case 'CreateBackEndNetworkCables':
-				// Find list of potential remote patch panel
+				$iKey = $oObj->GetKey();
+
+				// Get the number of backend cables to create
+				list ($iRemoteCapacity, $oRemoteNetworkSocketSet) = $oObj->GetNetworkSocketsWithFreeBackEnd($iKey);
+				$val = array(
+					'label' => Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:Quantity'),
+					'name' => 'quantity',
+					'value' => $iRemoteCapacity,
+					'input_id' => $iFormId.'_quantity',
+				);
+				$aParams['aQuantityVal'] = $val;
+
+				// Find the list of potential remote patch panel
 				/** @var \PatchPanel $oObj */
 				$sAttCode = 'patchpanel_id';
 				$sAttLabel = MetaModel::GetLabel('NetworkSocket', $sAttCode);
-				$iKey = $oObj->GetKey();
 				$iOrg = $oObj->Get('org_id');
 				$sAllowBackEndNetworkCableToCrossOrgs = IPConfig::GetFromGlobalIPConfig('allow_backendnetworkcable_to_cross_orgs', $iOrg);
 				if ($sAllowBackEndNetworkCableToCrossOrgs == 'yes') {
@@ -114,7 +125,7 @@ class CableMgmtController extends Controller
 					$sHTMLValue = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoRemotePatchPanelAvailable');
 				}
 				$val = array(
-					'label' => '<span  >'.$sAttLabel.'</span>',
+					'label' => '<span>'.$sAttLabel.'</span>',
 					'value' => $sHTMLValue,
 					'input_id' => $sInputId,
 				);
@@ -159,7 +170,7 @@ class CableMgmtController extends Controller
 	{
 		$sOperation = 'CreateBackEndNetworkCables';
 		$iKey = utils::ReadParam('id');
-		list($bIssue, $sLevel, $sMessage, $aParams) = $this->GetParams($sOperation,$iKey);
+		list($bIssue, $sLevel, $sMessage, $aParams) = $this->GetParams($sOperation, $iKey);
 		$aParams['bIssue'] = $bIssue;
 		$aParams['sMessage'] = $sMessage;
 		$aParams['sLevel'] = $sLevel;
@@ -182,16 +193,22 @@ class CableMgmtController extends Controller
 
 		$iKey = utils::ReadParam('id');
 		$iRemotePatchPanel = utils::ReadParam('attr_patchpanel_id');
-		/** @var \PatchPanel $oPatchPanel */
-		$oPatchPanel = MetaModel::GetObject('PatchPanel', $iKey);
-		$sError = $oPatchPanel->CreateBackEndNetworkCables($iRemotePatchPanel);
+		$iQuantity = utils::ReadParam('quantity');
+		if ($iQuantity <= 0) {
+			$sError = Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateBackEndNetworkCables:NoCreationRequested');
+		} else {
+			/** @var \PatchPanel $oPatchPanel */
+			$oPatchPanel = MetaModel::GetObject('PatchPanel', $iKey);
+			$sError = $oPatchPanel->CreateBackEndNetworkCables($iRemotePatchPanel, $iQuantity);
+		}
 
 		$aParams = [];
 		if ($sError != '') {
+			list($bIssue, $sLevel, $sMessage, $aParams) = $this->GetParams('CreateBackEndNetworkCables', $iKey);
 			$aParams['bIssue'] = true;
 			$aParams['slevel'] = 'warning';
-			$aParams['sMessage'] = Dict::S($sError);
-			$aParams = array_merge($aParams, $this->GetParams('PatchPanel', $iKey));
+			$aParams['sMessage'] = $sError;
+			$aParams['sCancelURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=PatchPanel&id='.$iKey;
 
 			$this->m_sOperation = 'CreateBackEndNetworkCables';
 		} else {
