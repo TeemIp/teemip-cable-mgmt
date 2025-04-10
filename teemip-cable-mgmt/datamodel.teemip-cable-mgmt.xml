@@ -1843,10 +1843,6 @@
           <extkey_attcode>location_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
-        <field id="location_org_id" xsi:type="AttributeExternalField">
-          <extkey_attcode>location_id</extkey_attcode>
-          <target_attcode>org_id</target_attcode>
-        </field>
         <field id="rack_id" xsi:type="AttributeExternalKey">
           <sql>rack_id</sql>
           <target_class>Rack</target_class>
@@ -2163,23 +2159,32 @@
             <item id="status">
               <rank>20</rank>
             </item>
-            <item id="connectableci_id">
+            <item id="location_id">
               <rank>30</rank>
             </item>
-            <item id="physicalinterface_id">
+            <item id="rack_id">
               <rank>40</rank>
             </item>
-            <item id="networksocket_id">
+            <item id="patchpanel_id">
               <rank>50</rank>
             </item>
-            <item id="crossconnect_id">
+            <item id="connectableci_id">
               <rank>60</rank>
             </item>
-            <item id="backendsocket_id">
+            <item id="physicalinterface_id">
               <rank>70</rank>
             </item>
-            <item id="location_org_id">
+            <item id="networksocket_id">
               <rank>80</rank>
+            </item>
+            <item id="crossconnect_id">
+              <rank>90</rank>
+            </item>
+            <item id="backendsocket_id">
+              <rank>100</rank>
+            </item>
+            <item id="org_id">
+              <rank>110</rank>
             </item>
           </items>
         </default_search>
@@ -2201,17 +2206,20 @@
             <item id="status">
               <rank>10</rank>
             </item>
-            <item id="physicalinterface_id">
+            <item id="connectableci_id">
               <rank>20</rank>
             </item>
-            <item id="networksocket_id">
+            <item id="physicalinterface_id">
               <rank>30</rank>
             </item>
-            <item id="crossconnect_id">
+            <item id="networksocket_id">
               <rank>40</rank>
             </item>
-            <item id="backendsocket_id">
+            <item id="crossconnect_id">
               <rank>50</rank>
+            </item>
+            <item id="backendsocket_id">
+              <rank>60</rank>
             </item>
           </items>
         </summary>
