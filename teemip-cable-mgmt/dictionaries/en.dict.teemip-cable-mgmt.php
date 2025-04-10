@@ -397,7 +397,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:CrossConnect/Attribute:remote_networksocket1_id+' => 'Primary network socket peering with the primary one',
 	'Class:CrossConnect/Attribute:remote_networksocket1_name' => 'Peer primary network socket name',
 	'Class:CrossConnect/Attribute:remote_networksocket1_name+' => '',
-	'Class:CrossConnect/Attribute:remote_networksocket2_id' => 'Peer secondary Network sockets',
+	'Class:CrossConnect/Attribute:remote_networksocket2_id' => 'Peer secondary Network socket',
 	'Class:CrossConnect/Attribute:remote_networksocket2_id+' => 'Second network socket peering with the secondary one',
 	'Class:CrossConnect/Attribute:remote_networksocket2_name' => 'Peer secondary network socket name',
 	'Class:CrossConnect/Attribute:remote_networksocket2_name+' => '',
