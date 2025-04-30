@@ -7,7 +7,7 @@
 namespace TeemIp\TeemIp\Extension\CableManagement\Controller;
 
 use cmdbAbstractObject;
-use CMDBObjectSet;
+use DBObjectSet;
 use Combodo\iTop\Application\TwigBase\Controller\Controller;
 use DBObjectSearch;
 use Dict;
@@ -101,7 +101,7 @@ class CableMgmtController extends Controller
 					$sOQL = "SELECT PatchPanel AS p WHERE p.org_id = :org_id AND p.id != :key";
 					$aObjectSetParams = ['org_id' => $iOrg, 'key' => $iKey];
 				}
-				$oRemotePatchPanelSet = new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), $aObjectSetParams);
+				$oRemotePatchPanelSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), $aObjectSetParams);
 				$sInputId = $iFormId.'_'.$sAttCode;
 				if ($oRemotePatchPanelSet->CountExceeds(0)) {
 					$bEmptyList = true;
@@ -220,6 +220,22 @@ class CableMgmtController extends Controller
 		}
 		$this->DisplayPage($aParams);
 
+	}
+
+	public function OperationCreateCablesOnThePath()
+	{
+		$iKey = utils::ReadParam('id');
+		/** @var \CrossConnect $oCrossConnect */
+		$oCrossConnect = MetaModel::GetObject('CrossConnect', $iKey);
+		$sError = $oCrossConnect->CreateCablesOnThePath();
+
+		if ($sError != '') {
+			cmdbAbstractObject::SetSessionMessage('CrossConnect', $iKey, 'create_cables_on_the_path', Dict::S($sError), WebPage::ENUM_SESSION_MESSAGE_SEVERITY_ERROR, 0);
+		}
+		$aParams = [];
+		$aParams['sURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=CrossConnect&id='.$iKey;
+		$this->m_sOperation = 'CreateCablesOnThePath';
+		$this->DisplayPage($aParams);
 	}
 
 	/**

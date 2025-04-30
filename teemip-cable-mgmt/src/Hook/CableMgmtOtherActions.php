@@ -14,8 +14,10 @@ use SeparatorPopupMenuItem;
 use URLPopupMenuItem;
 use utils;
 
-class CableMgmtOtherActions implements iPopupMenuExtension {
-	public static function EnumItems($iMenuId, $param) {
+class CableMgmtOtherActions implements iPopupMenuExtension
+{
+	public static function EnumItems($iMenuId, $param)
+    {
 		$aResult = array();
 		switch ($iMenuId) {
 			case iPopupMenuExtension::MENU_OBJLIST_ACTIONS: // $param is a DBObjectSet
@@ -47,10 +49,15 @@ class CableMgmtOtherActions implements iPopupMenuExtension {
 						}
 					}
 				} elseif ($oObj instanceof CrossConnect) {
+					$id = $oObj->GetKey();
+					$aResult[] = new SeparatorPopupMenuItem();
+					// Create or delete cables along the path according to status
+					if ($oObj->Get('status') == 'production') {
+						$sMenu = 'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateCables';
+						$aResult[] = new URLPopupMenuItem($sMenu, Dict::S($sMenu), utils::GetAbsoluteUrlAppRoot()."pages/UI.php?route=cable_mgmt.create_cables_on_the_path&id=$id");
+					}
 					// List possible wirings between local patch panel and peer one
 					if (($oObj->Get('patchpanel_id') > 0) && ($oObj->Get('remote_patchpanel_id') > 0)) {
-						$id = $oObj->GetKey();
-						$aResult[] = new SeparatorPopupMenuItem();
 						$sMenu = 'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings';
 						$aResult[] = new URLPopupMenuItem($sMenu, Dict::S($sMenu), utils::GetAbsoluteUrlAppRoot()."pages/UI.php?route=cable_mgmt.list_available_wirings&id=$id");
 					}

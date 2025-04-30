@@ -3041,7 +3041,7 @@
         <field id="networksocket1_id" xsi:type="AttributeExternalKey">
           <sql>networksocket1_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id AND ns.status = 'ready'
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id AND ns.status = 'ready' AND ns.networksocket_id = 0
             AND ns.id != :this->networksocket2_id AND ns.id != :this->remote_networksocket1_id AND ns.id != :this->remote_networksocket2_id]]>
           </filter>
           <dependencies>
@@ -3057,7 +3057,7 @@
         <field id="networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>networksocket2_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id AND ns.status = 'ready'
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->patchpanel_id AND ns.status = 'ready' AND ns.networksocket_id = 0
             AND ns.id != :this->networksocket1_id AND ns.id != :this->remote_networksocket1_id AND ns.id != :this->remote_networksocket2_id]]>
           </filter>
           <dependencies>
@@ -3147,7 +3147,7 @@
         <field id="remote_networksocket1_id" xsi:type="AttributeExternalKey">
           <sql>remote_networksocket1_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id AND ns.status = 'ready'
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id AND ns.status = 'ready' AND ns.networksocket_id = 0
             AND ns.id != :this->remote_networksocket2_id AND ns.id != :this->networksocket1_id AND ns.id != :this->networksocket2_id]]>
           </filter>
           <dependencies>
@@ -3163,7 +3163,7 @@
         <field id="remote_networksocket2_id" xsi:type="AttributeExternalKey">
           <sql>remote_networksocket2_id</sql>
           <target_class>NetworkSocket</target_class>
-          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id AND ns.status = 'ready'
+          <filter><![CDATA[SELECT NetworkSocket AS ns WHERE ns.patchpanel_id = :this->remote_patchpanel_id AND ns.status = 'ready' AND ns.networksocket_id = 0
             AND ns.id != :this->remote_networksocket1_id AND ns.id != :this->networksocket1_id AND ns.id != :this->networksocket2_id]]>
           </filter>
           <dependencies>
@@ -3209,6 +3209,11 @@
         <event_listener id="OnCrossConnectCheckToWriteRequestedByCableMgmt">
           <event>EVENT_DB_CHECK_TO_WRITE</event>
           <callback>OnCrossConnectCheckToWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnCrossConnectBeforeWriteRequestedByCableMgmt">
+          <event>EVENT_DB_BEFORE_WRITE</event>
+          <callback>OnCrossConnectBeforeWriteRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
         <event_listener id="OnCrossConnectAfterWriteRequestedByCableMgmt">
