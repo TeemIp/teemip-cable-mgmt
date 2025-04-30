@@ -1843,6 +1843,10 @@
           <extkey_attcode>location_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
+        <field id="location_org_id" xsi:type="AttributeExternalField">
+          <extkey_attcode>location_id</extkey_attcode>
+          <target_attcode>org_id</target_attcode>
+        </field>
         <field id="rack_id" xsi:type="AttributeExternalKey">
           <sql>rack_id</sql>
           <target_class>Rack</target_class>
@@ -1875,9 +1879,21 @@
           <extkey_attcode>patchpanel_id</extkey_attcode>
           <target_attcode>rack_name</target_attcode>
         </field>
-        <field id="org_id" xsi:type="AttributeExternalField">
-          <extkey_attcode>location_id</extkey_attcode>
+        <field id="patchpanel_org_id" xsi:type="AttributeExternalField">
+          <extkey_attcode>patchpanel_id</extkey_attcode>
           <target_attcode>org_id</target_attcode>
+        </field>
+        <field id="org_id" xsi:type="AttributeExternalKey">
+          <sql>org_id</sql>
+          <target_class>Organization</target_class>
+          <filter><![CDATA[SELECT Organization WHERE IF (:this->patchpanel_id != 0, id = :this->patchpanel_org_id, id = :this->location_org_id)]]></filter>
+          <dependencies>
+            <attribute id="location_id"/>
+            <attribute id="rack_id"/>
+            <attribute id="patchpanel_id"/>
+          </dependencies>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
         <field id="status" xsi:type="AttributeEnum">
           <values>
@@ -2012,6 +2028,11 @@
           <callback>OnNetworkSocketCheckToWriteRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
+        <event_listener id="OnNetworkSocketBeforeWriteRequestedByCableMgmt">
+          <event>EVENT_DB_BEFORE_WRITE</event>
+          <callback>OnNetworkSocketBeforeWriteRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
         <event_listener id="OnNetworkSocketAfterWriteRequestedByCableMgmt">
           <event>EVENT_DB_AFTER_WRITE</event>
           <callback>OnNetworkSocketAfterWriteRequestedByCableMgmt</callback>
@@ -2019,7 +2040,7 @@
         </event_listener>
         <event_listener id="OnNetworkSocketAfterDeleteRequestedByCableMgmt">
           <event>EVENT_DB_AFTER_DELETE</event>
-          <callback>OnBNetworkSocketLinksChangedRequestedByCableMgmt</callback>
+          <callback>OnNetworkSocketAfterDeleteRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
       </event_listeners>

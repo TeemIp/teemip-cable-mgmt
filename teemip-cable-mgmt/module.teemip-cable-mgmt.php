@@ -108,6 +108,19 @@ if (!class_exists('CableManagementInstaller')) {
 				SetupLog::Info("Module teemip-cable-mgmt: migration done");
 			}
 
+            if (version_compare($sPreviousVersion, '1.4.0', '<')) {
+                SetupLog::Info("Module teemip-cable-mgmt: create org_id for NetworkSocket");
+
+                $sDBSubname = $oConfiguration->Get('db_subname');
+                $sCopy = "UPDATE ".$sDBSubname."networksocket AS ns JOIN location AS loc ON loc.id = ns.location_id SET ns.org_id = loc.org_id WHERE ns.patchpanel_id = 0";
+                CMDBSource::Query($sCopy);
+
+                $sCopy = "UPDATE ".$sDBSubname."networksocket AS ns JOIN functionalci AS ci ON ci.id = ns.patchpanel_id SET ns.org_id = ci.org_id WHERE ns.patchpanel_id != 0";
+                CMDBSource::Query($sCopy);
+
+                SetupLog::Info("Module teemip-cable-mgmt: migration done");
+            }
+
 			// Load audit category and rules related to the module
 			if (version_compare($sPreviousVersion, $sCurrentVersion, '!=')) {
 				$oDataLoader = new XMLDataLoader();
