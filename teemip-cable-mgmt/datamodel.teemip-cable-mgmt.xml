@@ -324,7 +324,7 @@
 		$this->SetLabel($aEventData['is_new']);
     }]]></code>
         </method>
-        <method id="SetLabel" _delta="define">
+        <method id="SetLabel">
           <comment>/**
             *
             * Compute the label of a NetworkCable
