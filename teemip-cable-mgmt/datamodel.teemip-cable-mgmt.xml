@@ -3013,6 +3013,10 @@
           <extkey_attcode>cablecategory_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
+        <field id="cabletype_id" xsi:type="AttributeExternalField">
+          <extkey_attcode>cablecategory_id</extkey_attcode>
+          <target_attcode>cabletype_id</target_attcode>
+        </field>
         <field id="location_id" xsi:type="AttributeExternalKey">
           <sql>location_id</sql>
           <filter><![CDATA[SELECT Location AS l WHERE l.org_id = :this->org_id]]></filter>
