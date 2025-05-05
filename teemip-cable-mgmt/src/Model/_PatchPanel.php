@@ -100,13 +100,10 @@ class _PatchPanel extends PhysicalDevice
 			$oNetworkSocket->Set('location_id', $iLocationId);
 			$oNetworkSocket->Set('rack_id', $this->Get('rack_id'));
 			$oNetworkSocket->Set('patchpanel_id', $this->GetKey());
+            $oNetworkSocket->Set('org_id', $this->Get('org_id'));
 			if (class_exists('InterfaceConnector')) {
 				$oNetworkSocket->Set('interfaceconnector_id', $this->Get('interfaceconnector_id'));
 			}
-            // For the case where the datamodel has been changed and org_id is a mandatory r/w attribute of the class NetworkSocket
-            if (in_array('org_id', MetaModel::GetAttributesList('NetworkSocket')) && (MetaModel::GetAttributeFlags('NetworkSocket', '', 'org_id') & OPT_ATT_READONLY)) {
-                $oNetworkSocket->Set('org_id', $this->Get('org_id'));
-            }
 			$oNetworkSocket->DBInsert();
 		}
 
