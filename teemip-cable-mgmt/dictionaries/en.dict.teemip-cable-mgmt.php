@@ -14,7 +14,7 @@
 //
 
 Dict::Add('EN US', 'English', 'English', array(
-	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs' => 'Allow cabling toward another organizations',
+	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs' => 'Allow cabling toward another organization',
 	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs+' => 'Allow a patch panel of the organization to be connected to a remote patch panel belonging to another organization through the backend cables of its network sockets',
 	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:yes' => 'Yes',
 	'Class:IPConfig/Attribute:allow_backendnetworkcable_to_cross_orgs/Value:yes+' => '',
@@ -233,11 +233,10 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:NetworkSocket/Attribute:patchpanel_name' => 'Patch panel name',
 	'Class:NetworkSocket/Attribute:patchpanel_name+' => '',
     'Class:NetworkSocket/Attribute:org_id' => 'Organization',
-	'Class:NetworkSocket/Attribute:org_id+' => 'Network socket\'s organization is the patch panel\'s one, if the socket belongs to a patch panel, otherwise the location\s one.',
+	'Class:NetworkSocket/Attribute:org_id+' => 'Network socket\'s organization is the patch panel\'s one, if the socket belongs to a patch panel, otherwise the location\'s one.',
 	'Class:NetworkSocket/Attribute:comment' => 'Comment',
 	'Class:NetworkSocket/Attribute:comment+' => '',
 	'Class:NetworkSocket/Attribute:connectableci_id' => 'Device',
-	//'Class:NetworkSocket/Attribute:connectableci_id+' => 'Device connected to the network socket. This attribute cannot be filled at the same time as the Network socket or the Cross connect ones',
 	'Class:NetworkSocket/Attribute:connectableci_id+' => 'Device connected to the network socket. This attribute cannot be filled at the same time as the Network socket one',
 	'Class:NetworkSocket/Attribute:connectableci_name' => 'Device name',
 	'Class:NetworkSocket/Attribute:connectableci_name+' => '',
