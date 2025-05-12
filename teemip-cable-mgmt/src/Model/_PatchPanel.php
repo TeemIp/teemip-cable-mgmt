@@ -93,9 +93,14 @@ class _PatchPanel extends PhysicalDevice
 			return Dict::S('UI:CableManagement:Action:Create:PatchPanel:CreateNetworkSockets:NoCapacity');
 		}
 
+        $aNetworkSocketCode = $oNetworkSocketSet->GetColumnAsArray('code');
+        $j = 0;
 		for ($i = $iNetworkSocketCount + 1; $i <= $iCapacity; $i++) {
 			$oNetworkSocket = MetaModel::NewObject('NetworkSocket');
-			$oNetworkSocket->Set('code', $oNetworkSocket->ComputeCode($i, $iCapacity));
+            do {
+                $sCode = $oNetworkSocket->ComputeCode(++$j, $iCapacity);
+            } while (in_array($sCode, $aNetworkSocketCode));
+			$oNetworkSocket->Set('code', $sCode);
 			$oNetworkSocket->Set('status', 'inactive');
 			$oNetworkSocket->Set('location_id', $iLocationId);
 			$oNetworkSocket->Set('rack_id', $this->Get('rack_id'));
