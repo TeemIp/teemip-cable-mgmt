@@ -2854,7 +2854,7 @@
 				$sOQL = "SELECT NetworkSocket WHERE rack_id = :id";
 				$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
 				while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
-					$oNetworkSocket->ComputeValues();
+					$oNetworkSocket->OnNetworkSocketComputeValuesRequestedByCableMgmt(null);
 					$oNetworkSocket->DBUpdate();
 				}
 			}
@@ -2897,7 +2897,7 @@
 				$sOQL = "SELECT NetworkSocket WHERE location_id = :id";
 				$oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
 				while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
-					$oNetworkSocket->ComputeValues();
+					$oNetworkSocket->OnNetworkSocketComputeValuesRequestedByCableMgmt(null);
 					$oNetworkSocket->DBUpdate();
 				}
 			}

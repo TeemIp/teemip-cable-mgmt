@@ -90,7 +90,7 @@ class _NetworkSocket extends NetworkInterface
      * @param EventData $oEventData
      * @return void
      */
-	public function OnNetworkSocketComputeValuesRequestedByCableMgmt(EventData $oEventData): void
+	public function OnNetworkSocketComputeValuesRequestedByCableMgmt(?EventData $oEventData=null): void
 	{
 		// Set name
 		$this->Set('name', $this->ComputeName());
@@ -216,7 +216,7 @@ class _NetworkSocket extends NetworkInterface
             if ($this->Get('patchpanel_id') > 0) {
                 $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
                 if ($oPatchPanel) {
-                    $oPatchPanel->ComputeValues();
+                    $oPatchPanel->OnPatchPanelComputeValuesRequestedByCableMgmt();
                     $oPatchPanel->DBUpdate();
                 }
             }
@@ -363,7 +363,7 @@ class _NetworkSocket extends NetworkInterface
                 if ($this->Get('patchpanel_id') > 0) {
                     $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
                     if ($oPatchPanel) {
-                        $oPatchPanel->ComputeValues();
+                        $oPatchPanel->OnPatchPanelComputeValuesRequestedByCableMgmt();
                         $oPatchPanel->DBUpdate();
                     }
                 }
@@ -372,7 +372,7 @@ class _NetworkSocket extends NetworkInterface
                 if ($aChanges['patchpanel_id'] > 0) {
                     $oOldPatchPanel = MetaModel::GetObject('PatchPanel', $aChanges['patchpanel_id'], false);
                     if ($oOldPatchPanel) {
-                        $oOldPatchPanel->ComputeValues();
+                        $oOldPatchPanel->OnPatchPanelComputeValuesRequestedByCableMgmt();
                         $oOldPatchPanel->DBUpdate();
                     }
                 }
@@ -384,7 +384,7 @@ class _NetworkSocket extends NetworkInterface
                 if ($this->Get('patchpanel_id') > 0) {
                     $oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
                     if ($oPatchPanel) {
-                        $oPatchPanel->ComputeValues();
+                        $oPatchPanel->OnPatchPanelComputeValuesRequestedByCableMgmt();
                         $oPatchPanel->DBUpdate();
                     }
                 }
@@ -432,7 +432,7 @@ class _NetworkSocket extends NetworkInterface
 		if ($this->Get('patchpanel_id') > 0) {
 			$oPatchPanel = MetaModel::GetObject('PatchPanel', $this->Get('patchpanel_id'), false);
 			if ($oPatchPanel) {
-				$oPatchPanel->ComputeValues();
+				$oPatchPanel->OnPatchPanelComputeValuesRequestedByCableMgmt();
 				$oPatchPanel->DBUpdate();
 			}
 		}

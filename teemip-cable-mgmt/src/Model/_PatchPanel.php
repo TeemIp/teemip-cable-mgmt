@@ -31,7 +31,7 @@ class _PatchPanel extends PhysicalDevice
                 $sOQL = "SELECT NetworkSocket WHERE patchpanel_id = :id";
                 $oNetworkSocketSet =  new CMDBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id' => $this->GetKey()));
                 while ($oNetworkSocket = $oNetworkSocketSet->Fetch()) {
-                    $oNetworkSocket->ComputeValues();
+                    $oNetworkSocket->OnNetworkSocketComputeValuesRequestedByCableMgmt();
                     $oNetworkSocket->DBUpdate();
                 }
             }
@@ -44,7 +44,7 @@ class _PatchPanel extends PhysicalDevice
      * @param EventData $oEventData
      * @return void
      */
-	public function OnPatchPanelComputeValuesRequestedByCableMgmt(EventData $oEventData): void
+	public function OnPatchPanelComputeValuesRequestedByCableMgmt(?EventData $oEventData=null): void
 	{
 		// Set capacities
 		$iReadySockets = 0;
