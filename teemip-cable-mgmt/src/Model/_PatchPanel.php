@@ -204,4 +204,20 @@ class _PatchPanel extends PhysicalDevice
 		return '';
 	}
 
+    /**
+     * @inheritdoc
+     */
+    public function PrefillCreationForm(&$aContextParam) : void
+    {
+        $iRackId = $this->Get('rack_id');
+        if ($iRackId > 0) {
+            $oRack = MetaModel::GetObject('Rack', $iRackId, false);
+            if ($oRack) {
+                $this->Set('org_id', $oRack->Get('org_id'));
+                $this->Set('location_id', $oRack->Get('location_id'));
+            }
+        }
+
+        parent::PrefillCreationForm($aContextParam);
+    }
 }
