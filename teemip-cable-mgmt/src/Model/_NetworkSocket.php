@@ -20,7 +20,7 @@ class _NetworkSocket extends NetworkInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function PrefillCreationForm(&$aContextParam)
+	public function PrefillCreationForm(&$aContextParam): void
 	{
 		$iPatchPanelId = $this->Get('patchpanel_id');
 		if ($iPatchPanelId > 0) {
