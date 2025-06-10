@@ -173,41 +173,43 @@ class _CrossConnect extends FunctionalCI
 	 */
     private function CreateDeviceNetworkCableIfNotExists($iNetworkSocket, $iConnectableCI, $iPhysicalInterface): string
 	{
-		$sError = '';
 		if (($iNetworkSocket == 0) || ($iPhysicalInterface == 0)) {
-			$sError = Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd');
+			return Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd');
 		}
-		$sOQL = 'SELECT DeviceNetworkCable WHERE networksocket_id = :ns AND physicalinterface_id = :phint';
-		$oDeviceNetworkCableSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns' => $iNetworkSocket, 'phint' => $iPhysicalInterface));
-		if (!$oDeviceNetworkCableSet->CountExceeds(0)) {
-			$oCable = MetaModel::NewObject('DeviceNetworkCable');
-			$oCable->Set('cabletype_id', $this->Get('cabletype_id'));
-			$oCable->Set('cablecategory_id', $this->Get('cablecategory_id'));
-			$oCable->Set('networksocket_id', $iNetworkSocket);
-			$oCable->Set('connectableci_id', $iConnectableCI);
-			$oCable->Set('physicalinterface_id', $iPhysicalInterface);
-			$oCable->DBInsert();
-		}
-		return $sError;
+
+        $sOQL = 'SELECT DeviceNetworkCable WHERE networksocket_id = :ns AND physicalinterface_id = :phint';
+        $oDeviceNetworkCableSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('ns' => $iNetworkSocket, 'phint' => $iPhysicalInterface));
+        if (!$oDeviceNetworkCableSet->CountExceeds(0)) {
+            $oCable = MetaModel::NewObject('DeviceNetworkCable');
+            $oCable->Set('cabletype_id', $this->Get('cabletype_id'));
+            $oCable->Set('cablecategory_id', $this->Get('cablecategory_id'));
+            $oCable->Set('networksocket_id', $iNetworkSocket);
+            $oCable->Set('connectableci_id', $iConnectableCI);
+            $oCable->Set('physicalinterface_id', $iPhysicalInterface);
+            $oCable->DBInsert();
+        }
+
+		return '';
 	}
 
 	private function CreateFrontEndNetworkCableIfNoExists($iNetworkSocket1, $iNetworkSocket2): string
 	{
-		$sError = '';
 		if (($iNetworkSocket1 == 0) || ($iNetworkSocket2 == 0)) {
-			$sError = Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd');
+			return Dict::S('UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd');
 		}
-		$sOQL = 'SELECT FrontEndNetworkCable WHERE (networksocket1_id = :id1 AND networksocket2_id = :id2) OR (networksocket1_id = :id2 AND networksocket2_id = :id1)';
-		$oFrontEndNetworkCableSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id1' => $iNetworkSocket1, 'id2' => $iNetworkSocket2));
-		if (!$oFrontEndNetworkCableSet->CountExceeds(0)) {
-			$oCable = MetaModel::NewObject('$oFrontEndNetworkCable');
-			$oCable->Set('cabletype_id', $this->Get('cabletype_id'));
-			$oCable->Set('cablecategory_id', $this->Get('cablecategory_id'));
-			$oCable->Set('networksocket1_id', $iNetworkSocket1);
-			$oCable->Set('networksocket2_id', $iNetworkSocket2);
-			$oCable->DBInsert();
-		}
-		return $sError;
+
+        $sOQL = 'SELECT FrontEndNetworkCable WHERE (networksocket1_id = :id1 AND networksocket2_id = :id2) OR (networksocket1_id = :id2 AND networksocket2_id = :id1)';
+        $oFrontEndNetworkCableSet = new DBObjectSet(DBObjectSearch::FromOQL($sOQL), array(), array('id1' => $iNetworkSocket1, 'id2' => $iNetworkSocket2));
+        if (!$oFrontEndNetworkCableSet->CountExceeds(0)) {
+            $oCable = MetaModel::NewObject('$oFrontEndNetworkCable');
+            $oCable->Set('cabletype_id', $this->Get('cabletype_id'));
+            $oCable->Set('cablecategory_id', $this->Get('cablecategory_id'));
+            $oCable->Set('networksocket1_id', $iNetworkSocket1);
+            $oCable->Set('networksocket2_id', $iNetworkSocket2);
+            $oCable->DBInsert();
+        }
+
+		return '';
 	}
 
 	/**
@@ -221,29 +223,31 @@ class _CrossConnect extends FunctionalCI
 		// Create device network cables at local end
 		$sError = $this->CreateDeviceNetworkCableIfNotExists($this->Get('networksocket1_id'), $this->Get('connectableci_id'), $this->Get('physicalinterface_id'));
 
-		// Create frontend network cables along the path
-        $aLocalNetworkSocket = $this->GetLocalNetworkSockets();
-        $aRemoteNetworkSocket = $this->GetRemoteNetworkSockets();
-        foreach ($aLocalNetworkSocket as $iNetworkSocket) {
-            while ($iNetworkSocket > 0) {
-                list($iNextFrontEndNetworkSocket, $iNextBackEndNetworkSocket) = $this->GetConnectedNetworkSockets($iNetworkSocket);
-                if ($iNextFrontEndNetworkSocket > 0) {
-                    $sNewError = $this->CreateFrontEndNetworkCableIfNoExists($iNetworkSocket, $iNextFrontEndNetworkSocket);
-                    if ($sNewError != '') {
-                        $sError = ($sError == '') ? $sNewError : ($sError . '\n' . $sNewError);
+        if ($sError == '') {
+            // Create frontend network cables along the path
+            $aLocalNetworkSocket = $this->GetLocalNetworkSockets();
+            $aRemoteNetworkSocket = $this->GetRemoteNetworkSockets();
+            foreach ($aLocalNetworkSocket as $iNetworkSocket) {
+                while ($iNetworkSocket > 0) {
+                    list($iNextFrontEndNetworkSocket, $iNextBackEndNetworkSocket) = $this->GetConnectedNetworkSockets($iNetworkSocket);
+                    if ($iNextFrontEndNetworkSocket > 0) {
+                        $sNewError = $this->CreateFrontEndNetworkCableIfNoExists($iNetworkSocket, $iNextFrontEndNetworkSocket);
+                        if ($sNewError != '') {
+                            $sError = ($sError == '') ? $sNewError : ($sError . '\n' . $sNewError);
+                        }
                     }
+                    if (in_array($iNextBackEndNetworkSocket, $aRemoteNetworkSocket) || ($iNextBackEndNetworkSocket == 0)) {
+                        break;
+                    }
+                    list($iNetworkSocket,) = $this->GetConnectedNetworkSockets($iNextBackEndNetworkSocket);
                 }
-                if (in_array($iNextBackEndNetworkSocket, $aRemoteNetworkSocket) || ($iNextBackEndNetworkSocket == 0)) {
-                    break;
-                }
-                list($iNetworkSocket, ) = $this->GetConnectedNetworkSockets($iNextBackEndNetworkSocket);
             }
-        }
 
-        // Create device network cables at remote end
-        $sNewError = $this->CreateDeviceNetworkCableIfNotExists($this->Get('remote_networksocket1_id'), $this->Get('remote_connectableci_id'), $this->Get('remote_physicalinterface_id'));
-        if ($sNewError != '') {
-            $sError = ($sError == '') ? $sNewError : ($sError . '\n' . $sNewError);
+            // Create device network cables at remote end
+            $sNewError = $this->CreateDeviceNetworkCableIfNotExists($this->Get('remote_networksocket1_id'), $this->Get('remote_connectableci_id'), $this->Get('remote_physicalinterface_id'));
+            if ($sNewError != '') {
+                $sError = ($sError == '') ? $sNewError : ($sError . '\n' . $sNewError);
+            }
         }
 
 		return $sError;
