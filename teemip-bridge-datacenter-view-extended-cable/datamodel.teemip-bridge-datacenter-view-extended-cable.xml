@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1" load="strict">
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.2" load="strict"
+  xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/itop_design.xsd">
   <classes>
     <class id="PatchPanel" _delta="must_exist">
       <fields>

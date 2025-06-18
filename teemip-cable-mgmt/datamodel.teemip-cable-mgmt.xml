@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1" load="strict">
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.2" load="strict"
+  xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/itop_design.xsd">
   <classes>
     <class id="IPConfig" _delta="must_exist">
       <fields>
@@ -50,7 +51,6 @@
             <attribute id="name"/>
           </attributes>
         </naming>
-        <icon/>
         <reconciliation>
           <attributes>
             <attribute id="name"/>
@@ -141,7 +141,6 @@
             <attribute id="cabletype_name"/>
           </attributes>
         </naming>
-        <icon/>
         <reconciliation>
           <attributes>
             <attribute id="name"/>
@@ -167,7 +166,6 @@
         <field id="cabletype_id" xsi:type="AttributeExternalKey">
           <sql>cabletype_id</sql>
           <filter/>
-          <dependencies/>
           <target_class>CableType</target_class>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -258,7 +256,6 @@
         <field id="cabletype_id" xsi:type="AttributeExternalKey">
           <sql>cabletype_id</sql>
           <filter/>
-          <dependencies/>
           <target_class>CableType</target_class>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -332,7 +329,7 @@
           </comment>
           <static>false</static>
           <access>public</access>
-          <type>custom</type>
+          <type>Custom</type>
           <code><![CDATA[    public function SetLabel($bIsNew): void
 	{
 	    // This is the method to update here or to overload at child classes level to set specific labels to network cables
@@ -343,7 +340,6 @@
         </method>
       </methods>
       <presentation>
-        <details/>
         <list>
           <items>
             <item id="finalclass">
@@ -413,9 +409,6 @@
             <attribute id="networkcable_label"/>
           </attributes>
         </naming>
-        <style>
-          <icon/>
-        </style>
         <reconciliation>
           <attributes>
             <attribute id="document_id"/>
@@ -520,7 +513,6 @@
         <field id="networksocket1_id" xsi:type="AttributeExternalKey">
           <sql>networksocket1_id</sql>
           <filter><![CDATA[SELECT NetworkSocket]]></filter>
-          <dependencies/>
           <target_class>NetworkSocket</target_class>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -734,7 +726,6 @@
           <sql>backendsocket1_id</sql>
           <target_class>NetworkSocket</target_class>
           <filter><![CDATA[SELECT NetworkSocket]]></filter>
-          <dependencies/>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
@@ -1008,7 +999,6 @@
         <field id="networksocket_id" xsi:type="AttributeExternalKey">
           <sql>networksocket_id</sql>
           <filter><![CDATA[SELECT NetworkSocket]]></filter>
-          <dependencies/>
           <target_class>NetworkSocket</target_class>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -1612,7 +1602,7 @@
           <comment/>
           <static>false</static>
           <access>public</access>
-          <type>custom</type>
+          <type>Custom</type>
           <code><![CDATA[    public function ComputeUsedLinks(): int
     {
     	// Compute number of remaining free links
@@ -1798,7 +1788,7 @@
             <attribute id="name"/>
           </attributes>
           <complementary_attributes>
-            <attribute id="status"></attribute>
+            <attribute id="status"/>
           </complementary_attributes>
         </naming>
         <fields_semantic>
@@ -1834,7 +1824,6 @@
         <field id="location_id" xsi:type="AttributeExternalKey">
           <sql>location_id</sql>
           <filter><![CDATA[SELECT Location]]></filter>
-          <dependencies/>
           <target_class>Location</target_class>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -1965,7 +1954,6 @@
           <sql>networksocket_id</sql>
           <target_class>NetworkSocket</target_class>
           <filter><![CDATA[SELECT NetworkSocket WHERE id != :this->id]]></filter>
-          <dependencies/>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
@@ -1977,7 +1965,6 @@
           <sql>crossconnect_id</sql>
           <target_class>CrossConnect</target_class>
           <filter/>
-          <dependencies/>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
@@ -1989,7 +1976,6 @@
           <sql>backendsocket_id</sql>
           <target_class>NetworkSocket</target_class>
           <filter><![CDATA[SELECT NetworkSocket WHERE id != :this->id]]></filter>
-          <dependencies/>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
@@ -2000,7 +1986,6 @@
         <field id="cabletype_id" xsi:type="AttributeExternalKey">
           <sql>cabletype_id</sql>
           <filter/>
-          <dependencies/>
           <target_class>CableType</target_class>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -2083,7 +2068,7 @@
           </comment>
           <static>false</static>
           <access>public</access>
-          <type>custom</type>
+          <type>Custom</type>
           <code><![CDATA[    public function ComputeCode($iNum, $iNumMax): string
 	{
 		return sprintf('%1$0'.strlen((string)$iNumMax).'d/%2$d', $iNum, $iNumMax);
@@ -2262,9 +2247,6 @@
       </presentation>
     </class>
     <class id="NetworkInterface" _created_in="itop-config-mgmt" _delta="must_exist">
-      <properties>
-        <obsolescence _delta="delete_if_exists"/>
-      </properties>
       <fields>
         <field id="operational_status" xsi:type="AttributeMetaEnum" _delta="must_exist">
           <mappings>
@@ -2308,8 +2290,8 @@
           <complementary_attributes>
             <attribute id="location_name"/>
             <attribute id="rack_name"/>
-            <attribute id="status"></attribute>
-            <attribute id="capacity"></attribute>
+            <attribute id="status"/>
+            <attribute id="capacity"/>
           </complementary_attributes>
         </naming>
         <style>
@@ -2385,7 +2367,6 @@
         <field id="cabletype_id" xsi:type="AttributeExternalKey">
           <sql>cabletype_id</sql>
           <filter/>
-          <dependencies/>
           <target_class>CableType</target_class>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -2586,7 +2567,6 @@
           <sql>networksocket_id</sql>
           <target_class>NetworkSocket</target_class>
           <filter><![CDATA[SELECT NetworkSocket WHERE networksocket_id = 0]]></filter>
-          <dependencies/>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
@@ -2856,8 +2836,6 @@
           <edit_mode>add_only</edit_mode>
           <count_min>0</count_min>
           <count_max>0</count_max>
-          <relation_type>link</relation_type>
-          <read_only>false</read_only>
         </field>
       </fields>
       <event_listeners>
@@ -2951,8 +2929,8 @@
             <attribute id="name"/>
           </attributes>
           <complementary_attributes>
-            <attribute id="org_id"></attribute>
-            <attribute id="remote_org_id"></attribute>
+            <attribute id="org_id"/>
+            <attribute id="remote_org_id"/>
           </complementary_attributes>
         </naming>
         <reconciliation>
@@ -3035,7 +3013,6 @@
         <field id="cablecategory_id" xsi:type="AttributeExternalKey">
           <sql>cablecategory_id</sql>
           <filter/>
-          <dependencies/>
           <target_class>CableCategory</target_class>
           <is_null_allowed>true</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
@@ -3267,11 +3244,6 @@
           <callback>OnCrossConnectCheckToWriteRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
-        <event_listener id="OnCrossConnectBeforeWriteRequestedByCableMgmt">
-          <event>EVENT_DB_BEFORE_WRITE</event>
-          <callback>OnCrossConnectBeforeWriteRequestedByCableMgmt</callback>
-          <rank>10</rank>
-        </event_listener>
         <event_listener id="OnCrossConnectAfterWriteRequestedByCableMgmt">
           <event>EVENT_DB_AFTER_WRITE</event>
           <callback>OnCrossConnectAfterWriteRequestedByCableMgmt</callback>
@@ -3495,7 +3467,6 @@
             <attribute id="patchpanel_name"/>
           </attributes>
         </naming>
-        <icon/>
         <reconciliation>
           <attributes>
              <attribute id="breakoutcable_id"/>
@@ -3654,7 +3625,7 @@
     </class>
   </classes>
   <menus>
-    <menu id="ConfigManagement:TeemIpNetworking" _delta="must_exist">
+    <menu id="ConfigManagement:TeemIpNetworking" xsi:type="DashboardMenuNode" _delta="must_exist">
       <definition>
         <cells>
           <cell id="teemip_interfaces" _delta="must_exist">
@@ -3718,7 +3689,7 @@
         </cells>
       </definition>
     </menu>
-    <menu id="Typology" _delta="must_exist">
+    <menu id="Typology" xsi:type="DashboardMenuNode" _delta="must_exist">
       <definition>
         <cells>
           <cell id="Network" _delta="must_exist">
