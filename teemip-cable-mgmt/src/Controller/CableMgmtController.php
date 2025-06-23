@@ -230,7 +230,7 @@ class CableMgmtController extends Controller
 		$sError = $oCrossConnect->CreateCablesOnThePath();
 
 		if ($sError != '') {
-			cmdbAbstractObject::SetSessionMessage('CrossConnect', $iKey, 'create_cables_on_the_path', Dict::S($sError), WebPage::ENUM_SESSION_MESSAGE_SEVERITY_ERROR, 0);
+			cmdbAbstractObject::SetSessionMessage('CrossConnect', $iKey, 'create_cables_on_the_path', $sError, WebPage::ENUM_SESSION_MESSAGE_SEVERITY_WARNING, 0);
 		}
 		$aParams = [];
 		$aParams['sURL'] = utils::GetAbsoluteUrlAppRoot().'pages/UI.php?operation=details&class=CrossConnect&id='.$iKey;

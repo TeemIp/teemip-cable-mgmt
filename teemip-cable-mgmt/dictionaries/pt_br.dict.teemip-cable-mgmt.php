@@ -510,4 +510,5 @@ Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateCables' => 'Criar cabos',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd' => 'O cabo de rede do dispositivo não pode ser criado: pelo menos uma extremidade do cabo não está especificada!',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd' => 'O cabo de rede front-end não pode ser criado: pelo menos uma extremidade do cabo não está especificada!',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateNetworkCable:ConsolidateErrors' => 'Os seguintes erros foram encontrados:',
 ));

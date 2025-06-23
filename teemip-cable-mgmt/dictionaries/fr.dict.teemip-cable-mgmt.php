@@ -500,4 +500,5 @@ Dict::Add('FR FR', 'English', 'English', array(
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateCables' => 'Créer les câbles',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd' => 'Le câble réseau équipement ne peut être créé: éau moins un des bouts du câble n\'est pas spécifié !',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd' => 'Le câble réseau frontal ne peut être créé: au moins un des bouts du câble n\'est pas spécifié !',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateNetworkCable:ConsolidateErrors' => 'Les erreurs suivantes ont été rencontrées:',
 ));

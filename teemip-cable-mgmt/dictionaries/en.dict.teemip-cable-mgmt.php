@@ -509,4 +509,5 @@ Dict::Add('EN US', 'English', 'English', array(
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateCables' => 'Create cables',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd' => 'Device network cable cannot be created: at least one end of the cable is not specified!',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd' => 'Front end network cable cannot be created: at least one end of the cable is not specified!',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateNetworkCable:ConsolidateErrors' => 'The following errors have been met:',
 ));
