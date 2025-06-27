@@ -111,9 +111,9 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_id+' => 'Zweite Netzwerkdose (Rückseite), mit welcher das Kabel verbunden ist',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name' => 'Name Netzwerkdose #2',
 	'Class:BackEndNetworkCable/Attribute:backendsocket2_name+' => '',
-    'Class:BackEndNetworkCable/Attribute:breakoutcable_id' => 'Breakout cable',
-    'Class:BackEndNetworkCable/Attribute:breakoutcable_id+' => 'Breakout cable that the backend network cable belongs to',
-    'Class:BackEndNetworkCable/Attribute:breakoutcable_name' => 'Breakout cable name',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id' => 'Breakout-Kabel',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_id+' => 'Breakout-Kabel, zu dem das Backend-Netzwerkkabel gehört',
+    'Class:BackEndNetworkCable/Attribute:breakoutcable_name' => 'Breakout-Kabel Name',
     'Class:BackEndNetworkCable/Attribute:breakoutcable_name+' => '',
 ));
 
@@ -176,16 +176,16 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:BreakoutCable/Attribute:freelinks+' => 'Anzahl verfügbare Fasern innerhalb des Breakout-Kabels',
 	'Class:BreakoutCable/Attribute:rack1_id' => 'Rack #1',
 	'Class:BreakoutCable/Attribute:rack1_id+' => 'Rack, in dem sich die verschiedenen Quell-Patchpanels befinden, an die das Breakout-Kabel angeschlossen ist',
-	'Class:BreakoutCable/Attribute:rack1_name' => 'Rack #1 name',
+	'Class:BreakoutCable/Attribute:rack1_name' => 'Rack #1 Name',
 	'Class:BreakoutCable/Attribute:rack1_name+' => '',
 	'Class:BreakoutCable/Attribute:rack2_id' => 'Rack #2',
 	'Class:BreakoutCable/Attribute:rack2_id+' => 'Rack, in dem sich die verschiedenen Ziel-Patchpanels befinden, an die das Breakout-Kabel angeschlossen ist',
-	'Class:BreakoutCable/Attribute:rack2_name' => 'Rack #2 name',
+	'Class:BreakoutCable/Attribute:rack2_name' => 'Rack #2 Name',
 	'Class:BreakoutCable/Attribute:rack2_name+' => '',
 	'Class:BreakoutCable/Attribute:patchpanels_list' => 'Patchpanels',
 	'Class:BreakoutCable/Attribute:patchpanels_list+' => 'Liste der Patchpanels, wo das Breakout-Kabel angeschlossen ist',
-    'Class:BreakoutCable/Attribute:backendnetworkcable_list' => 'Back End Network Cables',
-    'Class:BreakoutCable/Attribute:backendnetworkcable_list+' => 'List of back end network cables that are part of the breakout cable',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list' => 'Back-End-Netzwerkkabel',
+    'Class:BreakoutCable/Attribute:backendnetworkcable_list+' => 'Liste der Back-End-Netzwerkkabel, die Teil des Breakout-Kabels sind',
 ));
 
 //
@@ -381,7 +381,7 @@ Dict::Add('DE DE', 'English', 'English', array(
     'Class:CrossConnect/Attribute:connectableci_name' => 'Name Gerät',
     'Class:CrossConnect/Attribute:connectableci_name+' => '',
     'Class:CrossConnect/Attribute:physicalinterface_id' => 'Physikalische Schnittstelle (Interface)',
-    'Class:CrossConnect/Attribute:physicalinterface_id+' => 'Physical interface through which the local device is connected to the cross connect',
+    'Class:CrossConnect/Attribute:physicalinterface_id+' => 'Physische Schnittstelle, über die das lokale Gerät mit dem Cross Connect verbunden ist',
     'Class:CrossConnect/Attribute:physicalinterface_name' => 'Name physikalische Schnittstelle',
     'Class:CrossConnect/Attribute:physicalinterface_name+' => '',
 	'Class:CrossConnect/Attribute:remote_location_id' => 'Peer-Standort',
@@ -466,8 +466,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:NetworkSocket:PointToBackendAndSocket' => 'Eine Netzwerkdose kann nicht mit der selben entfernten Netzwerkdose mit seiner vorderseitigen und seiner rückseitigen Konnektoren verbunden sein!',
     'UI:CableManagement:Action:CreateOrUpdate:DeviceNetworkCable:Duplicate' => 'Ein Kabel, das dasselbe Gerät odre dieselbe Netzwerkbuchse verbindet, existiert bereits!',
     'UI:CableManagement:Action:CreateOrUpdate:DirectNetworkCable:Duplicate' => 'Ein Kabel, das dieselben physischen Schnittstellen verbindet, existiert bereits!',
-    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable1' => 'The breakout cable is not connected to any of the patch panels used by the backend cable %1$s!',
-    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable2' => 'The breakout cable is not connected to all the patch panels used by the backend cable %1$s!',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable1' => 'Das Breakout-Kabel ist mit keinem der Patchfelder verbunden, die vom Backend-Kabel %1$s verwendet werden!',
+    'UI:CableManagement:Action:CreateOrUpdate:BackEndNetworkCable:WrongBreakoutCable2' => 'Das Breakout-Kabel ist nicht mit allen Patchfeldern verbunden, die vom Backend-Kabel %1$s verwendet werden!',
 
 	'UI:CableManagement:Action:CreateOrUpdate:PhysicalInterface:NoDualSocketAndCIAllowed' => 'Eine physikalische Schnittstelle (Interface) kann nicht gleichzeitig mit einer Netzwerkdose und einem entfernten Gerät verbunden werden!',
 
@@ -497,8 +497,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:MaxOffersIsTooLow' => 'Die Anzahl der erwarteten Angebote darf nicht kleiner als 1 sein!',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NoPathFound' => 'Es wurde kein Weg gefunden, um die 2 Patch Panels zu verbinden!',
 	'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:FindWirings:NumberOfOffers' => '%1$s Pfade von %2$s angeforderten Pfaden ',
-    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateCables' => 'Create cables',
-    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd' => 'Device network cable cannot be created: at least one end of the cable is not specified!',
-    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd' => 'Front end network cable cannot be created: at least one end of the cable is not specified!',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateCables' => 'Erstellen von Kabeln',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateDeviceNetworkCable:MissingEnd' => 'Gerätenetzwerkkabel kann nicht erstellt werden: Mindestens ein Ende des Kabels ist nicht angegeben!',
+    'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateFrontEndNetworkCable:MissingEnd' => 'Front-End-Netzwerkkabel kann nicht erstellt werden: Mindestens ein Ende des Kabels ist nicht angegeben!',
     'UI:CableManagement:Action:CreateOrUpdate:CrossConnect:CreateNetworkCable:ConsolidateErrors' => 'Die folgenden Fehler sind aufgetreten:',
 ));
