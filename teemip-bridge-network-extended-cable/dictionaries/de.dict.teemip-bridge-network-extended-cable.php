@@ -15,7 +15,7 @@
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:PatchPanel/Attribute:interfaceconnector_id' => 'Konnektor',
-	'Class:PatchPanel/Attribute:interfaceconnector_id+' => 'Konnektor-Typ der Patch panel',
+	'Class:PatchPanel/Attribute:interfaceconnector_id+' => 'Konnektortyp des Patchpanels.',
 	'Class:PatchPanel/Attribute:interfaceconnector_name' => 'Konnektor Name',
 	'Class:PatchPanel/Attribute:interfaceconnector_name+' => '',
 ));
@@ -26,7 +26,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:NetworkSocket/Attribute:interfaceconnector_id' => 'Konnektor',
-	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Konnektor-Typ der Netzwerk-Dose',
+	'Class:NetworkSocket/Attribute:interfaceconnector_id+' => 'Konnektortyp der Netzwerkdose.',
 	'Class:NetworkSocket/Attribute:interfaceconnector_name' => 'Konnektor Name',
 	'Class:NetworkSocket/Attribute:interfaceconnector_name+' => '',
 ));
@@ -36,8 +36,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 //
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'Class:InterfaceConnector/Attribute:patchpanels_list' => 'Patch panels',
-	'Class:InterfaceConnector/Attribute:patchpanels_list+' => 'Patchpanels, in denen dieser Steckverbindertyp untergebracht ist',
-	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Netzwerk-Dose',
-	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Netzwerk-Dosen mit diesem Konnektor',
+	'Class:InterfaceConnector/Attribute:patchpanels_list' => 'Patchpanels',
+	'Class:InterfaceConnector/Attribute:patchpanels_list+' => 'Patchpanels, in denen dieser Steckverbindertyp genutzt wird.',
+	'Class:InterfaceConnector/Attribute:networksockets_list' => 'Netzwerkdosen',
+	'Class:InterfaceConnector/Attribute:networksockets_list+' => 'Netzwerkdosen mit diesem Konnektor.',
 ));
