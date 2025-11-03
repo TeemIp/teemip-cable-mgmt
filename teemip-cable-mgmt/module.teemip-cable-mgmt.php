@@ -7,7 +7,7 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'teemip-cable-mgmt/1.4.0',
+	'teemip-cable-mgmt/1.4.1',
 	array(
 		// Identification
 		//
@@ -112,10 +112,10 @@ if (!class_exists('CableManagementInstaller')) {
                 SetupLog::Info("Module teemip-cable-mgmt: create org_id for NetworkSocket");
 
                 $sDBSubname = $oConfiguration->Get('db_subname');
-                $sCopy = "UPDATE ".$sDBSubname."networksocket AS ns JOIN location AS loc ON loc.id = ns.location_id SET ns.org_id = loc.org_id WHERE ns.patchpanel_id = 0";
+                $sCopy = "UPDATE ".$sDBSubname."networksocket AS ns JOIN ".$sDBSubname."location AS loc ON loc.id = ns.location_id SET ns.org_id = loc.org_id WHERE ns.patchpanel_id = 0";
                 CMDBSource::Query($sCopy);
 
-                $sCopy = "UPDATE ".$sDBSubname."networksocket AS ns JOIN functionalci AS ci ON ci.id = ns.patchpanel_id SET ns.org_id = ci.org_id WHERE ns.patchpanel_id != 0";
+                $sCopy = "UPDATE ".$sDBSubname."networksocket AS ns JOIN ".$sDBSubname."functionalci AS ci ON ci.id = ns.patchpanel_id SET ns.org_id = ci.org_id WHERE ns.patchpanel_id != 0";
                 CMDBSource::Query($sCopy);
 
                 SetupLog::Info("Module teemip-cable-mgmt: migration done");
