@@ -5,8 +5,8 @@
 	<author><![CDATA[Christophe Naud]]></author>
 	<label><![CDATA[TeemIp Cable Management]]></label>
 	<description><![CDATA[Documents physical connections between devices]]></description>
-	<version>1.4.1</version>
-	<release_date>2025-11-03</release_date>
+	<version>1.4.2</version>
+	<release_date>2025-11-04</release_date>
 	<version_description><![CDATA[Enhancements from 1.4.0: See wiki at https://wiki.teemip.net/doku.php?id=extensions:teemip-cable-mgmt]]></version_description>
 	<itop_version_min>3.2.0</itop_version_min>
 	<status>stable</status>
