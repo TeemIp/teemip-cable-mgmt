@@ -2792,10 +2792,10 @@
       <presentation>
         <details>
           <items>
-            <item id="col:col2" _delta="must_exist">
+            <item id="col:col1" _delta="must_exist">
               <items>
-                <item id="fieldset:Class:NetworkInterface:wiringinfo" _delta="merge">
-                  <rank _delta="define_if_not_exists">5</rank>
+                <item id="fieldset:Class:IPInterface:l1info" _delta="merge">
+                  <rank _delta="define_if_not_exists">20</rank>
                   <items>
                     <item id="networksocket_id" _delta="define">
                       <rank>20</rank>
@@ -3277,6 +3277,7 @@
               <rank>10</rank>
               <items>
                 <item id="fieldset:Class:CrossConnect:baseinfo">
+                  <rank>10</rank>
                   <items>
                     <item id="name">
                       <rank>10</rank>
@@ -3309,7 +3310,6 @@
                       <rank>100</rank>
                     </item>
                   </items>
-                  <rank>10</rank>
                 </item>
               </items>
             </item>
@@ -3317,6 +3317,7 @@
               <rank>20</rank>
               <items>
                 <item id="fieldset:Class:CrossConnect:localinfo">
+                  <rank>10</rank>
                   <items>
                     <item id="location_id">
                       <rank>10</rank>
@@ -3342,6 +3343,7 @@
                   </items>
                 </item>
                 <item id="fieldset:Class:CrossConnect:remoteinfo">
+                  <rank>20</rank>
                   <items>
                     <item id="remote_location_id">
                       <rank>10</rank>
