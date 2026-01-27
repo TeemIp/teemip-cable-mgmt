@@ -64,6 +64,18 @@ class _PatchPanel extends PhysicalDevice
 	}
 
 	/**
+     * Set initial attribute flags event on PatchPanel
+     *
+     * @param EventData $oEventData
+     * @return void
+     */
+	public function OnPatchPanelSetInitialAttributesFlagsRequestedByCableMgmt(EventData $oEventData): void
+	{
+        $this->ForceInitialAttributeFlags('free_sockets', OPT_ATT_READONLY);
+        $this->ForceInitialAttributeFlags('ready_sockets', OPT_ATT_READONLY);
+	}
+
+	/**
      * Set attribute flags event on PatchPanel
      *
      * @param EventData $oEventData
@@ -71,8 +83,8 @@ class _PatchPanel extends PhysicalDevice
      */
 	public function OnPatchPanelSetAttributesFlagsRequestedByCableMgmt(EventData $oEventData): void
 	{
-        $this->AddAttributeFlags('free_sockets', OPT_ATT_READONLY);
-        $this->AddAttributeFlags('ready_sockets', OPT_ATT_READONLY);
+        $this->ForceAttributeFlags('free_sockets', OPT_ATT_READONLY);
+        $this->ForceAttributeFlags('ready_sockets', OPT_ATT_READONLY);
 	}
 
 	/**

@@ -2338,11 +2338,17 @@
           <sql>free_sockets</sql>
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
+          <dependencies>
+              <attribute id="capacity" />
+          </dependencies>
         </field>
         <field id="ready_sockets" xsi:type="AttributeInteger">
           <sql>ready_sockets</sql>
           <default_value/>
           <is_null_allowed>true</is_null_allowed>
+          <dependencies>
+              <attribute id="capacity" />
+          </dependencies>
         </field>
         <field id="networksockets_list" xsi:type="AttributeLinkedSet">
           <linked_class>NetworkSocket</linked_class>
@@ -2394,6 +2400,11 @@
         <event_listener id="OnPatchPanelComputeValuesRequestedByCableMgmt">
           <event>EVENT_DB_COMPUTE_VALUES</event>
           <callback>OnPatchPanelComputeValuesRequestedByCableMgmt</callback>
+          <rank>10</rank>
+        </event_listener>
+        <event_listener id="OnPatchPanelSetInitialAttributesFlagsRequestedByCableMgmt">
+          <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+          <callback>OnPatchPanelSetInitialAttributesFlagsRequestedByCableMgmt</callback>
           <rank>10</rank>
         </event_listener>
         <event_listener id="OnPatchPanelSetAttributesFlagsRequestedByCableMgmt">
