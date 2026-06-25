@@ -1,6 +1,6 @@
-# ![](https://wiki.teemip.net/lib/exe/fetch.php?media=extensions:picto_cablemanagement.png "") TeemIp Cable Management
+# ![](https://wiki.teemip.com/lib/exe/fetch.php?media=extensions:picto_cablemanagement.png "") teemIP Cable Management
 
-TeemIp extension that documents physical connections between devices.
+teemIP extension that documents physical connections between devices.
 
 ## Description
 
@@ -10,10 +10,10 @@ connects. Link network sockets together through back end cabling... and display 
 
 ## Documentation
 
-Comprehensive documentation can be found on TeemIp’s [wiki][1], namely in the chapter dedicated to the extension:
+Comprehensive documentation can be found on teemIP’s [wiki][1], namely in the chapter dedicated to the extension:
 
 [Cable Management][2]
 
-[1]: https://wiki.teemip.net
+[1]: https://wiki.teemip.com
 
-[2]: https://wiki.teemip.net/doku.php?id=extensions:teemip-cable-mgmt
+[2]: https://wiki.teemip.com/doku.php?id=extensions:teemip-cable-mgmt
